@@ -1,0 +1,181 @@
+.project, .project1 {
+  background: rgba(255, 255, 255, 0.31);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+ 
+  box-shadow: 0 4px 10px whitesmoke;
+  border-radius: 15px;
+  height: 220px;
+  width: 340px;
+  margin: 25px auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.project:hover, .project1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+#container{
+  width:1000px;
+  margin: auto;
+ background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  height: 950px;
+  border-radius: 50px;
+  
+}
+body {
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  color: #333;
+  background:url("images/bg.png") center center fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  padding-top: 0px;
+}
+h4{
+padding-top: 50px;
+  font-size: 20px;
+}
+h1,h4{
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+p{
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.left{
+  float: left;
+  margin-left: 100px;
+}
+.right{
+  float: right;
+  margin-right: 100px;
+}
+#header {
+  position:relative;
+  font-size: 32px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 25px;
+  padding: 20px 0;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  margin-top: 25px;
+  width:500px;
+  margin: auto;
+  top:10px;
+}
+footer {
+  width: 960px;
+  margin: 60px auto;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 25px;
+  background: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.25);
+  font-style: bold;
+  position: relative;
+}
+
+footer p {
+  margin: 0;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+footer p:hover {
+  color: #4caf50;
+}
+
+footer img {
+  width: 50px;
+  height: 50px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+footer img:hover {
+  transform: scale(1.1);
+}
+
+/*Logo styles*/
+.project img{
+  width:300px;
+  margin-top:10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  height: 170px;
+}
+#meenachil img{
+  width:150px;
+  margin-top:25px;
+  border-radius: 10px;
+  height: 170px;
+}
+#excel img{
+  width:250px;
+  margin-top:5px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  height: 200px;
+}
+#gmail img{
+  width:250px;
+
+padding-top: 40px;
+  border-radius: 10px;
+  height: 105px;
+}
+#n8n img{
+  width:300px;
+  margin-top: 15px;
+  border-radius: 10px;
+  height: 200px;
+}
+#wordle img{
+  width:300px;
+  border-radius: 10px;
+  display: block;
+  height: 150px;
+  margin-left:30px;
+  padding-top: 30px;
+}
+#logo {
+  width:60px;
+  float:right;
+  height: 60px;
+  margin-right: 100px;
+  bottom:58px;
+  right:118px;
+  position:relative;
+}
+@media (min-width: 768px) {
+body{
+  transform:scale(0.8);
+}
+h1{
+  transform:scale(1.2);
+}
+}
