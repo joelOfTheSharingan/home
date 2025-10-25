@@ -23,30 +23,13 @@
   </body>
   <script>
     const now = new Date();
-const hour = now.getHours();
-const minute = now.getMinutes();
 
-if (hour === 1 && minute === 37) {
-  document.body.innerHTML += `
-    <video autoplay muted loop id="bgVideo">
-      <source src="images/fog.mp4" type="video/mp4">
-    </video>
-  `;
-  const video = document.getElementById("bgVideo");
-  video.style.position = "fixed";
-  video.style.top = "0";
-  video.style.left = "0";
-  video.style.width = "100%";
-  video.style.height = "100%";
-  video.style.objectFit = "cover";
-  video.style.zIndex = "-1";
-} else if (hour >= 6 && hour < 18) {
-  document.body.style.backgroundImage = "url('images/day/bg.png')";
+if (now.getHours() >= 6 && now.getHours() < 18) {
+   const selectedImage = Math.floor(Math.random() * 3) + 1;
+  document.body.style.backgroundImage = `url('images/day/day(${selectedImage}).png')`;
 } else {
   const selectedImage = Math.floor(Math.random() * 7) + 1;
   document.body.style.backgroundImage = `url('images/night/night(${selectedImage}).jpg')`;
-  document.body.style.backgroundSize = "cover";
-  document.body.style.backgroundRepeat = "no-repeat";
 }
 
   </script>
