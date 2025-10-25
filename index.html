@@ -21,4 +21,14 @@
       <footer id="footer">
       <p onclick="window.location.href='https://github.com/joelOfTheSharingan'">Click here to see my impressive github profile</p><img id="logo" onclick="window.location.href='https://github.com/joelOfTheSharingan'" src="images/github.png"></footer>
   </body>
+  <script>
+    const now = new Date();
+    if(now.getHours() >= 6 && now.getHours() < 18){
+      document.body.style.backgroundImage = "url('images/day/bg.png')";
+    } else {
+      const selectImage=Math.floor(Math.random()*7)+1;
+      document.body.style.backgroundImage = "url('images/night/night("+selectImage+").jpg')";
+      console.log(selectImage);
+    }
+  </script>
 </html>
