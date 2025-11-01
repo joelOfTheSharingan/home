@@ -24,7 +24,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  height: 950px;
+  height: 1150px;
   border-radius: 50px;
   
 }
@@ -143,10 +143,15 @@ footer img:hover {
 }
 #gmail img{
   width:250px;
-
-padding-top: 40px;
+  padding-top: 40px;
   border-radius: 10px;
   height: 105px;
+}
+#refactr img{
+  width:350px;
+  padding-top: 35px;
+  border-radius: 10px;
+  height: 110px;
 }
 #n8n img{
   width:300px;
@@ -160,6 +165,14 @@ padding-top: 40px;
   display: block;
   height: 150px;
   margin-left:30px;
+  padding-top: 30px;
+}
+#tetris img{
+  width:200px;
+  border-radius: 10px;
+  display: block;
+  height: 150px;
+  margin-left:75px;
   padding-top: 30px;
 }
 
