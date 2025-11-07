@@ -27,11 +27,11 @@
     const now = new Date();
 
 if (now.getHours() >= 6 && now.getHours() < 18) {
-   const selectedImage = Math.floor(Math.random() * 2) + 1;
+   const selectedImage = Math.floor(Math.random() * 15) + 1;
   document.body.style.backgroundImage = `url('images/day/day(${selectedImage}).png')`;
    console.log(selectedImage);
 } else {
-  const selectedImage = Math.floor(Math.random() * 8) + 1;
+  const selectedImage = Math.floor(Math.random() * 11) + 1;
   document.body.style.backgroundImage = `url('images/night/night(${selectedImage}).jpg')`;
   console.log(selectedImage);
 }
