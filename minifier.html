@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Minifier</title>
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+        background:radial-gradient(circle at top,#0a0a0a 0%,#000 100%);
+        font-family:'Courier New',monospace;
+        color:#0f0;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        min-height:100vh;
+        padding:40px 20px;
+    }
+    h1{
+        color:#00ff88;
+        text-shadow:0 0 15px #00ff88,0 0 40px #00ff44;
+        margin-bottom:25px;
+        letter-spacing:1px;
+        font-size:2rem;
+        animation:pulse 3s infinite ease-in-out;
+    }
+    @keyframes pulse{
+        0%,100%{text-shadow:0 0 10px #00ff88,0 0 30px #00ff44}
+        50%{text-shadow:0 0 20px #00ffaa,0 0 50px #00ff77}
+    }
+
+    .slider-container{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#111;
+        border:2px solid #00ff88;
+        border-radius:25px;
+        width:280px;
+        height:50px;
+        position:relative;
+        box-shadow:0 0 20px rgba(0,255,100,0.3);
+        margin-bottom:20px;
+        user-select:none;
+        cursor:pointer;
+    }
+
+    .slider-option{
+        flex:1;
+        text-align:center;
+        z-index:2;
+        font-weight:bold;
+        pointer-events:none;
+        transition:color 0.3s ease;
+    }
+
+    .slider-option.active{
+        color:#000;
+    }
+
+    .slider-option.inactive{
+        color:#00ff88;
+    }
+
+    .slider-thumb{
+        position:absolute;
+        top:3px;
+        left:3px;
+        width:calc(50% - 6px);
+        height:calc(100% - 6px);
+        background:linear-gradient(145deg,#00ff77,#00ffaa);
+        border-radius:22px;
+        box-shadow:0 0 20px rgba(0,255,150,0.7);
+        transition:all .3s ease;
+        z-index:1;
+    }
+
+    #codeArea{
+        width:90%;
+        max-width:1100px;
+        height:520px;
+        background:#161616;
+        color:#00ff7f;
+        border:2px solid #00ff88;
+        border-radius:12px;
+        padding:18px;
+        font-size:15px;
+        resize:vertical;
+        outline:none;
+        box-shadow:0 0 25px rgba(0,255,120,0.3),inset 0 0 10px #003300;
+    }
+    #codeArea:focus{
+        box-shadow:0 0 40px rgba(0,255,120,0.6),inset 0 0 15px #004400;
+    }
+
+    .button-container{
+        margin-top:20px;
+        display:flex;
+        gap:15px;
+    }
+
+    button{
+        background:#00ff77;
+        color:#000;
+        border:none;
+        padding:12px 30px;
+        font-size:16px;
+        font-weight:bold;
+        border-radius:25px;
+        cursor:pointer;
+        transition:all .3s ease;
+        box-shadow:0 0 15px rgba(0,255,120,0.4);
+    }
+
+    button:hover{
+        background:#00ffaa;
+        transform:scale(1.05);
+        box-shadow:0 0 25px rgba(0,255,150,0.8);
+    }
+
+    .info{
+        color:#0a0;
+        margin-top:15px;
+        font-size:13px;
+        text-align:center;
+        opacity:0.8;
+    }
+</style>
+</head>
+<body>
+    <h1>Code Minifier / Unminifier</h1>
+
+    <div class="slider-container" id="modeSlider" onclick="toggleMode()">
+        <div class="slider-thumb" id="sliderThumb"></div>
+        <div class="slider-option active" id="minifyOption">Minify</div>
+        <div class="slider-option inactive" id="unminifyOption">Unminify</div>
+    </div>
+
+    <textarea id="codeArea" placeholder="Paste your HTML or JavaScript code here..."></textarea>
+
+    <div class="button-container">
+        <button onclick="runAction()">Run</button>
+        <button onclick="copyCode()">Copy</button>
+    </div>
+
+<script>
+    let isMinifyMode = true;
+
+    function toggleMode(){
+        const thumb=document.getElementById('sliderThumb');
+        const minifyOption=document.getElementById('minifyOption');
+        const unminifyOption=document.getElementById('unminifyOption');
+        
+        isMinifyMode=!isMinifyMode;
+        thumb.style.left=isMinifyMode?'3px':'calc(50% + 3px)';
+      
+        
+        if(isMinifyMode){
+            minifyOption.classList.add('active');
+            minifyOption.classList.remove('inactive');
+            unminifyOption.classList.add('inactive');
+            unminifyOption.classList.remove('active');
+        } else {
+            minifyOption.classList.add('inactive');
+            minifyOption.classList.remove('active');
+            unminifyOption.classList.add('active');
+            unminifyOption.classList.remove('inactive');
+        }
+    }
+
+    function runAction(){
+        if(isMinifyMode) minifyCode();
+        else unminifyCode();
+    }
+
+    function minifyCode(){
+        const textarea=document.getElementById('codeArea');
+        let code=textarea.value;
+        code=code.replace(/<!--[\s\S]*?-->/g,'');
+        code=code.replace(/\/\*[\s\S]*?\*\//g,'');
+        code=code.replace(/\/\/.*/g,'');
+        code=code.replace(/\s+/g,' ');
+        code=code.replace(/>\s+</g,'><');
+        textarea.value=code.trim();
+    }
+
+    function unminifyCode(){
+        const textarea=document.getElementById('codeArea');
+        let code=textarea.value;
+        let formatted='';
+        let indent=0;
+        const indentSize=4;
+        const tokens=code.split(/(<[^>]+>|[{};])/g).filter(t=>t.trim());
+        tokens.forEach(token=>{
+            token=token.trim();
+            if(!token) return;
+            if(token.startsWith('</')||token==='}') indent=Math.max(0,indent-1);
+            formatted+=' '.repeat(indent*indentSize)+token+'\n';
+            if((token.startsWith('<')&&!token.startsWith('</')&&!token.endsWith('/>'))||token==='{') indent++;
+        });
+        textarea.value=formatted.trim();
+    }
+
+    function copyCode(){
+        const textarea=document.getElementById('codeArea');
+        textarea.select();
+        document.execCommand('copy');
+        const info=document.getElementById('infoText');
+        const oldText=info.textContent;
+        info.textContent='Copied!';
+        setTimeout(()=>info.textContent=oldText,1500);
+    }
+    </script>
+    </body>
+</html>
