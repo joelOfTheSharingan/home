@@ -1,0 +1,135 @@
+<html>
+  <head>
+    <style>
+      h1 {
+        color: #333;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      #display {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px;
+        width: 570px;
+        height: 500px;
+        text-align: right;
+        font-size: 24px;
+      }
+      #keyboard {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        width: 300px;
+        margin: 10px;
+        margin-top: 40px;
+      }
+      .keys {
+        background-color: #ddd;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        width: 100px;
+        height: 30px;
+      }
+      .keys:hover {
+        background-color: #ccc;
+      }
+      #result{
+        width: 500px;
+        height: 100px;
+        background-color: #333;
+        border-radius: 10px;
+        color:white;
+        font-size: 30px;
+        text-align: center ;
+        margin:0 auto;
+      }
+    </style>
+  </head>
+<body>
+  <h1>Calculator</h1>
+  <div id="display">
+    <div id="result"></div>
+  <div id="keyboard">
+   <div class="keys" onclick="display('1')">1</div>
+   <div class="keys" onclick="display('2')">2</div>
+   <div class="keys" onclick="display('3')">3</div>
+   <div class="keys" onclick="display('+')">+</div>
+   <div class="keys" onclick="display('4')">4</div>
+   <div class="keys" onclick="display('5')">5</div>
+   <div class="keys" onclick="display('6')">6</div>
+   <div class="keys" onclick="display('-')">-</div>
+   <div class="keys" onclick="display('7')">7</div>
+   <div class="keys" onclick="display('8')">8</div>
+   <div class="keys" onclick="display('9')">9</div>
+   <div class="keys" onclick="display('*')">*</div>
+   <div class="keys" onclick="display('0')">0</div>
+   <div class="keys" onclick="display('sqrt')">sqrt</div>
+   <div class="keys" onclick="display('raised')">n<sup>x</sup></div>
+   <div class="keys" onclick="display('/')">/</div>
+   <div class="keys" onclick="display('Del')">Del</div>
+   <div class="keys" onclick="display('AC')">AC</div>
+   <div class="keys" onclick="display('.')">.</div>
+   <div class="keys" onclick="solve()">=</div>
+  </div></div>
+</body>
+<script>
+  let screen=""
+  function display(value){
+    const result = document.getElementById("result")
+    if (value === "AC"){
+      result.innerHTML = ""
+      screen=""
+    } else if (value === "Del"){
+      result.innerHTML = result.innerHTML.slice(0,-1)
+      screen=screen.slice(0,-1)
+    } else {
+      result.innerHTML += value
+      screen+=value
+    }
+    //console.log(screen)
+  }
+  function solve(){
+   if(screen.includes("sqrt")){
+    screen=replaceSqrt(screen)
+    
+  }
+   if(screen.includes("raised")){
+    screen=screen.replace("raised","**")
+   }
+
+    if(typeof Number(screen[screen.length-1])==="number"){
+const result = document.getElementById("result")
+    result.innerHTML = Number(eval(screen).toFixed(Number(5)))
+    }else{
+alert("Invalid Input")
+    }
+   }
+    function replaceSqrt(s){
+  let s1=s
+  let n=""
+    let Index = s.indexOf("sqrt")
+       s=s.slice(Index+4)
+       //console.log(s)
+    for(let i=0;i<s.length;i++){
+      //console.log(s,i,s[i],Number(s[i]),isNaN(Number(s[i])))
+      if(isNaN(Number(s[i]))==false||s[i]=="."){
+        //console.log(Number(s[i]))
+        n+=s[i]
+        //console.log(n)
+      }else{
+        break
+      }
+    }
+    s=s1.replace("sqrt"+n,Math.sqrt(n))
+   return s
+  }
+</script>
+</html>

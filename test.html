@@ -1,0 +1,25 @@
+<html>
+<script>  
+const screen ="41-sqrt81*4"
+ function replaceSqrt(s){
+  let s1=s
+  let n=""
+    let Index = s.indexOf("sqrt")
+       s=s.slice(Index+4)
+       //console.log(s)
+    for(let i=0;i<s.length;i++){
+      //console.log(s,i,s[i],Number(s[i]),isNaN(Number(s[i])))
+      if(isNaN(Number(s[i]))==false){
+        //console.log(Number(s[i]))
+        n+=(s[i])
+        //console.log(n)
+      }else{
+        break
+      }
+    }
+    s=s1.replace("sqrt"+n,Math.sqrt(n))
+   console.log(s)
+  }
+  replaceSqrt(screen)
+  </script>
+</html>
