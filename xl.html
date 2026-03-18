@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF → Excel</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    #pn1.uploaded {
+      color: #22c55e;
+      border-color: #22c55e;
+    }
+    #pn1.uploaded .icon {
+      filter: drop-shadow(0 0 6px #22c55e88);
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">EXCEL &middot; GENERATOR</div>
+    <h1>PDF <span class="hi">&rarr;</span> Excel</h1>
+    <p class="sub">upload pdf &nbsp;&bull;&nbsp; extract transactions &nbsp;&bull;&nbsp; download xlsx</p>
+  </header>
+
+  <!-- Pipeline tracker -->
+  <div class="pipeline">
+    <div class="pnode" id="pn1">
+      <div class="icon">📄</div>
+      <span>PDF</span>
+    </div>
+    <div class="arrow" id="arr1"></div>
+    <div class="pnode" id="pn2">
+      <div class="icon">📊</div>
+      <span>JSON</span>
+    </div>
+    <div class="arrow" id="arr2"></div>
+    <div class="pnode" id="pn3">
+      <div class="icon">📥</div>
+      <span>Excel</span>
+    </div>
+  </div>
+
+  <!-- Step 1: PDF Upload -->
+  <div class="card">
+    <div class="card-head">
+      <span class="step-badge">STEP 01</span>
+      <span class="card-title">Upload Financial PDF</span>
+    </div>
+    <label for="pdfInput">
+      <div class="drop" id="dropZone">
+        <div class="drop-icon">📄</div>
+        <p>Drop your bank statement / invoice here or <span>browse</span></p>
+        <div class="drop-name" id="dropName"></div>
+      </div>
+    </label>
+    <input type="file" id="pdfInput" accept=".pdf"/>
+  </div>
+
+  <!-- Step 2: Excel Config -->
+  <div class="card">
+    <div class="card-head">
+      <span class="step-badge">STEP 02</span>
+      <span class="card-title">Excel Output Settings</span>
+    </div>
+    <div class="field">
+      <div class="label">Output Filename</div>
+      <input type="text" id="xlsxName" value="transactions" placeholder="filename (no extension)"/>
+    </div>
+    <div class="field">
+      <div class="label">Sheet Name</div>
+      <input type="text" id="sheetName" value="Transactions" placeholder="Sheet1"/>
+    </div>
+  </div>
+
+  <!-- Run -->
+  <button class="run-btn" id="runBtn" onclick="runAll()">
+    &#9889;&nbsp; Extract &amp; Download Excel
+  </button>
+
+  <div class="status-row">
+    <div class="dot" id="dot"></div>
+    <span id="statusTxt">ready — upload a PDF to begin</span>
+  </div>
+
+  <!-- Output panel -->
+  <div class="out-panel" id="outPanel">
+    <div class="out-head">
+      <div class="out-label">&#10022; Extracted Transactions</div>
+      <div class="out-btns">
+        <button class="out-btn" id="copyBtn" onclick="copyJSON()">copy json</button>
+        <button class="out-btn xl-btn" onclick="doXLSX()">&#11015; download excel</button>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table id="previewTable">
+        <thead id="tHead"></thead>
+        <tbody id="tBody"></tbody>
+      </table>
+    </div>
+
+    <details class="raw-toggle" id="rawDetails">
+      <summary>raw json</summary>
+      <pre id="rawPre"></pre>
+    </details>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  let parsedData = null;
+
+  // ── Drag & drop ──────────────────────────────────────────────
+  const drop = document.getElementById('dropZone');
+  const inp  = document.getElementById('pdfInput');
+
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('over');
+    const f = e.dataTransfer.files[0];
+    if (f && f.type === 'application/pdf') {
+      inp.files = e.dataTransfer.files;
+      setDropName(f.name);
+      document.getElementById('pn1').classList.add('uploaded');
+    }
+  });
+  inp.addEventListener('change', () => {
+    if (inp.files[0]) {
+      setDropName(inp.files[0].name);
+      document.getElementById('pn1').classList.add('uploaded');
+    }
+  });
+
+  function setDropName(n) {
+    document.getElementById('dropName').textContent = 'PDF: ' + n;
+  }
+
+  // ── Pipeline UI ──────────────────────────────────────────────
+  // steps: 0=idle, 1=reading pdf, 2=parsing json, 3=done
+  function pipeSet(step) {
+    const nodes  = ['pn1', 'pn2', 'pn3'];
+    const arrows = ['arr1', 'arr2'];
+    nodes.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.className = 'pnode' + (i + 1 < step ? ' done' : i + 1 === step ? ' active' : '');
+    });
+    arrows.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.className = 'arrow' + (i + 1 < step ? ' lit' : '');
+    });
+  }
+
+  function setStatus(msg, type) {
+    document.getElementById('statusTxt').textContent = msg;
+    const d = document.getElementById('dot');
+    d.className = 'dot' + (type === 'loading' ? ' spin' : type === 'ok' ? ' ok' : type === 'err' ? ' err' : '');
+  }
+
+  // ── PDF Extraction ──────────────────────────────────────────
+  async function extractPDF(file) {
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise;
+    let text = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page    = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = content.items
+        .sort((a, b) => b.transform[5] - a.transform[5])
+        .map(i => i.str)
+        .join(' ');
+
+      const cleaned = pageText
+        .replace(/\s+-\s+-\s+/g, '\n')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      text += cleaned + '\n';
+    }
+    return text.trim();
+  }
+
+  // ── Transaction Parser ──────────────────────────────────────
+  function parseTransactions(text) {
+    const pattern = /(\d{4}\s*-\s*\d{2}\s*-\s*\d{2})\s*\|\s*₹?\s*([\d,.]+)\s*\|\s*([^]*?)(?=\d{4}\s*-\s*\d{2}\s*-\s*\d{2}|$)/g;
+    const transactions = [];
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+      transactions.push({
+        date:        match[1].replace(/\s/g, ''),
+        amount:      parseFloat(match[2].replace(/,/g, '')),
+        description: match[3].trim()
+      });
+    }
+    return transactions;
+  }
+
+  // ── Table Preview ──────────────────────────────────────────
+  function renderTable(data) {
+    if (!Array.isArray(data) || !data.length) return;
+    const keys  = Object.keys(data[0]);
+    const thead = document.getElementById('tHead');
+    const tbody = document.getElementById('tBody');
+    thead.innerHTML = '<tr>' + keys.map(k => '<th>' + k + '</th>').join('') + '</tr>';
+    tbody.innerHTML = data.map(row =>
+      '<tr>' + keys.map(k => '<td>' + (row[k] !== undefined ? row[k] : '') + '</td>').join('') + '</tr>'
+    ).join('');
+  }
+
+  // ── XLSX Export ──────────────────────────────────────────────
+  function doXLSX() {
+    if (!parsedData) return;
+    const sheet     = XLSX.utils.json_to_sheet(Array.isArray(parsedData) ? parsedData : [parsedData]);
+    const workbook  = XLSX.utils.book_new();
+    const sheetName = document.getElementById('sheetName').value.trim() || 'Sheet1';
+    XLSX.utils.book_append_sheet(workbook, sheet, sheetName);
+    const fname = (document.getElementById('xlsxName').value.trim() || 'transactions') + '.xlsx';
+    XLSX.writeFile(workbook, fname);
+  }
+
+  function copyJSON() {
+    if (!parsedData) return;
+    navigator.clipboard.writeText(JSON.stringify(parsedData, null, 2)).then(() => {
+      const b = document.getElementById('copyBtn');
+      b.textContent = 'copied!';
+      setTimeout(() => b.textContent = 'copy json', 1800);
+    });
+  }
+
+  // ── Main Pipeline ──────────────────────────────────────────
+  async function runAll() {
+    const file = inp.files[0];
+    const btn  = document.getElementById('runBtn');
+
+    if (!file) return setStatus('please upload a PDF first', 'err');
+
+    btn.disabled = true;
+    parsedData   = null;
+    document.getElementById('outPanel').classList.remove('show');
+
+    try {
+      // Step 1 — Read PDF
+      pipeSet(1);
+      setStatus('reading PDF...', 'loading');
+      const pdfText = await extractPDF(file);
+      console.log('=== EXTRACTED PDF TEXT ===\n', pdfText);
+
+      // Step 2 — Parse transactions
+      pipeSet(2);
+      setStatus('parsing transactions...', 'loading');
+      let data = parseTransactions(pdfText);
+      if (!Array.isArray(data)) data = [data];
+      parsedData = data;
+      console.log('=== PARSED TRANSACTIONS ===\n', parsedData);
+
+      // Step 3 — Render & download
+      pipeSet(3);
+      renderTable(parsedData);
+      document.getElementById('rawPre').textContent = JSON.stringify(parsedData, null, 2);
+      document.getElementById('outPanel').classList.add('show');
+      setStatus('done — ' + parsedData.length + ' row(s) extracted', 'ok');
+      doXLSX();
+
+    } catch (err) {
+      console.error('Pipeline error:', err);
+      setStatus('error: ' + err.message, 'err');
+      pipeSet(0);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>

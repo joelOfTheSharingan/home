@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDY_OS // TERMINAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg:        #06080f;
+            --c1:        #00e5ff;   /* cyan */
+            --c2:        #8b5cf6;   /* violet */
+            --c3:        #f0c040;   /* amber */
+            --c4:        #34d399;   /* emerald */
+            --c5:        #f472b6;   /* pink */
+            --text:      #dde4ef;
+            --muted:     rgba(221,228,239,0.35);
+            --glass-bg:  rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.10);
+            --glass-shine: rgba(255,255,255,0.07);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        /* ─── BODY & LAYERED BG ─────────────────────────── */
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            min-height: 100vh;
+            padding: 60px 24px 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            cursor: crosshair;
+            position: relative;
+        }
+
+        /* Layer 1 — deep mesh gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 10%,  rgba(139,92,246,0.22) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 85% 20%,  rgba(0,229,255,0.15)  0%, transparent 55%),
+                radial-gradient(ellipse 70% 60% at 50% 90%,  rgba(240,192,64,0.10) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 90% 70%,  rgba(244,114,182,0.12)0%, transparent 50%),
+                radial-gradient(ellipse 40% 40% at 5%  80%,  rgba(52,211,153,0.10) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Layer 2 — fine dot grid */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Layer 3 — animated aurora blobs */
+        .aurora {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.18;
+            pointer-events: none;
+            z-index: 0;
+            animation: drift linear infinite;
+        }
+        .aurora-1 { width:500px; height:500px; background:var(--c2); top:-100px; left:-100px; animation-duration:28s; }
+        .aurora-2 { width:400px; height:400px; background:var(--c1); bottom:-80px; right:-60px; animation-duration:22s; animation-direction:reverse; }
+        .aurora-3 { width:300px; height:300px; background:var(--c5); top:40%; left:60%; animation-duration:35s; }
+
+        @keyframes drift {
+            0%   { transform: translate(0,0)   scale(1); }
+            33%  { transform: translate(40px,-30px) scale(1.08); }
+            66%  { transform: translate(-30px,40px) scale(0.94); }
+            100% { transform: translate(0,0)   scale(1); }
+        }
+
+        /* Layer 4 — grain */
+        .grain {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        /* ─── CONTENT WRAPPER ───────────────────────────── */
+        .content { position: relative; z-index: 2; width: 100%; max-width: 1280px; }
+
+        /* ─── HEADER ───────────────────────────────────── */
+        header {
+            text-align: center;
+            margin-bottom: 56px;
+            opacity: 0;
+            animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.1s;
+        }
+
+        .eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--c1);
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(48px, 10vw, 108px);
+            line-height: 0.9;
+            letter-spacing: -3px;
+            background: linear-gradient(135deg, #fff 0%, var(--c1) 45%, var(--c2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+
+        .tagline {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .header-rule {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--c1), transparent);
+            margin: 24px auto 0;
+        }
+
+        /* ─── GLASS CARD ────────────────────────────────── */
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+                        box-shadow 0.35s ease,
+                        border-color 0.3s ease;
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
+        /* inner shine highlight at top */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+            z-index: 1;
+        }
+
+        /* colored left glow accent */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 20px; left: -1px;
+            width: 3px;
+            height: 40px;
+            background: var(--card-accent, var(--c1));
+            border-radius: 0 2px 2px 0;
+            box-shadow: 0 0 12px var(--card-accent, var(--c1));
+        }
+
+        .card.visible { opacity: 1; transform: translateY(0); }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow:
+                0 30px 60px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(255,255,255,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        /* ─── CARD HEADER ───────────────────────────────── */
+        .card-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 20px 22px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .day-num {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 42px;
+            line-height: 1;
+            color: var(--card-accent, var(--c1));
+            text-shadow: 0 0 24px var(--card-accent, var(--c1));
+            letter-spacing: -2px;
+        }
+
+        .day-word {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 4px;
+            color: var(--muted);
+            text-transform: uppercase;
+            align-self: center;
+        }
+
+        .countdown-chip {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--card-accent, var(--c1));
+            border: 1px solid var(--card-accent, var(--c1));
+            border-radius: 20px;
+            padding: 3px 10px;
+            opacity: 0.6;
+        }
+
+        /* ─── TASK ITEMS ────────────────────────────────── */
+        .tasks { padding: 10px 12px 14px; }
+
+        .item {
+            padding: 11px 14px;
+            margin: 6px 0;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* shimmer on hover */
+        .item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .item:hover::before { left: 160%; }
+
+        .item:hover {
+            background: rgba(255,255,255,0.06);
+            transform: translateX(4px);
+            border-color: rgba(255,255,255,0.12);
+        }
+
+        .item-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--item-color, var(--c1));
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .item-text {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            line-height: 1.55;
+            color: var(--text);
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* ─── DONE STATE ─────────────────────────────────── */
+        .item.done {
+            background: rgba(52,211,153,0.06);
+            border-color: rgba(52,211,153,0.2);
+        }
+
+        .item.done .item-text {
+            text-decoration: line-through;
+            color: rgba(52,211,153,0.5);
+        }
+
+        .item.done .item-label { color: var(--c4); }
+
+        .done-badge {
+            display: none;
+            font-family: 'DM Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: var(--c4);
+            margin-top: 4px;
+        }
+        .item.done .done-badge { display: block; }
+
+        /* ─── PROGRESS FOOTER ───────────────────────────── */
+        .card-foot {
+            padding: 10px 22px 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .prog-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .prog-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 3px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .prog-pct {
+            font-family: 'Syne', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--card-accent, var(--c1));
+        }
+
+        .prog-track {
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.06);
+            overflow: hidden;
+        }
+
+        .prog-fill {
+            height: 100%;
+            background: var(--card-accent, var(--c1));
+            box-shadow: 0 0 8px var(--card-accent, var(--c1));
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+.main-heading {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            line-height: 1.2;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff 30%, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));
+        }
+
+        .sub-heading {
+            display: block;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: var(--accent-gold);
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+        /* ─── COLORS PER TYPE ───────────────────────────── */
+        .t-morning  { --item-color: var(--c1); }
+        .t-night    { --item-color: var(--c2); border-left: 2px solid rgba(139,92,246,0.35); }
+        .t-social   { --item-color: var(--c3); border-left: 2px solid rgba(240,192,64,0.35); }
+        .t-maths    { --item-color: var(--c4); border-left: 2px solid rgba(52,211,153,0.35); }
+
+        /* ─── ANIMATIONS ────────────────────────────────── */
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── RESPONSIVE ────────────────────────────────── */
+        @media (max-width: 640px) {
+            #grid { grid-template-columns: 1fr; }
+            h1 { font-size: 52px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- BG layers -->
+<div class="aurora aurora-1"></div>
+<div class="aurora aurora-2"></div>
+<div class="aurora aurora-3"></div>
+<div class="grain"></div>
+
+<div class="content">
+ <header>
+        <h1 class="main-heading">I CAME. I SAW.</h1>
+        <h1 class="main-heading">I CONQUERED.</h1>
+        <span class="sub-heading">— JULIUS CAESAR</span>
+    </header>
+
+    <div id="grid"></div>
+</div>
+
+<script>
+    const ACCENTS = ['#00e5ff','#8b5cf6','#f0c040','#34d399','#f472b6'];
+
+    async function loadAndSync() {
+        const grid = document.getElementById('grid');
+        let data;
+
+        try {
+            const res = await fetch('data.json');
+            data = await res.json();
+        } catch {
+            // Fallback inline data if file not found
+            data = [
+  { "day": 1, "morning": "Physics: Mirror formula, sign conventions", "nightScience": "Mirror Numericals (20 problems) + Ray diagrams", "social": "History Ch-1: French Revolution & Napoleon (points)", "maths": "AP (5 word problems)" },
+  { "day": 2, "morning": "Physics: Lens formula + power of lens", "nightScience": "Lens Numericals (20 problems)", "social": "History Ch-2: Nationalism in Europe (notes)", "maths": "GP (5 word problems)" },
+  { "day": 3, "morning": "Physics: Human eye + defects + corrections", "nightScience": "Numericals on lenses + eye (15 problems)", "social": "Geography Ch-1: Resources & Development (points)", "maths": "AP+GP mixed (10 problems)" },
+  { "day": 4, "morning": "Chemistry: Chemical reactions types", "nightScience": "Balance 30 equations + identify reaction types", "social": "Geography Ch-2: Forest and Wildlife (notes)", "maths": "Sum of AP (10 problems)" },
+  { "day": 5, "morning": "Chemistry: Acids, Bases & Salts (properties)", "nightScience": "pH numericals + acid-base reactions (15 problems)", "social": "Civics Ch-1: Power Sharing (notes)", "maths": "Sum of GP (10 problems)" },
+  { "day": 6, "morning": "Chemistry: Metals & Non-metals (reactions)", "nightScience": "Reaction writing practice (20 equations)", "social": "Civics Ch-2: Federalism (notes)", "maths": "Mixed AP/GP revision (15 problems)" },
+  { "day": 7, "morning": "REVISION — Physics (all chapters)", "nightScience": "Physics full mock test (25 problems)", "social": "Social Science: Geo Ch-3 Water Resources (notes)", "maths": "Full maths revision test (20 problems)" },
+  { "day": 8, "morning": "Biology: Life Processes (nutrition, digestion)", "nightScience": "Biology diagrams — digestive system", "social": "History Ch-3: Nationalism in India (notes)", "maths": "Quadratic equations (10 problems)" },
+  { "day": 9, "morning": "Biology: Respiration + transportation", "nightScience": "Biology diagrams — heart, circulatory", "social": "History Ch-4: Globalisation (notes)", "maths": "Roots of quadratic — factorisation (10 problems)" },
+  { "day": 10, "morning": "Biology: Excretion + nervous system", "nightScience": "Biology diagrams — nephron, reflex arc", "social": "Economics Ch-1: Development (notes)", "maths": "Quadratic formula (10 problems)" },
+  { "day": 11, "morning": "Biology: Reproduction (plants + animals)", "nightScience": "Bio diagram — flower, reproductive organs", "social": "Economics Ch-2: Sectors of Economy", "maths": "Discriminant + nature of roots (10 probs)" },
+  { "day": 12, "morning": "Biology: Heredity + evolution basics", "nightScience": "Genetics problems (Punnett squares x10)", "social": "Economics Ch-3: Money & Credit", "maths": "Quadratic word problems (10 problems)" },
+  { "day": 13, "morning": "Physics: Electricity (Ohm's law, resistance)", "nightScience": "Electricity numericals (20 problems)", "social": "Geography Ch-4: Agriculture (notes)", "maths": "Similar triangles (10 problems)" },
+  { "day": 14, "morning": "REVISION — Chemistry + Biology", "nightScience": "Mock test: Chem + Bio (30 questions)", "social": "Full social science mock test (40 Q)", "maths": "Triangles + Pythagoras (10 problems)" },
+  { "day": 15, "morning": "Physics: Magnetic effects of current", "nightScience": "Numerical practice — electric circuits (15 probs)", "social": "Civics Ch-3: Democracy & Diversity", "maths": "Circles — tangents, theorems (10 probs)" },
+  { "day": 16, "morning": "Physics: Electromagnetic induction basics", "nightScience": "Revision — Electricity (25 problems)", "social": "Civics Ch-4: Gender, Religion, Caste", "maths": "Area related to circles (10 problems)" },
+  { "day": 17, "morning": "Chemistry: Carbon compounds + IUPAC", "nightScience": "Carbon chain drawing + isomers (15 probs)", "social": "Economics Ch-4: Globalisation & Indian Economy", "maths": "Surface area — cuboid, cylinder (10 probs)" },
+  { "day": 18, "morning": "Chemistry: Periodic Table — trends + blocks", "nightScience": "Periodic table MCQs + fill in (30 questions)", "social": "Economics Ch-5: Consumer Rights (notes)", "maths": "Surface area — cone, sphere (10 problems)" },
+  { "day": 19, "morning": "Physics MEGA REVISION — Light + Electricity", "nightScience": "Full Physics mock (35 numericals)", "social": "History — Full Revision (all chapters)", "maths": "Volume numericals (10 problems)" },
+  { "day": 20, "morning": "Maths: Coordinate Geometry revision", "nightScience": "Biology full mock test (30 Q)", "social": "Geography full chapter revision", "maths": "Section formula + midpoint (15 problems)" },
+  { "day": 21, "morning": "Maths: Trigonometry — ratios + identities", "nightScience": "Chemistry full mock test (30 Q)", "social": "Civics full chapter revision", "maths": "Trig ratios + complementary angles (15 probs)" },
+  { "day": 22, "morning": "Maths: Heights & Distances", "nightScience": "Full science revision (all subjects)", "social": "Economics full revision", "maths": "Heights & distances word problems (10)" },
+  { "day": 23, "morning": "Maths: Statistics — mean, median, mode", "nightScience": "Science full mock test Part 1", "social": "Social full mock test (all chapters)", "maths": "Statistics problems (10 problems)" },
+  { "day": 24, "morning": "Maths: Probability", "nightScience": "Science full mock test Part 2", "social": "Social Science: write key answers", "maths": "Probability problems (10 problems)" },
+  { "day": 25, "morning": "Full revision — Maths (all chapters)", "nightScience": "Science answer writing (5 long Q each subject)", "social": "Map pointing practice — History + Geo", "maths": "Maths mock test (30 problems)" },
+  { "day": 26, "morning": "English: Literature — important questions", "nightScience": "Physics answer writing (5 Q)", "social": "Social: write model answers (5 Q each chapter)", "maths": "Maths revision — all weak areas" },
+  { "day": 27, "morning": "English: Grammar — tenses, voice, narration", "nightScience": "Chemistry answer writing (5 Q)", "social": "Social: chapter-wise MCQ drill", "maths": "Maths full mock test 2 (35 problems)" },
+  { "day": 28, "morning": "English: Writing — letters, articles, essays", "nightScience": "Biology answer writing (5 Q)", "social": "Social: full revision test", "maths": "Review mocks + revise wrong answers" },
+  { "day": 29, "morning": "GRAND REVISION — Science full", "nightScience": "GRAND REVISION — Maths full", "social": "GRAND REVISION — Social full", "maths": "Previous year questions (all subjects)" },
+  { "day": 30, "morning": "Light reading — no hard topics", "nightScience": "Formula sheet review (all science)", "social": "Key dates + diagrams quick flash", "maths": "Formulae + important theorems review" }
+];
+        }
+
+        grid.innerHTML = data.map((day, i) => {
+            const accent = ACCENTS[i % ACCENTS.length];
+            const daysLeft = 30 - day.day;
+            return `
+            <div class="card" id="card-${day.day}" style="--card-accent:${accent}; transition-delay:${(i % 6) * 55}ms">
+                <div class="card-head">
+                    <span class="day-num">${String(day.day).padStart(2,'0')}</span>
+                    <span class="day-word">Day</span>
+                    <span class="countdown-chip">${daysLeft > 0 ? `D‑${daysLeft}` : 'FINAL'}</span>
+                </div>
+                <div class="tasks">
+                    ${task(day.day,'Morning',     day.morning,     't-morning')}
+                    ${task(day.day,'Night Sci',   day.nightScience,'t-night'  )}
+                    ${task(day.day,'Social',      day.social,      't-social' )}
+                    ${task(day.day,'Maths',       day.maths,       't-maths'  )}
+                </div>
+                <div class="card-foot">
+                    <div class="prog-row">
+                        <span class="prog-label">Progress</span>
+                        <span class="prog-pct" id="pct-${day.day}">0%</span>
+                    </div>
+                    <div class="prog-track">
+                        <div class="prog-fill" id="fill-${day.day}"></div>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+
+        restoreAll(data);
+        observeCards();
+    }
+
+    function task(dayNum, label, content, cls) {
+        const id = `d${dayNum}-${cls}`;
+        return `
+        <div class="item ${cls}" id="${id}" onclick="toggle('${id}', ${dayNum})">
+            <span class="item-label">${label}</span>
+            <span class="item-text">${content}</span>
+            <span class="done-badge">✓ completed</span>
+        </div>`;
+    }
+
+    function toggle(id, dayNum) {
+        const el = document.getElementById(id);
+        el.classList.toggle('done');
+        localStorage.setItem(id, el.classList.contains('done'));
+        updateProgress(dayNum);
+    }
+
+    function updateProgress(dayNum) {
+        const tasks = document.querySelectorAll(`#card-${dayNum} .item`);
+        const done  = document.querySelectorAll(`#card-${dayNum} .item.done`);
+        const pct   = Math.round((done.length / tasks.length) * 100);
+        document.getElementById(`pct-${dayNum}`).textContent = pct + '%';
+        document.getElementById(`fill-${dayNum}`).style.width = pct + '%';
+    }
+
+    function restoreAll(data) {
+        data.forEach(day => {
+            ['t-morning','t-night','t-social','t-maths'].forEach(cls => {
+                const id = `d${day.day}-${cls}`;
+                if (localStorage.getItem(id) === 'true') {
+                    document.getElementById(id)?.classList.add('done');
+                }
+            });
+            updateProgress(day.day);
+        });
+    }
+
+    function observeCards() {
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    obs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+
+        document.querySelectorAll('.card').forEach(c => obs.observe(c));
+    }
+
+    loadAndSync();
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+[
+  {
+    "day": 1,
+    "morning": "Physics: Mirror formula, sign conventions",
+    "nightScience": "Mirror Numericals (20 problems) + Ray diagrams",
+    "social": "History Ch-1: French Revolution & Napoleon (points)",
+    "maths": "AP (5 word problems)"
+  },
+  {
+    "day": 2,
+    "morning": "Physics: Lens formula, magnification",
+    "nightScience": "Lens Numericals (20 problems) + Power of Lens",
+    "social": "History Ch-1: Unification of Italy & Germany",
+    "maths": "Quadratic Eqs (5 problems)"
+  },
+  {
+    "day": 3,
+    "morning": "Physics: Human eye (defects & correction)",
+    "nightScience": "Chemistry: Balancing 20 equations",
+    "social": "Geography Ch-1: Soil types & conservation",
+    "maths": "Trigonometry (identities)"
+  },
+  {
+    "day": 4,
+    "morning": "Physics: Refraction (lens & prism)",
+    "nightScience": "Chemistry: Acids, Bases & Salts (pH scale, indicators)",
+    "social": "Geography Ch-1: Resources (types)",
+    "maths": "Triangles (Thales theorem)"
+  },
+  {
+    "day": 5,
+    "morning": "Physics: Electricity (Ohm's law, series)",
+    "nightScience": "Electricity Numericals (resistance combinations)",
+    "social": "Polity Ch-1: Power sharing (Belgium & Sri Lanka)",
+    "maths": "Coordinate geometry"
+  },
+  {
+    "day": 6,
+    "morning": "Physics: Electricity (parallel, heating effect)",
+    "nightScience": "Electricity Numericals (power, cost)",
+    "social": "Polity Ch-2: Federalism (features)",
+    "maths": "Statistics (mean)"
+  },
+  {
+    "day": 7,
+    "morning": "Biology: Life processes (nutrition)",
+    "nightScience": "Biology: Life processes (respiration)",
+    "social": "Economics Ch-1: Development (indicators)",
+    "maths": "Probability (cards)"
+  },
+  {
+    "day": 8,
+    "morning": "Biology: Life processes (circulation)",
+    "nightScience": "Biology: Excretion + draw all diagrams",
+    "social": "Economics Ch-2: Sectors of economy",
+    "maths": "Surface area (cylinder)"
+  },
+  {
+    "day": 9,
+    "morning": "Chemistry: Metals & non-metals (properties)",
+    "nightScience": "Reactivity series & extraction processes",
+    "social": "History Ch-2: Nationalism in India (Gandhi era)",
+    "maths": "Real numbers (HCF/LCM)"
+  },
+  {
+    "day": 10,
+    "morning": "Chemistry: Carbon (covalent bonding)",
+    "nightScience": "Carbon (isomers & homologous series)",
+    "social": "History Ch-2: Salt March, non-cooperation",
+    "maths": "Polynomials (zeros)"
+  },
+  {
+    "day": 11,
+    "morning": "Biology: Control & coordination (brain, nerves)",
+    "nightScience": "Control & coordination (hormones)",
+    "social": "Geography Ch-3: Water resources",
+    "maths": "Circles (tangents)"
+  },
+  {
+    "day": 12,
+    "morning": "Biology: How do organisms reproduce? (asexual)",
+    "nightScience": "Reproduction (sexual in plants)",
+    "social": "Geography Ch-4: Agriculture (crops)",
+    "maths": "Constructions (revise)"
+  },
+  {
+    "day": 13,
+    "morning": "Biology: Reproduction (sexual in humans)",
+    "nightScience": "Reproductive health & diagrams",
+    "social": "Polity Ch-4: Gender, religion & caste",
+    "maths": "Heights & distances"
+  },
+  {
+    "day": 14,
+    "morning": "Biology: Heredity (Mendel's experiments)",
+    "nightScience": "Heredity (traits, evolution)",
+    "social": "Polity Ch-3: Democracy & diversity",
+    "maths": "AP (revision)"
+  },
+  {
+    "day": 15,
+    "morning": "Physics: Magnetic effects (field & lines)",
+    "nightScience": "Magnetic effects (Fleming's rule, motor)",
+    "social": "Economics Ch-3: Money & credit",
+    "maths": "Quadratic (revision)"
+  },
+  {
+    "day": 16,
+    "morning": "Physics: Magnetic effects (induction, generator)",
+    "nightScience": "Chemistry: Periodic classification (trends)",
+    "social": "Economics Ch-4: Globalization",
+    "maths": "Trigonometry (revision)"
+  },
+  {
+    "day": 17,
+    "morning": "Chemistry: Chemical reactions (revision)",
+    "nightScience": "Acids & salts (revision + previous yr Qs)",
+    "social": "History Ch-3: Making of a global world",
+    "maths": "Triangles (revision)"
+  },
+  {
+    "day": 18,
+    "morning": "Biology: Environment (food chain, ozone)",
+    "nightScience": "Management of resources (Ganga action plan)",
+    "social": "History Ch-4: Age of industrialization",
+    "maths": "Coordinate geo (revision)"
+  },
+  {
+    "day": 19,
+    "morning": "Physics: Light (full formula revision)",
+    "nightScience": "Electricity (full formula + 30 numericals marathon)",
+    "social": "Geography Ch-5: Minerals & energy",
+    "maths": "Probability (revision)"
+  },
+  {
+    "day": 20,
+    "morning": "Chemistry: Carbon (full chapter revision)",
+    "nightScience": "Biology: All diagrams (practice labeling 10 diagrams)",
+    "social": "Map work: all maps (history + geo)",
+    "maths": "Surface area (revision)"
+  },
+  {
+    "day": 21,
+    "morning": "Solve 1 Full Science Paper (1 hour sprint)",
+    "nightScience": "Check answers & mark weak topics",
+    "social": "Revise Polity (all chapters flow chart)",
+    "maths": "Solve 1 case study sum"
+  },
+  {
+    "day": 22,
+    "morning": "Physics: Last 5 years Numericals (Top 10)",
+    "nightScience": "Chemistry: Last 5 years MCQs + Assertion/Reason",
+    "social": "Revise Economics (all definitions)",
+    "maths": "Write all formulas (1 page)"
+  },
+  {
+    "day": 23,
+    "morning": "Biology: Last 5 years diagram-based questions",
+    "nightScience": "Biology: Last 5 years 3-mark questions",
+    "social": "Revise History Ch-1 & 2 (timeline)",
+    "maths": "Revise AP + Quadratic"
+  },
+  {
+    "day": 24,
+    "morning": "Chemistry: Balancing equations (20 in 30 mins)",
+    "nightScience": "Physics: Light + Electricity (mix numericals)",
+    "social": "Revise Geography (soil, crops, minerals)",
+    "maths": "Revise Trigonometry"
+  },
+  {
+    "day": 25,
+    "morning": "Solve Science Sample Paper 2 (1 hour)",
+    "nightScience": "Check answers & note silly mistakes",
+    "social": "Practice Map Work (fill 10 maps)",
+    "maths": "Revise Circles"
+  },
+  {
+    "day": 26,
+    "morning": "Read NCERT Science (unseen lines)",
+    "nightScience": "Read NCERT Science (unseen lines)",
+    "social": "Read NCERT Polity (unseen lines)",
+    "maths": "Revise Stats"
+  },
+  {
+    "day": 27,
+    "morning": "Practice 5-mark questions (writing skill)",
+    "nightScience": "Practice 5-mark questions (writing skill)",
+    "social": "Practice 5-mark Social answers",
+    "maths": "Solve 5 hard problems"
+  },
+  {
+    "day": 28,
+    "morning": "Physics: All derivations (write fast)",
+    "nightScience": "Biology: All processes (write in points)",
+    "social": "History: All dates (chronology)",
+    "maths": "Light revision"
+  },
+  {
+    "day": 29,
+    "morning": "MOCK TEST 3 (strict timing)",
+    "nightScience": "Analyze MOCK TEST 3",
+    "social": "Revise Map Work (final)",
+    "maths": "Flash cards"
+  },
+  {
+    "day": 30,
+    "morning": "Relax: just read diagrams",
+    "nightScience": "Relax: just read chemical reactions",
+    "social": "Relax: just read keywords",
+    "maths": "Confidence"
+  }
+]
