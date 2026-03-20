@@ -24,7 +24,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  height: 1400px;
+  height: 1150px;
   border-radius: 50px;
   
 }
@@ -32,14 +32,13 @@ body {
   text-align: center;
   font-family: "Poppins", Arial, sans-serif;
   color: #333;
-  background:url("images/day/bg.png") center center fixed;
+  background-image: url("images/day/bg.png");
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   margin: 0;
   padding: 0;
 }
-
 h1{
   padding-top: 0px;
 }
@@ -161,11 +160,19 @@ footer img:hover {
   margin-left:45px;
   padding-top: 0px;
 }
-#n8n img{
-  width:300px;
-  margin-top: 15px;
+#ceasar img{
+ width:170px;
   border-radius: 10px;
-  height: 200px;
+ 
+  height: auto;
+
+}
+#titan img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 10px;
+  transform:scale(1.4)
 }
 #wordle img{
   width:300px;
@@ -175,6 +182,7 @@ footer img:hover {
   margin-left:30px;
   padding-top: 30px;
 }
+
 #tetris img{
   width:200px;
   border-radius: 10px;
@@ -183,13 +191,15 @@ footer img:hover {
   margin-left:75px;
   padding-top: 30px;
 }
-#minifier img{
-  width:250px;
-  border-radius: 10px;
-  display: block;
-  height: 220px;
-  margin-left:45px;
-  padding-top: 0px;
+
+body {
+  
+  min-height: 100vh;
+
+  background-size: cover;        /* fills screen properly */
+  background-position: center;   /* keeps it centered */
+  background-repeat: no-repeat;  /* prevents tiling */
+  background-attachment: fixed;  /* makes it feel absolute */
 }
 #logo {
   width:60px;

@@ -185,7 +185,7 @@ h1 {
     screen=screen.replace("raised","**")
    }
 
-    if(typeof Number(screen[screen.length-1])==="number"){
+    if(!isNaN(screen[screen.length-1])){
 const result = document.getElementById("result")
     result.innerHTML = Number(eval(screen).toFixed(Number(5)))
     }else{
