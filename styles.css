@@ -24,7 +24,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  height: 1150px;
+  height: 1380px;
   border-radius: 50px;
   
 }
@@ -191,7 +191,16 @@ footer img:hover {
   margin-left:75px;
   padding-top: 30px;
 }
-
+#world img{
+  width:200px;
+  border-radius: 20px;
+  margin-top: 20px;
+}
+#livit svg{
+  transform:scale(2.5);
+  margin-top:140px;
+  padding-left:80px;
+}
 body {
   
   min-height: 100vh;
