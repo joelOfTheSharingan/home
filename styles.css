@@ -1,165 +1,138 @@
-/* General Reset and Body */
+/* Base Styles */
 body {
     text-align: center;
     font-family: "Poppins", Arial, sans-serif;
-    color: #333;
-    background-color: #1a1a1a; /* Fallback color */
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-}
-
-/* Typography */
-h1, h4 {
-    font-weight: bold;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: white;
+}
+#header {
+    font-size: 32px;
+    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    margin: 30px 0;
 }
 
-h1 { padding-top: 20px; }
-h4 { padding-top: 30px; font-size: 20px; }
+/* Desktop: move it into container visually */
+@media (min-width: 769px) {
+    #arrow{
+        display: none;
+    }
+    .intro-text #header {
+        display: none; /* hide mobile version */
+    }
 
-/* Main Container */
+    #container::before {
+        content: "My Projects";
+        display: block;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+}
+h1, h4 { text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+.intro-text { padding: 40px 20px; }
+
+/* Laptop: Normal Grid Layout */
 #container {
     width: 1000px;
-    margin: 40px auto;
+    margin: 50px auto;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50px;
-    padding-bottom: 50px;
-    overflow: hidden; /* Contains floats */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px 20px 60px 20px;
 }
 
 #header {
     font-size: 32px;
-    backdrop-filter: blur(5px);
-    border-radius: 25px;
-    padding: 20px 0;
+    color: #ffffff;
     font-weight: bold;
-    color: #fff;
-    text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+    margin: 20px 0;
     text-transform: uppercase;
-    width: 500px;
-    margin: 25px auto;
 }
 
-/* Project Grid */
-.left { float: left; margin-left: 80px; width: 340px; }
-.right { float: right; margin-right: 80px; width: 340px; }
+.project-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
 
 .project, .project1 {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 15px;
     height: 220px;
     width: 340px;
-    margin: 30px auto;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    margin: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(255,255,255,0.2);
     overflow: hidden;
 }
 
-.project:hover, .project1:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+.project:hover, .project1:hover { 
+    transform: translateY(-5px); 
     background: rgba(255, 255, 255, 0.4);
 }
 
-/* Image Scaling for Projects */
-.project img, .project1 img {
-    max-width: 90%;
-    max-height: 80%;
-    border-radius: 8px;
-    object-fit: contain;
-}
+.project img, .project1 img { max-width: 90%; max-height: 80%; border-radius: 10px; }
 
-/* Specific Project Overrides */
-#meenachil img { height: 170px; width: auto; }
-#excel img { width: 250px; }
-#gmail img { width: 220px; }
-#calculator img { width: 200px; }
-#world img { width: 180px; }
-#titan img { transform: scale(1.2); }
-#livit svg { transform: scale(2); }
+/* SVG and specific image scaling */
+#livit svg { transform: scale(2.5); }
+#titan img { transform: scale(1.4); }
+#excel img { transform: scale(1.4); }
+#calculator img { transform: scale(1.2); }
 
 /* Footer */
 footer {
-  width: 960px;
-  margin: 60px auto;
-  padding: 20px;
-  border-radius: 25px;
-
-  background: rgba(20, 20, 20, 0.6);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+    width: 960px;
+    margin: 50px auto;
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* text */
-footer p {
-  margin: 0;
-  cursor: pointer;
+footer:hover {
+    background: rgba(40, 40, 40, 0.8);
+    color: #4caf50;
 }
 
-footer p:hover {
-  color: #4caf50;
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
-/* logo */
-#logo {
-  width: 50px;
-  height: 50px;
-                /* remove margin-top */
-  position: static;           /* remove weird positioning */
-  transition: transform 0.3s ease;
-  margin-left:10px;
-}
+footer p { margin: 0; font-size: 18px; font-weight: 600; }
 
-
-#logo:hover {
-  transform: scale(1.1);
-}
-/* Responsive Media Queries */
-@media (max-width: 1024px) {
-  #container{
-    transform: scale(0.91);
-  }
-  .project, .project1 {
-    width: 260px;     /* smaller width */
-    height: 170px;    /* smaller height */
-    margin: 15px auto;
-  }
-
-  /* scale images inside nicely */
-  .project img, .project1 img {
-    width: 100%;
-    height: 100%;
+#logo-footer {
+    width: 40px;
+    height: 40px;
     object-fit: contain;
-  }
-
-    #container, footer { width: 90%; }
-    .left, .right {
-        float: none;
-
-        margin: 0 auto;
-        width: 100%;
-    }
-    #header { width: 80%; font-size: 24px; }
+    transition: transform 1s ease;
 }
+
+footer:hover #logo-footer {
+    transform: scale(1.2) rotate(360deg);
+}
+/* --- LAPTOP STYLES (Keep existing) --- */
+
+/* Hide the tiny images on laptop so it doesn't mess up your current look */
+.mini-preview {
+    display: none; 
+}
+
+/* ... keep all your existing Laptop .project and #container styles here ... */
