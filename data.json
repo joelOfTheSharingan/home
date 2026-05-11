@@ -1,36 +1,31 @@
 [
-  { "day": 1, "morning": "Chem Record 1 + Bio: Life Processes (Nutrition)", "nightScience": "Bio diagrams: digestive system + quick recall", "social": "History: Europe – French Revolution (causes, events)", "maths": "Light practice (optional)" },
-  { "day": 2, "morning": "Bio Record 1 + Bio: Respiration", "nightScience": "Diagram + recall (respiration steps)", "social": "History: Europe – Napoleon + impact", "maths": "Light practice" },
-  { "day": 3, "morning": "Chem Record 2 + Bio: Transportation", "nightScience": "Heart diagram + blood flow", "social": "History: Europe – Revolutions (1830–1848)", "maths": "Light practice" },
-  { "day": 4, "morning": "Bio Record 2 + Bio: Excretion", "nightScience": "Nephron diagram + urine formation", "social": "History: Europe – Unification of Germany", "maths": "Light practice" },
-  { "day": 5, "morning": "Chem Record 3 + Bio: Full Life Processes revise", "nightScience": "All diagrams revise", "social": "History: Europe – Italy + Balkans", "maths": "Light practice" },
-  { "day": 6, "morning": "Bio Record 3 + Bio weak areas", "nightScience": "Recall without book", "social": "History: India – Early nationalism", "maths": "Light practice" },
-  { "day": 7, "morning": "Chem Record 4 + Bio quick revise", "nightScience": "Diagram drill", "social": "History: India – WW1 + effects", "maths": "Light practice" },
-  { "day": 8, "morning": "Bio Record 4 + Bio recall", "nightScience": "Life processes test (self)", "social": "History: India – Non-Cooperation Movement", "maths": "Light practice" },
-  { "day": 9, "morning": "Chem Record 5 (finish) + Bio revise", "nightScience": "Weak areas fix", "social": "History: India – Civil Disobedience Movement", "maths": "Light practice" },
+  { "day": 1, "morning": "Bio: Nutrition", "nightScience": "Digestive system diagram + recall", "social": "History: French Revolution", "maths": "Bio Record 1" },
 
-  { "day": 10, "morning": "Bio full revision", "nightScience": "Diagrams + recall", "social": "History: India – Different groups", "maths": "Light practice" },
-  { "day": 11, "morning": "Bio weak areas", "nightScience": "No-book recall", "social": "Civics: Power Sharing", "maths": "Light practice" },
-  { "day": 12, "morning": "Bio revise again", "nightScience": "Diagram speed practice", "social": "Civics: Federalism", "maths": "Light practice" },
-  { "day": 13, "morning": "Bio test (self)", "nightScience": "Fix mistakes", "social": "Economics: Development", "maths": "Light practice" },
-  { "day": 14, "morning": "Chemistry: Reactions revise", "nightScience": "Equations practice", "social": "Geography: Resources & Development", "maths": "Light practice" },
+  { "day": 2, "morning": "Bio: Respiration", "nightScience": "Respiration diagrams + flowchart", "social": "History: Europe Revolutions + Unification", "maths": "IT Project Planning" },
 
-  { "day": 15, "morning": "Bio full revision", "nightScience": "Diagram + recall", "social": "History: Europe full revision", "maths": "Light practice" },
-  { "day": 16, "morning": "Bio weak areas", "nightScience": "No-book recall", "social": "History: India full revision", "maths": "Light practice" },
-  { "day": 17, "morning": "Chemistry: Acids, bases, salts", "nightScience": "Numericals + reactions", "social": "Civics revision", "maths": "Light practice" },
-  { "day": 18, "morning": "Chemistry: Metals & non-metals", "nightScience": "Reaction practice", "social": "Economics revision", "maths": "Light practice" },
-  { "day": 19, "morning": "Bio revision", "nightScience": "Diagrams final", "social": "Geography revision", "maths": "Light practice" },
+  { "day": 3, "morning": "Bio: Transportation", "nightScience": "Heart diagram + blood circulation", "social": "History: Nationalism in India (early phase)", "maths": "Bio Record 2" },
 
-  { "day": 20, "morning": "Bio full recall (no book)", "nightScience": "Fix weak areas", "social": "Social full revision", "maths": "Light practice" },
-  { "day": 21, "morning": "Chemistry full revision", "nightScience": "Equations + definitions", "social": "Important questions", "maths": "Light practice" },
-  { "day": 22, "morning": "Bio diagrams + processes", "nightScience": "Quick recall", "social": "Map work + key dates", "maths": "Light practice" },
-  { "day": 23, "morning": "Bio test (self)", "nightScience": "Fix mistakes", "social": "Social weak areas", "maths": "Light practice" },
-  { "day": 24, "morning": "Chemistry weak areas", "nightScience": "Equations practice", "social": "Social revision", "maths": "Light practice" },
+  { "day": 4, "morning": "Bio: Excretion", "nightScience": "Nephron diagram + urine formation", "social": "History: Non-Cooperation + Civil Disobedience", "maths": "Bio Record 3" },
 
-  { "day": 25, "morning": "Bio full revision", "nightScience": "Diagrams final", "social": "Important Q revision", "maths": "Light practice" },
-  { "day": 26, "morning": "Chemistry full revision", "nightScience": "Equations + definitions", "social": "Social full revision", "maths": "Light practice" },
-  { "day": 27, "morning": "Bio quick recall", "nightScience": "Weak areas fix", "social": "Key definitions", "maths": "Light practice" },
-  { "day": 28, "morning": "Chemistry quick revise", "nightScience": "Equations final", "social": "Important topics only", "maths": "Light practice" },
-  { "day": 29, "morning": "Bio + Chem combined revision", "nightScience": "Recall everything", "social": "Social full quick revision", "maths": "Light practice" },
-  { "day": 30, "morning": "Light revision only", "nightScience": "Formulas + diagrams", "social": "Key points only", "maths": "Rest" }
+  { "day": 5, "morning": "Bio: Life Processes full revision", "nightScience": "All biology diagrams revision", "social": "Civics: Power Sharing", "maths": "Bio Record 4 Finish" },
+
+  { "day": 6, "morning": "Civics: Federalism", "nightScience": "Biology diagrams revision", "social": "Quick recall practice", "maths": "IT Project Coding/Writing" },
+
+  { "day": 7, "morning": "Economics: Development", "nightScience": "Biology MCQs", "social": "Important points revision", "maths": "Light practice" },
+
+  { "day": 8, "morning": "Geography: Resources & Development", "nightScience": "Biology important questions", "social": "Definitions + examples", "maths": "Light practice" },
+
+  { "day": 9, "morning": "History: Europe + India timeline revision", "nightScience": "History recall practice", "social": "Quick chapter summaries", "maths": "IT Project Work" },
+
+  { "day": 10, "morning": "Social full quick revision", "nightScience": "Biology recall without textbook", "social": "Weak areas fix", "maths": "Light practice" },
+
+  { "day": 11, "morning": "Biology full revision", "nightScience": "Diagrams + keywords", "social": "Quick social recall", "maths": "Light practice" },
+
+  { "day": 12, "morning": "Social full revision", "nightScience": "Important dates + definitions", "social": "Map work", "maths": "Light practice" },
+
+  { "day": 13, "morning": "Important biology diagrams", "nightScience": "Social definitions + keywords", "social": "Rapid recall", "maths": "Light practice" },
+
+  { "day": 14, "morning": "Solve previous year questions", "nightScience": "Fix mistakes from questions", "social": "Important answers revision", "maths": "Light practice" },
+
+  { "day": 15, "morning": "Light biology revision", "nightScience": "Weak areas only", "social": "Quick social revision", "maths": "Rest + confidence review" }
 ]
