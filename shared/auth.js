@@ -54,21 +54,22 @@ export async function getUser() {
 
 export async function googleLogin() {
 
-  const { data, error } =
-    await supabase.auth.signInWithOAuth({
+  const redirectUrl =
 
-      provider: "google",
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost"
 
-      options: {
+      ? "http://127.0.0.1:5501/"
+      : "https://joelofthesharingan.github.io/home/";
 
-        redirectTo:
-          "https://joelofthesharingan.github.io/home/"
-      }
-    });
+  await supabase.auth.signInWithOAuth({
 
-  if (error) {
-    console.error(error);
-  }
+    provider: "google",
+
+    options: {
+      redirectTo: redirectUrl
+    }
+  });
 }
 // ─────────────────────────────
 // LOGOUT
@@ -78,6 +79,12 @@ export async function logout() {
 
   await supabase.auth.signOut();
 
-  window.location.href =
-    "https://joelofthesharingan.github.io/login.html";
+const LOGIN_URL =
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === "localhost"
+
+    ? "http://127.0.0.1:5501/login.html"
+    : "https://joelofthesharingan.github.io/login.html";
+
+window.location.href = LOGIN_URL;
 }
