@@ -197,12 +197,25 @@ import {
   getUser,
   logout
 }
-from "/shared/auth.js";
+from "./shared/auth.js";
 
 // give Supabase time to restore session
 await new Promise(resolve =>
   setTimeout(resolve, 1000)
 );
+
+// get session
+// remove OAuth hash immediately
+if (
+  window.location.hash.includes("access_token")
+) {
+
+  history.replaceState(
+    {},
+    document.title,
+    window.location.pathname
+  );
+}
 
 // get session
 const {
@@ -214,16 +227,6 @@ if (!session) {
 
   window.location.href =
     "https://joelofthesharingan.github.io/home/login.html";
-}
-
-// remove OAuth hash
-if (window.location.hash.includes("access_token")) {
-
-  history.replaceState(
-    {},
-    document.title,
-    window.location.pathname
-  );
 }
 
 // get user
@@ -244,7 +247,7 @@ await supabase
 // logout button
 document
   .getElementById("logoutBtn")
-  .onclick = logout;
+  .addEventListener("click", logout);
 
 </script>
 </body>
