@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Redirecting...</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+
+      width:100%;
+      height:100vh;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+
+      overflow:hidden;
+
+      font-family:'Poppins',sans-serif;
+
+      background:#000;
+      color:white;
+
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+
+    .overlay{
+
+      position:fixed;
+      inset:0;
+
+      background:rgba(0,0,0,0.45);
+
+      z-index:1;
+    }
+
+    .loader-container{
+
+      position:relative;
+      z-index:2;
+
+      width:420px;
+      max-width:92%;
+
+      padding:45px 35px;
+
+      border-radius:28px;
+
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+
+      background:rgba(255,255,255,0.08);
+
+      border:1px solid rgba(255,255,255,0.12);
+
+      box-shadow:
+        0 8px 40px rgba(0,0,0,0.35);
+
+      text-align:center;
+    }
+
+    h1{
+
+      font-size:2rem;
+      margin-bottom:14px;
+      font-weight:700;
+    }
+
+    p{
+
+      color:#ddd;
+      margin-bottom:30px;
+      font-size:0.95rem;
+    }
+
+    .spinner{
+
+      width:70px;
+      height:70px;
+
+      margin:auto;
+
+      border-radius:50%;
+
+      border:
+        6px solid rgba(255,255,255,0.15);
+
+      border-top:
+        6px solid white;
+
+      animation:spin 1s linear infinite;
+    }
+
+    @keyframes spin{
+
+      from{
+        transform:rotate(0deg);
+      }
+
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    .mini{
+
+      margin-top:30px;
+      font-size:0.85rem;
+      color:#bbb;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="loader-container">
+
+    <h1>Opening Project</h1>
+
+    <p>
+      Verifying authentication and loading app...
+    </p>
+
+    <div class="spinner"></div>
+
+    <div class="mini">
+      Joel Ecosystem Gateway
+    </div>
+
+  </div>
+
+<script type="module">
+
+import {
+  requireAuth
+}
+from "./shared/auth.js";
+
+// wait for auth restore
+await new Promise(resolve =>
+  setTimeout(resolve, 800)
+);
+
+// auth protection
+await requireAuth();
+
+// background logic
+const now = new Date();
+
+const body = document.body;
+
+if (now.getHours() >= 6 &&
+    now.getHours() < 18) {
+
+  const selectedImage =
+    Math.floor(Math.random() * 6) + 1;
+
+  body.style.backgroundImage =
+    `url('images/day/day(${selectedImage}).png')`;
+
+} else {
+
+  const selectedImage =
+    Math.floor(Math.random() * 6) + 1;
+
+  body.style.backgroundImage =
+    `url('images/night/night(${selectedImage}).jpg')`;
+}
+
+// get app
+const params =
+  new URLSearchParams(window.location.search);
+
+const app =
+  params.get("app");
+
+// routes
+const routes = {
+
+  savebite:
+    "https://joelofthesharingan.github.io/SaveBiteApp/",
+
+  excel:
+    "https://joelofthesharingan.github.io/home/xl.html",
+
+  n8n:
+    "https://joelofthesharingan.github.io/home/n8n.html",
+
+  calculator:
+    "https://joelofthesharingan.github.io/home/calculator.html",
+
+  travel:
+    "https://joelofthesharingan.github.io/travelEarth/",
+
+  meenachil:
+    "https://joelofthesharingan.github.io/meenachil_app/",
+
+  titan:
+    "https://joelofthesharingan.github.io/titan-dynamics/",
+
+  wordle:
+    "https://joelofthesharingan.github.io/Wordle_game/",
+
+  timetable:
+    "https://joelofthesharingan.github.io/home/timetable.html",
+
+  livit:
+    "https://joelofthesharingan.github.io/livit-invoice-app/",
+
+  chroma:
+    "https://joelofthesharingan.github.io/home/games/the-chroma-incident.html"
+};
+
+// redirect
+if (routes[app]) {
+
+  // wait 2 seconds
+  await new Promise(resolve =>
+    setTimeout(resolve, 2000)
+  );
+
+  window.location.href =
+    routes[app];
+}
+
+</script>
+
+</body>
+</html>
