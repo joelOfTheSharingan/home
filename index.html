@@ -156,7 +156,15 @@
         supabase
         }
         from "/shared/auth.js";
+        if (window.location.hash.includes("access_token")) {
 
+        // remove ugly token from URL
+        history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+        }
         const session = await requireAuth();
 
         const user = await getUser();
