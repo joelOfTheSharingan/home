@@ -1,5 +1,6 @@
 /* Base Styles */
 body {
+    position:relative;
     text-align: center;
     font-family: "Poppins", Arial, sans-serif;
     margin: 0;
@@ -91,8 +92,26 @@ h1, h4 { text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
 #excel img { transform: scale(1.4); }
 #calculator img { transform: scale(1.2); }
 
+#uchiha{
+    position: absolute;
+    bottom: -40px;
+    left: 20px;
+
+    transform: scale(0.5);
+    opacity: 0.02;
+
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+#uchiha:hover{
+    opacity: 0.7;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.15))
+            drop-shadow(0 0 20px rgba(255,255,255,0.08));
+}
 /* Footer */
 footer {
+
     width: 960px;
     margin: 50px auto;
     background: rgba(20, 20, 20, 0.6);

@@ -36,7 +36,9 @@
         gap: 20px;
         text-align: center;
     }
-
+    #uchiha{
+        display:none;
+    }
     /* My Projects (inside intro) */
     #header {
         font-size: 22px;
