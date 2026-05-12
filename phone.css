@@ -42,6 +42,9 @@
     #logoutBtn{
         top:100px;
     }
+    #userBox{
+        display:none;
+    }
     /* My Projects (inside intro) */
     #header {
         font-size: 22px;
