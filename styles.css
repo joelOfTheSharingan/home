@@ -124,6 +124,51 @@ body {
   transform: scale(0.96);
 }
 
+#userBox{
+  position:fixed;
+  top:20px;
+  right:90px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 16px;
+  border-radius:18px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.25);
+  z-index:1000;
+  transform: scale(0.8);
+  padding-top:10px;
+  top:15px;
+}
+
+#username{
+
+  color:white;
+
+  font-size:0.95rem;
+  font-weight:600;
+
+  max-width:180px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+#userAvatar{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  background:rgba(255,255,255,0.1);
+  border:2px solid rgba(255,255,255,0.25);
+}
 /* Desktop: move it into container visually */
 @media (min-width: 769px) {
     #arrow{

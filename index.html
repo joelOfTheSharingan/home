@@ -14,7 +14,15 @@
     <div class="intro-text">
         <h1>Welcome to my HomePage</h1>
         <h4>Here lies the creations of Joel Michael George</h4>
-        <!-- From Uiverse.io by mRcOol7 --> 
+       <div id="userBox">
+
+  <img id="userAvatar" />
+
+  <span id="username">
+    Loading...
+  </span>
+
+</div>
 <button id="logoutBtn">
   <div class="sign">
     <svg viewBox="0 0 512 512">
@@ -230,20 +238,36 @@ if (!session) {
 }
 
 // get user
+// get user
 const user = await getUser();
 
 console.log(user);
 
-// insert into users table
-await supabase
-  .from("users")
-  .upsert({
-    id: user.id,
-    email: user.email,
-    username:
-      user.user_metadata?.full_name || null
-  });
+// username
+document.getElementById("username").textContent =
 
+  user.user_metadata?.full_name ||
+  user.user_metadata?.name ||
+  user.email ||
+  "User";
+
+// avatar
+const avatar =
+  document.getElementById("userAvatar");
+
+avatar.src =
+
+  user.user_metadata?.avatar_url ||
+  "images/default-avatar.png";
+
+avatar.alt = "User Avatar";
+
+// fallback if image fails
+avatar.onerror = () => {
+
+  avatar.src =
+    "images/default-avatar.png";
+};
 // logout button
 document
   .getElementById("logoutBtn")
