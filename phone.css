@@ -39,6 +39,9 @@
     #uchiha{
         display:none;
     }
+    #logoutBtn{
+        top:100px;
+    }
     /* My Projects (inside intro) */
     #header {
         font-size: 22px;
