@@ -79,12 +79,14 @@ export async function logout() {
 
   await supabase.auth.signOut();
 
-const LOGIN_URL =
-  window.location.hostname === "127.0.0.1" ||
-  window.location.hostname === "localhost"
+  const loginUrl =
 
-    ? "http://127.0.0.1:5501/login.html"
-    : "https://joelofthesharingan.github.io/login.html";
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost"
 
-window.location.href = LOGIN_URL;
+      ? "http://127.0.0.1:5501/login.html"
+      : "https://joelofthesharingan.github.io/home/login.html";
+
+  window.location.href =
+    loginUrl;
 }
