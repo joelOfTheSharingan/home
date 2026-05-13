@@ -45,15 +45,15 @@
         
         <div class="project-list">
             <section class="project-wrapper">
-    <a href='redirect.html?app=savebite'>
-        <div class="project">
-            <img src="images/savebite.png">
-        </div>
-    </a>
+              <a href='/home/redirect?app=savebite'>
+                <div class="project">
+                  <img src="images/savebite.png">
+                </div>
+              </a>
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=excel'>
+                <a href='/home/redirect?app=excel'>
                     <div class="project" id="excel">
                         <img src="images/excel.png">
                     </div>
@@ -61,7 +61,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=n8n'>
+                <a href='/home/redirect?app=n8n'>
                     <div class="project" id="gmail">
                         <img src="images/gmail.png">
                     </div>
@@ -69,7 +69,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=calculator'>
+                <a href='/home/redirect?app=calculator'>
                     <div class="project" id="calculator">
                         <img src="images/calculator.png">
                     </div>
@@ -77,7 +77,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=travel'>
+                <a href='/home/redirect?app=travel'>
                     <div class="project" id="world">
                         <img src="images/world.png">
                     </div>
@@ -85,7 +85,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=meenachil'>
+                <a href='/home/redirect?app=meenachil'>
                     <div class="project1" id="meenachil">
                         <img src="images/meenachil.png">
                     </div>
@@ -93,7 +93,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=titan'>
+                <a href='/home/redirect?app=titan'>
                     <div class="project1" id="titan">
                         <img src="images/titan.png">
                     </div>
@@ -101,7 +101,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=wordle'>
+                <a href='/home/redirect?app=wordle'>
                     <div class="project1" id="wordle">
                         <img src="images/wordle.png">
                     </div>
@@ -109,7 +109,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=timetable'>
+                <a href='/home/redirect?app=timetable'>
                     <div class="project" id="ceasar">
                         <img src="images/ceasar.png">
                     </div>
@@ -117,7 +117,7 @@
             </section>
 
             <section class="project-wrapper">
-                <a href='redirect.html?app=livit'>
+                <a href='/home/redirect?app=livit'>
                     <div class="project" id="livit">
 
                         <svg id="logo-svg"
@@ -199,95 +199,113 @@
     </script>
 
     <script type="module">
-import { supabase, logout } from "./shared/auth.js";
-
+import {supabase,getUser,logout} from "./shared/auth.js";
 /* ─────────────────────────────
-   1. HANDLE OAUTH RETURN (CLEAN PKCE)
+   1. REMOVE ACCESS TOKEN HASH
 ───────────────────────────── */
 
-const url = new URL(window.location.href);
+if (window.location.hash.includes("access_token")) {
 
-/**
- * Case 1: Supabase PKCE flow (?code=)
- */
-if (url.searchParams.get("code")) {
-  await supabase.auth.exchangeCodeForSession(window.location.href);
-
-  // clean URL after session is stored
-  window.history.replaceState({}, document.title, window.location.pathname);
-}
-
-/**
- * Case 2: fallback old implicit flow (#access_token)
- * (kept only for safety, not ideal)
- */
-else if (window.location.hash.includes("access_token")) {
+  // let Supabase store session
   await supabase.auth.getSession();
 
-  window.history.replaceState({}, document.title, window.location.pathname);
+  // clean URL
+  window.history.replaceState(
+    {},
+    document.title,
+    window.location.pathname
+  );
 }
 
 /* ─────────────────────────────
-   2. WAIT FOR SESSION STABILIZATION
+   2. WAIT FOR SESSION RESTORE
 ───────────────────────────── */
 
-let session = null;
-
-for (let i = 0; i < 10; i++) {
-  const res = await supabase.auth.getSession();
-  session = res.data.session;
-
-  if (session) break;
-
-  await new Promise(r => setTimeout(r, 300));
-}
+await new Promise(resolve =>
+  setTimeout(resolve, 1000)
+);
 
 /* ─────────────────────────────
-   3. REDIRECT IF NOT LOGGED IN
+   3. GET SESSION
+───────────────────────────── */
+
+const {
+  data: { session }
+} = await supabase.auth.getSession();
+
+/* ─────────────────────────────
+   4. REDIRECT IF NOT LOGGED IN
 ───────────────────────────── */
 
 if (!session) {
-  window.location.href = "/home/login.html";
+
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  window.location.href = isLocal
+    ? "/home/login.html"
+    : "https://joelofthesharingan.github.io/home/login.html";
 }
 
 /* ─────────────────────────────
-   4. GET USER SAFELY
+   5. GET USER
 ───────────────────────────── */
 
-const { data: { user } } = await supabase.auth.getUser();
+const {
+  data: { user }
+} = await supabase.auth.getUser();
 
-if (!user) {
-  window.location.href = "/home/login.html";
-}
+console.log(user);
 
 /* ─────────────────────────────
-   5. RENDER UI SAFELY
+   6. USERNAME
 ───────────────────────────── */
 
 document.getElementById("username").textContent =
+
   user?.user_metadata?.full_name ||
   user?.user_metadata?.name ||
   user?.email ||
   "User";
 
-const avatar = document.getElementById("userAvatar");
+/* ─────────────────────────────
+   7. AVATAR
+───────────────────────────── */
+
+const avatar =
+  document.getElementById("userAvatar");
 
 avatar.src =
+
   user?.user_metadata?.avatar_url ||
   "images/default-avatar.png";
 
+avatar.alt = "User Avatar";
+
 avatar.onerror = () => {
-  avatar.src = "images/default-avatar.png";
+
+  avatar.src =
+    "images/default-avatar.png";
 };
 
 /* ─────────────────────────────
-   6. LOGOUT
+   8. LOGOUT
 ───────────────────────────── */
 
-document.getElementById("logoutBtn")
+document
+  .getElementById("logoutBtn")
   .addEventListener("click", async () => {
+
     await logout();
-    window.location.href = "/home/login.html";
+
+    const isLocal =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    window.location.href = isLocal
+      ? "/home/login.html"
+      : "https://joelofthesharingan.github.io/home/login.html";
   });
 
 </script>
