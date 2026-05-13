@@ -199,79 +199,96 @@
     </script>
 
     <script type="module">
+import { supabase, logout } from "./shared/auth.js";
 
-import {
-  supabase,
-  getUser,
-  logout
-}
-from "./shared/auth.js";
+/* ─────────────────────────────
+   1. HANDLE OAUTH RETURN (CLEAN PKCE)
+───────────────────────────── */
 
-// give Supabase time to restore session
-await new Promise(resolve =>
-  setTimeout(resolve, 1000)
-);
+const url = new URL(window.location.href);
 
-// get session
-// remove OAuth hash immediately
-if (
-  window.location.hash.includes("access_token")
-) {
+/**
+ * Case 1: Supabase PKCE flow (?code=)
+ */
+if (url.searchParams.get("code")) {
+  await supabase.auth.exchangeCodeForSession(window.location.href);
 
-  history.replaceState(
-    {},
-    document.title,
-    window.location.pathname
-  );
+  // clean URL after session is stored
+  window.history.replaceState({}, document.title, window.location.pathname);
 }
 
-// get session
-const {
-  data: { session }
-} = await supabase.auth.getSession();
+/**
+ * Case 2: fallback old implicit flow (#access_token)
+ * (kept only for safety, not ideal)
+ */
+else if (window.location.hash.includes("access_token")) {
+  await supabase.auth.getSession();
 
-// no session → login
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+/* ─────────────────────────────
+   2. WAIT FOR SESSION STABILIZATION
+───────────────────────────── */
+
+let session = null;
+
+for (let i = 0; i < 10; i++) {
+  const res = await supabase.auth.getSession();
+  session = res.data.session;
+
+  if (session) break;
+
+  await new Promise(r => setTimeout(r, 300));
+}
+
+/* ─────────────────────────────
+   3. REDIRECT IF NOT LOGGED IN
+───────────────────────────── */
+
 if (!session) {
-
-  window.location.href =
-    "https://joelofthesharingan.github.io/home/login.html";
+  window.location.href = "/home/login.html";
 }
 
-// get user
-// get user
-const user = await getUser();
+/* ─────────────────────────────
+   4. GET USER SAFELY
+───────────────────────────── */
 
-console.log(user);
+const { data: { user } } = await supabase.auth.getUser();
 
-// username
+if (!user) {
+  window.location.href = "/home/login.html";
+}
+
+/* ─────────────────────────────
+   5. RENDER UI SAFELY
+───────────────────────────── */
+
 document.getElementById("username").textContent =
-
-  user.user_metadata?.full_name ||
-  user.user_metadata?.name ||
-  user.email ||
+  user?.user_metadata?.full_name ||
+  user?.user_metadata?.name ||
+  user?.email ||
   "User";
 
-// avatar
-const avatar =
-  document.getElementById("userAvatar");
+const avatar = document.getElementById("userAvatar");
 
 avatar.src =
-
-  user.user_metadata?.avatar_url ||
+  user?.user_metadata?.avatar_url ||
   "images/default-avatar.png";
 
-avatar.alt = "User Avatar";
-
-// fallback if image fails
 avatar.onerror = () => {
-
-  avatar.src =
-    "images/default-avatar.png";
+  avatar.src = "images/default-avatar.png";
 };
-// logout button
-document
-  .getElementById("logoutBtn")
-  .addEventListener("click", logout);
+
+/* ─────────────────────────────
+   6. LOGOUT
+───────────────────────────── */
+
+document.getElementById("logoutBtn")
+  .addEventListener("click", async () => {
+    await logout();
+    window.location.href = "/home/login.html";
+  });
 
 </script>
 </body>
