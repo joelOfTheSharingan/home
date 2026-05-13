@@ -167,15 +167,31 @@ await new Promise(resolve =>
 );
 
 // auth protection
-await requireAuth();
+console.log("Starting auth check");
 
-// background logic
+try {
+
+  await requireAuth();
+
+  console.log("Auth passed");
+
+} catch (err) {
+
+  console.error("Auth failed:", err);
+}
+
+/* ─────────────────────────────
+   BACKGROUND LOGIC
+───────────────────────────── */
+
 const now = new Date();
 
 const body = document.body;
 
-if (now.getHours() >= 6 &&
-    now.getHours() < 18) {
+if (
+  now.getHours() >= 6 &&
+  now.getHours() < 18
+) {
 
   const selectedImage =
     Math.floor(Math.random() * 6) + 1;
@@ -192,16 +208,25 @@ if (now.getHours() >= 6 &&
     `url('images/night/night(${selectedImage}).jpg')`;
 }
 
-// get app
+/* ─────────────────────────────
+   GET APP PARAM
+───────────────────────────── */
+
 const params =
-  new URLSearchParams(window.location.search);
+  new URLSearchParams(
+    window.location.search
+  );
 
 const app =
   params.get("app");
 
-// routes
+/* ─────────────────────────────
+   ROUTES
+───────────────────────────── */
 const isLocal =
+
   window.location.hostname === "localhost" ||
+
   window.location.hostname === "127.0.0.1";
 
 const routes = {
@@ -224,10 +249,9 @@ const routes = {
   meenachil:
     "https://joelofthesharingan.github.io/meenachil_app/",
 
-  // 🔥 FIXED HERE
   titan: isLocal
-    ? "http://localhost:3000/titan"
-    : "https://joelofthesharingan.github.io/titan-dynamics/",
+    ? "http://localhost:3000/titan-dynamics"
+    : "https://joelofthesharingan.github.io/home/redirect.html?app=titan",
 
   wordle:
     "https://joelofthesharingan.github.io/Wordle_game/",
@@ -242,8 +266,35 @@ const routes = {
     "https://joelofthesharingan.github.io/home/games/the-chroma-incident.html"
 };
 
-// redirect
+/* ─────────────────────────────
+   DEBUG LOGS
+───────────────────────────── */
+
+console.log(
+  "Query string:",
+  window.location.search
+);
+
+console.log(
+  "App param:",
+  app
+);
+
+console.log(
+  "Route found:",
+  routes[app]
+);
+
+/* ─────────────────────────────
+   REDIRECT
+───────────────────────────── */
+
 if (routes[app]) {
+
+  console.log(
+    "Redirecting to:",
+    routes[app]
+  );
 
   // wait 2 seconds
   await new Promise(resolve =>
@@ -252,6 +303,13 @@ if (routes[app]) {
 
   window.location.href =
     routes[app];
+
+} else {
+
+  console.error(
+    "No route found for app:",
+    app
+  );
 }
 
 </script>
