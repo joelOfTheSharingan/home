@@ -200,6 +200,10 @@ const app =
   params.get("app");
 
 // routes
+const isLocal =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
 const routes = {
 
   savebite:
@@ -220,8 +224,10 @@ const routes = {
   meenachil:
     "https://joelofthesharingan.github.io/meenachil_app/",
 
-  titan:
-    "https://joelofthesharingan.github.io/titan-dynamics/",
+  // 🔥 FIXED HERE
+  titan: isLocal
+    ? "http://localhost:3000/titan"
+    : "https://joelofthesharingan.github.io/titan-dynamics/",
 
   wordle:
     "https://joelofthesharingan.github.io/Wordle_game/",

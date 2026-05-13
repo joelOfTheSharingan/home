@@ -1,7 +1,4 @@
-// shared/auth.js
-
-import { createClient }
-from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const SUPABASE_URL =
   "https://eycuakkufbolyyawlpno.supabase.co";
@@ -11,82 +8,30 @@ const SUPABASE_ANON_KEY =
 
 export const supabase = createClient(
   SUPABASE_URL,
-  SUPABASE_ANON_KEY
+  SUPABASE_ANON_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    }
+  }
 );
 
 // ─────────────────────────────
-// REQUIRE LOGIN
+// GOOGLE LOGIN (FIXED)
 // ─────────────────────────────
-
-export async function requireAuth() {
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-
-    window.location.href =
-      "https://joelofthesharingan.github.io/login.html";
-
-    return null;
-  }
-
-  return session;
-}
-
-// ─────────────────────────────
-// GET CURRENT USER
-// ─────────────────────────────
-
-export async function getUser() {
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  return user;
-}
-
-// ─────────────────────────────
-// GOOGLE LOGIN
-// ─────────────────────────────
-
 export async function googleLogin() {
-
-  const redirectUrl =
-
-    window.location.hostname === "127.0.0.1" ||
-    window.location.hostname === "localhost"
-
-      ? "http://127.0.0.1:5501/"
-      : "https://joelofthesharingan.github.io/home/";
+  const redirectUrl = window.location.origin + "/home/";
 
   await supabase.auth.signInWithOAuth({
-
     provider: "google",
-
     options: {
-      redirectTo: redirectUrl
+      redirectTo: redirectUrl,
+      flowType: "pkce",
+      queryParams: {
+        prompt: "select_account"
+      }
     }
   });
-}
-// ─────────────────────────────
-// LOGOUT
-// ─────────────────────────────
-
-export async function logout() {
-
-  await supabase.auth.signOut();
-
-  const loginUrl =
-
-    window.location.hostname === "127.0.0.1" ||
-    window.location.hostname === "localhost"
-
-      ? "http://127.0.0.1:5501/login.html"
-      : "https://joelofthesharingan.github.io/home/login.html";
-
-  window.location.href =
-    loginUrl;
 }
