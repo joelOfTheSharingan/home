@@ -246,8 +246,9 @@ const routes = {
   travel:
     "https://joelofthesharingan.github.io/travelEarth/",
 
-  meenachil:
-    "https://joelofthesharingan.github.io/meenachil_app/",
+  meenachil: isLocal
+    ? "http://localhost:3000/meenachil_app"
+    :"https://joelofthesharingan.github.io/meenachil_app/",
 
   titan: isLocal
     ? "http://localhost:3000/titan-dynamics"
