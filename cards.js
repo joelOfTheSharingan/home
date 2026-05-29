@@ -63,7 +63,7 @@ fetch("projects.json")
 
 
     const encryptedPassword =
-      "768cb7a438d1334bff8c2010581246beccfc247b1f07285e340894e83bf936d4";
+      "909009e314df6c439cb1aaad0aab809d4c73efffa24e1833687bc7d39f558f3f";
 
     async function isPasswordCorrect() {
 
