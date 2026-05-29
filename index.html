@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | Joel Michael George</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="styles.css">
-      <link rel="stylesheet" href="phone.css">
+    <link rel="stylesheet" href="styles/styles.css"> 
+    <link rel="stylesheet" href="styles/carousel.css">
+      <link rel="stylesheet" href="styles/switches.css">
+   
+      <link rel="stylesheet" href="styles/phone.css">
+  <link rel="stylesheet" href="styles/sharingan.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -14,8 +18,9 @@
     <div class="intro-text">
         <h1>Welcome to my HomePage</h1>
         <h4>Here lies the creations of Joel Michael George</h4>
-       <div id="userBox">
-
+        <!-- User,Logout -->
+       <div id="user-panel">
+        <div id="userBox">
   <img id="userAvatar" />
 
   <span id="username">
@@ -32,16 +37,171 @@
     </svg>
   </div>
 
-  <div class="text">Logout</div>
+  <div class="logout-text">Logout</div>
 </button>
+       </div>
+<!-- User,Logout -->
+<!-- View type switcher -->
+<div class="controls">
 
+  <div class="glass-radio-group">
+
+    <input type="radio" name="plan" id="glass-gold" checked />
+    <label for="glass-gold">Grid</label>
+
+    <input type="radio" name="plan" id="glass-platinum" />
+    <label for="glass-platinum">Carousel</label>
+
+    <div class="glass-glider"></div>
+  </div>
+
+  <!-- View type switcher -->
+  <div class="toggle-container">
+
+    <label class="theme-switch">
+      <input type="checkbox" class="theme-switch__checkbox">
+
+      <div class="theme-switch__container">
+        <div class="theme-switch__clouds"></div>
+
+        <div class="theme-switch__stars-container">
+          <!-- svg unchanged -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688Z"
+              fill="currentColor"></path>
+          </svg>
+        </div>
+
+        <div class="theme-switch__circle-container">
+          <div class="theme-switch__sun-moon-container">
+            <div class="theme-switch__moon">
+              <div class="theme-switch__spot"></div>
+              <div class="theme-switch__spot"></div>
+              <div class="theme-switch__spot"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </label>
+
+  </div>
+
+</div>
+<!-- Night/Day -->
         <p id="header">My Projects
             <p id="arrow">&darr;</p>
         </p>
-        
+    </div>
+    <!--Sharingan starts here-->
+    <div id="sharingan-effect">
+      <div id="sharingan-wrapper">
+
+  <div class="normal-sharingan">
+
+    <div class="eye-and-reflection-container active">
+      <div class="eye-container">
+        <div class="eye circle level1">
+          <div class="glare circle"></div>
+          <div class="inner-eye circle">
+            <div class="tag-container">
+              <div class="tag circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="container">
+    <div class="eye-and-reflection-container">
+      <div class="eye-container">
+        <div class="eye circle level2">
+          <div class="glare circle"></div>
+          <div class="inner-eye circle">
+            <div class="tag-container"><div class="tag circle"></div></div>
+            <div class="tag-container"><div class="tag circle"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eye-and-reflection-container">
+      <div class="eye-container">
+        <div class="eye circle level3">
+          <div class="glare circle"></div>
+          <div class="inner-eye circle">
+            <div class="tag-container"><div class="tag circle"></div></div>
+            <div class="tag-container"><div class="tag circle"></div></div>
+            <div class="tag-container"><div class="tag circle"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eye-and-reflection-container">
+      <div class="eye-container">
+        <div class="eye circle sasuke-eye">
+          <div class="glare circle"></div>
+          <div class="inner-eye circle">
+            <div class="tag-container"><div class="tag circle"></div></div>
+            <div class="tag-container"><div class="tag circle"></div></div>
+            <div class="tag-container"><div class="tag circle"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eye-and-reflection-container">
+      <div class="eye-container">
+        <div class="eye circle sasuke-eye s-ems">
+          <div class="glare circle"></div>
+          <div class="inner-eye circle">
+            <div class="tag-container"><div class="tag circle"></div></div>
+            <div class="tag-container"><div class="tag circle"></div></div>
+            <div class="tag-container"><div class="tag circle"></div></div>
+
+            <div class="ems-tags">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eye-and-reflection-container">
+      <div class="eye-container">
+        <div class="eye circle hagoromo-eye s-rgn">
+          <div class="glare circle"></div>
+
+          <div class="inner-eye circle">
+
+            <div class="circle tag-circle">
+              <div class="tag-container"><div class="tag circle"></div></div>
+              <div class="tag-container"><div class="tag circle"></div></div>
+              <div class="tag-container"><div class="tag circle"></div></div>
+            </div>
+
+            <div>
+              <div class="tag-container"><div class="tag circle"></div></div>
+              <div class="tag-container"><div class="tag circle"></div></div>
+              <div class="tag-container"><div class="tag circle"></div></div>
+            </div>
+
+            <div></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+      </div>
+</div>
+    <!--Sharingan ends here-->
+    <!-- Grid Container starts here-->
+ <div id="container">
         
         <div class="project-list">
             <section class="project-wrapper">
@@ -138,66 +298,148 @@
             </section>
         </div>
     </div>
-    <a href="games/the-chroma-incident.html">
 
-<svg id="uchiha" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid Container ends here-->
+    <!--Carousel Container starts here-->
 
-  <defs>
-    <!-- curved divider pushed further down -->
-    <clipPath id="bottomCurve">
-      <path d="
-        M0,75
-        Q50,55 100,75
-        L100,100
-        L0,100
-        Z"/>
-    </clipPath>
-  </defs>
+  <div id="all-projects-container">
 
-  <!-- red moon shape -->
-  <path d="M 5 50 a 45 45 0 1 0 90 0 a 45 45 0 1 0 -90 0 Z"
-        fill="red"/>
+  </div>
+        <!-- Carousel Container ends here-->
 
-  <!-- white curved bottom -->
-  <g clip-path="url(#bottomCurve)">
-    <path d="M 5 50 a 45 45 0 1 0 90 0 a 45 45 0 1 0 -90 0 Z"
-          fill="white"/>
-  </g>
-
-  <!-- longer rectangle handle -->
-  <rect x="37" y="88" width="22" height="30" fill="white"/>
-
-</svg>
-
-</a>
     <footer id="footer" onclick="window.location.href='https://github.com/joelOfTheSharingan'">
         <div class="footer-content">
             <p>Click here to see my GitHub profile</p>
             <img id="logo-footer" src="images/github.png" alt="GitHub Logo">
         </div>
     </footer>
+<script>
+  const gridBtn = document.getElementById("glass-gold");
+const carouselBtn = document.getElementById("glass-platinum");
+const gridCont=document.getElementById("container");
+const carouselCont=document.getElementById("all-projects-container");
+/* GRID VIEW */
+gridBtn.addEventListener("change", () => {
+
+  if (gridBtn.checked) {
+
+    carouselCont.style.display="none";
+    gridCont.style.display="block";
+    
+  }
+
+});
+
+/* CAROUSEL VIEW */
+carouselBtn.addEventListener("change", () => {
+
+  if (carouselBtn.checked) {
+
+      gridCont.style.display="none";
+     carouselCont.style.display="flex";
+
+  }
+
+});
+
+
+  const userPanel = document.getElementById("user-panel");
+
+userPanel.addEventListener("mouseenter", () => {
+  document.getElementById("logoutBtn").style.transform = "translateX(-110px)";
+});
+userPanel.addEventListener("mouseleave", () => {
+  document.getElementById("logoutBtn").style.transform = "translateX(0px)";
+});
+
+let sharinganStarted = false;
+
+function activateSharingan() {
+
+    if (sharinganStarted) return;
+    sharinganStarted = true;
+
+    const containers =
+      document.querySelectorAll(".eye-and-reflection-container");
+
+    let current = 0;
+
+    const effect =
+      document.getElementById("sharingan-effect");
+
+    effect.style.display = "flex";
+
+    containers[current].classList.add("active");
+
+    setInterval(() => {
+
+      const oldEye = containers[current];
+
+      oldEye.classList.remove("active");
+      oldEye.classList.add("exit");
+
+      current =
+        (current + 1) % containers.length;
+
+      const nextEye = containers[current];
+
+      nextEye.classList.add("active");
+
+      setTimeout(() => {
+        oldEye.classList.remove("exit");
+      }, 1200);
+
+    }, 1800);
+
+    setTimeout(() => {
+      window.location.href =
+        "games/expanded-chroma.html";
+    }, 11000);
+
+  }
+
+  
+</script>
+<script src="cards.js"></script>
 
     <script>
-        document.getElementById("header").addEventListener("click", () => {
-            const next = document.querySelector(".project-wrapper");
-            if (next) {
-                next.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            }
-        });
-        const now = new Date();
-        const body = document.body;
-        if (now.getHours() >= 6 && now.getHours() < 18) {
-            const selectedImage = Math.floor(Math.random() * 6) + 1;
-            body.style.backgroundImage = `url('images/day/day(${selectedImage}).png')`;
-        } else {
-            const selectedImage = Math.floor(Math.random() * 6) + 1;
-            body.style.backgroundImage = `url('images/night/night(${selectedImage}).jpg')`;
-        }
-    </script>
+   const toggle = document.querySelector(".theme-switch__checkbox");
+const body = document.body;
 
+const now = new Date();
+let isNight = !(now.getHours() >= 6 && now.getHours() < 18);
+
+// match UI meaning
+toggle.checked = isNight;
+
+function setBackground() {
+
+  let selectedImage;
+
+  if (isNight) {
+
+    // 1 → 7
+    selectedImage = Math.floor(Math.random() * 7) + 1;
+
+    body.style.backgroundImage =
+      `url('images/night/night(${selectedImage}).png')`;
+
+  } else {
+
+    // 1 → 19
+    selectedImage = Math.floor(Math.random() * 7) + 1;
+
+    body.style.backgroundImage =
+      `url('images/day/day(${selectedImage}).png')`;
+  }
+}
+
+setBackground();
+
+toggle.addEventListener("change", () => {
+  isNight = toggle.checked;
+  setBackground();
+});</script>
     <script type="module">
 import {supabase,getUser,logout} from "./shared/auth.js";
 /* ─────────────────────────────

@@ -1,0 +1,1222 @@
+:root {
+  --body-background: black;
+  --main-text-color: rgba(110,12,12,1);
+  --eye-background-radial: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(110,12,12,1) 39%, rgba(75,8,8,1) 60%, rgba(0,0,0,1) 100%);
+  --eye-border-color: black;
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--body-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  mix-blend-mode: lighten;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll; 
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  width: 100%;
+  text-align: center;
+}
+
+.line-container {
+  padding: 100px;
+}
+
+.line-container > .text {
+  text-align: left;
+}
+
+.line-container > .line {
+  height: 5px;
+  border-radius: 50%;
+  background-color: black;
+  box-shadow: 0 0 10px 5px rgba(110,12,12,1);
+}
+
+.line > .text {
+  position: relative;
+  top: -50px;
+  text-align: left;
+}
+
+.text {
+  padding: 10px;
+  color: var(--main-text-color);
+  text-shadow: 0 0 10px rgba(110,12,12,1), 0 0 10px black, 0 0 10px black, 0 0 10px rgba(110,12,12,1);
+  text-align: center;
+  font-size: 20px;
+  bottom: 100px;
+}
+
+.normal-sharingan, .mangekyou-sharingan, .eternal-mangekyou-sharingan, .rinnegan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-flow: row wrap;
+}
+
+.eye-container {
+  padding: 20px;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.eye {
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border: 2px solid var(--eye-border-color);
+  transition: 0.3s;
+  opacity: 0.9;
+  background: var(--eye-background-radial);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eye::after {
+  position: absolute;
+  content: '';
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+.eye > .inner-eye {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid black;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-container {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+}
+
+.tag {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin-bottom: 120px;
+  background-color: black;
+}
+
+.tag::after {
+  position: absolute;
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 10px solid black;
+  border-radius: 50%;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  left: 3px;
+  top: -5px;
+  margin-bottom: 120px;
+  background-color: transparent;
+}
+
+.glare {
+  z-index: 100;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  opacity: 0.4;
+  left: 20px;
+  top: 20px;
+  background: rgb(255,255,255);
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5046393557422969) 45%, rgba(0,0,0,0) 100%);
+}
+
+.glare::after {
+  position: absolute;
+  content: '';
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+  left: 65px;
+  top: 60px;
+  border-radius: 50%;
+  background: rgb(255,255,255);
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5046393557422969) 45%, rgba(0,0,0,0) 100%);
+}
+
+.glare::before {
+  position: absolute;
+  content: '';
+  width: 50px;
+  height: 50px;
+  opacity: 0.3;
+  left: 100px;
+  top: 100px;
+  border-radius: 50%;
+  background: rgb(255,255,255);
+  background: linear-gradient(225deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5046393557422969) 45%, rgba(0,0,0,0) 100%);
+}
+
+.eye:hover {
+  z-index: 1;
+  box-shadow: 0 0 100px rgb(201, 13, 13);
+  animation: glow .5s ease-in-out;
+  opacity: 1;
+  mix-blend-mode: lighten;
+}
+
+.eye:hover .inner-eye {
+  animation: rotation 2.5s ease-in-out .8s;
+}
+
+/* Removed height increase, padding and reflection on hover */
+.eye-and-reflection-container {
+  height: 300px;
+  transition: all 0.3s ease-in-out;
+}
+
+.eye:active {
+  box-shadow: none;
+  animation: none;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.owner-info {
+  padding-top: 40px;
+}
+
+.owner-info > .text {
+  text-align: left;
+  font-size: 15px;
+} 
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0 rgb(201, 13, 13);
+  }
+  100% {
+    box-shadow: 0 0 100px rgb(201, 13, 13);
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+/*  LEVEL2 EYE START */
+.level2 > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(180deg);
+}
+/*  LEVEL2 EYE END */
+
+/*  LEVEL3 EYE START */
+.level3 > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.level3 > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(240deg);
+}
+/*  LEVEL3 EYE END */
+
+/* BARU EYES START */
+.baru-eye {
+  background: black;
+}
+.baru-eye > .inner-eye {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.baru-eye > .inner-eye > .tag-container > .tag {
+  width: 82%;
+  height: 82%;
+  top: 5px;
+  margin: auto;
+  -webkit-clip-path: polygon(0% 87%, 50% 0%, 100% 87%);
+  clip-path: polygon(0% 87%, 50% 0%, 50% 0%, 100% 87%);
+}
+
+.baru-eye > .inner-eye > .tag-container > .tag::after {
+  border: none;
+  border-radius: 50%;
+  width: 150%;
+  height: 150%;
+  margin: auto;
+  left: -40px;
+  top: -30px;
+  background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(110,12,12,1) 20%, rgba(75,8,8,1) 60%, rgba(0,0,0,1) 100%);
+}
+
+.baru-svg {
+  width: 110px;
+  position: absolute;
+  top: 23px;
+  left: -2px;
+  transform: rotate(-60deg);
+}
+
+.baru-path {
+  fill: rgba(101, 15, 15, 1);
+}
+
+.semicircle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.semicircle:nth-child(3) {
+  transform: rotate(120deg);
+}
+
+.semicircle:nth-child(4) {
+  transform: rotate(240deg);
+}
+/* BARU EYES END */
+
+/* FUGAKU EYES START */
+.fugaku-eye > .inner-eye {
+  width: 80px;
+  height: 80px;
+}
+
+.fugaku-eye > .inner-eye > .tag {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background-color: transparent;
+  margin: auto;
+}
+
+.fugaku-eye > .inner-eye > .tag:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.fugaku-eye > .inner-eye > .tag:nth-child(3) {
+  transform: rotate(240deg);
+}
+
+.fugaku-eye > .inner-eye > .tag::after {
+  display: none;
+}
+
+.fugaku-eye > .inner-eye > .tag > div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: -53%;
+  left: -54%;
+  transform: rotate(45deg);
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.fugaku-eye > .inner-eye > .tag > div::before {
+  position: absolute;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  top: 60%;
+  left: 85%;
+  border-radius: 50%;
+}
+
+.fugaku-eye > .inner-eye > .tag > div::after {
+  position: absolute;
+  content: '';
+  width: 140px;
+  height: 170px;
+  border-radius: 50%;
+  border: 30px solid black;
+  background-color: transparent;
+  border-bottom: none;
+  border-right: 50px solid transparent;
+  border-left: none;
+  top: 65px;
+  left: 80px;
+  transform: rotate(35deg);
+}
+/* FUGAKU EYES END */
+
+/* HAGOROMO EYES START */
+.hagoromo-eye {
+  background: radial-gradient(circle, rgba(117,87,143,1) 0%, rgba(122,83,156,1) 20%, rgba(242,221,255,1) 100%);
+}
+
+.hagoromo-eye:hover {
+  box-shadow: 0 0 100px rgba(122,83,156,1);
+  animation: hagoromo-glow .5s ease-in-out;
+}
+
+.hagoromo-eye::after {
+  width: 20px;
+  height: 20px;
+}
+
+.hagoromo-text {
+  color: rgba(117,87,143,1);
+  text-shadow: 0 0 10px rgba(117,87,143,1), 0 0 10px black, 0 0 10px black, 0 0 10px rgba(117,87,143,1);
+}
+
+.hagoromo-eye > .inner-eye {
+  border: none;
+}
+
+.hagoromo-eye > .inner-eye > div {
+  position: absolute;
+  border: 3px solid black;
+  border-radius: 50%;
+}
+
+.hagoromo-eye > .inner-eye > div:nth-child(1) {
+  width: 60px;
+  height: 60px;
+}
+
+.hagoromo-eye > .inner-eye > div:nth-child(2) {
+  width: 110px;
+  height: 110px;
+}
+
+.hagoromo-eye > .inner-eye > div:nth-child(3) {
+  width: 160px;
+  height: 160px;
+}
+
+@keyframes hagoromo-glow {
+  0% {
+    box-shadow: 0 0 0 rgba(122,83,156,1);
+  }
+  100% {
+    box-shadow: 0 0 100px rgba(122,83,156,1);
+  }
+}
+/* HAGOROMO EYES END */
+
+/* INDRA EYES START */
+.indra-eye {
+  background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(110,12,12,1) 15%, rgba(75,8,8,1) 60%, rgba(0,0,0,1) 100%);
+}
+
+.indra-eye::after {
+  width: 20px;
+  height: 20px;
+}
+
+.indra-eye > .inner-eye {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+.indra-eye > .inner-eye > .tag-container {
+  transform: rotate(-170deg);
+}
+
+.indra-path {
+  stroke: black;
+  stroke-width: 2px;
+  fill: none;
+}
+/* INDRA EYES END */
+
+/* ITACHI EYE START */
+.itachi-eye {
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(110,12,12,1) 0%, rgba(110,12,12,1) 39%, rgba(75,8,8,1) 60%, rgba(0,0,0,1) 100%);
+}
+
+.itachi-eye::after {
+  box-shadow: 0 0 20px rgb(143, 19, 19);
+  background: rgb(143, 19, 19);
+}
+
+.itachi-eye > .inner-eye {
+  border: none;
+  background: transparent;
+  width: 80px;
+  height: 80px;
+}
+
+.itachi-eye > .inner-eye > .tag-container > .tag {
+  top: -60px;
+  background-color: transparent;
+  width: 200px;
+  height: 110px;
+  border-radius: 0;
+  overflow: hidden;
+  transform-origin: 100px 100px;
+}
+
+.itachi-eye > .inner-eye > .tag-container > .tag::after {
+  border-left: 50px solid black;
+  top: 1px;
+  left: 82px;
+  width: 300px;
+  height: 160px;
+}
+
+.itachi-eye > .inner-eye > .tag-container:nth-child(1) {
+  transform: rotate(-30deg);
+}
+
+.itachi-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(90deg);
+}
+
+.itachi-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(210deg);
+}
+/* ITACHI EYE END */
+
+/* IZUNA EYES START */
+.izuna-eye {
+  overflow: hidden;
+}
+
+.izuna-eye::after {
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 0 20px rgb(143, 19, 19);
+  background-color: rgb(143, 19, 19);
+}
+
+.izuna-eye > .inner-eye {
+  border: none;
+  background-color: black;
+}
+
+.izuna-eye > .inner-eye > .tag-container > .tag {
+  border: none;
+  border-radius: 0;
+  width: 50px;
+  height: 100px;
+  background-color: black;
+  transform-origin: bottom;
+  top: -40px;
+}
+
+.izuna-eye > .inner-eye > .tag-container > .tag::after {
+  display: none;
+}
+
+.izuna-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.izuna-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(240deg);
+}
+/* IZUNA EYES END */
+
+/* KAKASHI EYES START */
+.kakashi-eye {
+  background: radial-gradient(circle, rgba(110,12,12,1) 0%, rgba(110,12,12,1) 39%, rgba(75,8,8,1) 60%, rgba(0,0,0,1) 100%);
+}
+
+.kakashi-eye::after {
+  z-index: 1000000;
+  position: absolute;
+  content: '';
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgb(143, 19, 19);
+  background-color: rgb(143, 19, 19);
+  background-clip: content-box;
+}
+
+.kakashi-eye > .inner-eye {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.kakashi-eye > .inner-eye > .tag-container {
+  position: absolute;
+  width: 200px;
+  height: 100%;
+}
+
+.kakashi-eye > .inner-eye > .tag-container > .tag {
+  position: absolute;
+  margin-bottom: 0;
+  height: 200px;
+  width: 200px;
+  top: -40px;
+  position: absolute;
+  margin-bottom: 0;
+  height: 100px;
+  width: 200px;
+  border-radius: 0;
+  clip-path: ellipse(25px 140px at 100px 140px);
+}
+
+.kakashi-eye > .inner-eye > .tag-container > .tag::after {
+  display: none;
+}
+
+.kakashi-eye > .inner-eye > .tag-container > .tag:nth-child(2) {
+  width: 100px;
+  height: 100px;
+  right: 0;
+  background-color: black;
+  clip-path: none;
+  overflow: hidden;
+  background-color: transparent !important;
+}
+
+.kakashi-eye > .inner-eye > .tag-container > .tag:nth-child(2) > .tag-circle {
+  top: -11px;
+  position: relative;
+  left: -140px;
+  width: 200px;
+  height: 170px;
+  border-radius: 50%;
+  border: 40px solid black;
+  border-bottom: none;
+  border-right: none;
+  border-left: none;
+  background-color: transparent;
+  margin: 0;
+}
+
+.kakashi-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.kakashi-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(240deg);
+}
+/* KAKASHI EYES END */
+
+/* MADARA EYES START */
+.madara-eye > .inner-eye {
+  border: 10px solid black;
+  width: 130px;
+  height: 130px;
+}
+
+.madara-eye > .inner-eye > .tag-container > .tag {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  border-radius: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.madara-eye > .inner-eye > .tag-container > .tag::after {
+  position: absolute;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 10px solid black;
+  top: -5px;
+  left: -5px;
+  background-color: rgb(143, 19, 19);
+}
+
+.madara-eye > .inner-eye > .tag-container > .tag > .tag-line {
+  position: absolute;
+  width: 60px;
+  height: 50px;
+  top: -20px;
+  left: 10px;
+  transform: rotate(-45deg);
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.madara-eye > .inner-eye > .tag-container > .tag > .tag-line::after {
+  position: absolute;
+  content: '';
+  width: 100px;
+  height: 230px;
+  border-radius: 50%;
+  border: 30px solid black;
+  background-color: transparent;
+  border-right: none;
+  border-bottom: none;
+  border-left: 20px solid transparent;
+  transform: rotate(-21deg);
+  left: -18px;
+  top: -8px;
+}
+
+.madara-eye > .inner-eye > .tag-container:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+.madara-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(165deg);
+}
+
+.madara-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(285deg);
+}
+
+/* MADARA ETERNAL MANGEKYO SHARINGAN */
+.m-ems > .inner-eye > .tag-container > .tag::before {
+  position: absolute;
+  content: '';
+  width: 100px;
+  height: 40px;
+  top: 130px;
+  left: 100px;
+  transform: rotate(45deg);
+  background-color: black;
+}
+/* MADARA EYES END */
+
+/* MOMOSHIKI EYE START */
+.red {
+  background: radial-gradient(circle, rgba(172,39,39,1) 0%, rgba(140,36,36,1) 20%, rgba(223,163,163,1) 100%);
+}
+
+.yellow {
+  background: radial-gradient(circle, rgba(255,224,11,1) 0%, rgba(190,177,74,1) 20%, rgba(223,222,163,1) 100%);
+}
+
+.red:hover {
+  box-shadow: 0 0 100px rgba(172,39,39,1);
+  animation: momoshiki-glow-red .5s ease-in-out;
+}
+
+.yellow:hover {
+  box-shadow: 0 0 100px rgba(255,224,11,1);
+  animation: momoshiki-glow-yellow .5s ease-in-out;
+}
+
+.momoshiki-red-text {
+  color: rgba(172,39,39,1);
+  text-shadow: 0 0 10px rgba(172,39,39,1), 0 0 10px black, 0 0 10px black, 0 0 10px rgba(172,39,39,1);
+}
+
+.momoshiki-yellow-text {
+  color: rgba(255,224,11,1);
+  text-shadow: 0 0 10px rgba(255,224,11,1), 0 0 10px black, 0 0 10px black, 0 0 10px rgba(255,224,11,1);
+}
+
+.momoshiki-eye::after {
+  width: 20px;
+  height: 20px;
+}
+
+.momoshiki-eye > .inner-eye {
+  border: none;
+}
+
+.momoshiki-eye > .inner-eye > div {
+  position: absolute;
+  border: 3px solid black;
+  border-radius: 50%;
+}
+
+.momoshiki-eye > .inner-eye > div:nth-child(1) {
+  width: 60px;
+  height: 60px;
+}
+
+.momoshiki-eye > .inner-eye > div:nth-child(2) {
+  width: 110px;
+  height: 110px;
+}
+
+.momoshiki-eye > .inner-eye > div:nth-child(3) {
+  width: 160px;
+  height: 160px;
+}
+
+@keyframes momoshiki-glow-yellow {
+  0% {
+    box-shadow: 0 0 0 rgba(255,224,11,1);
+  }
+  100% {
+    box-shadow: 0 0 100px rgba(255,224,11,1);
+  }
+}
+
+@keyframes momoshiki-glow-red {
+  0% {
+    box-shadow: 0 0 0 rgba(172,39,39,1);
+  }
+  100% {
+    box-shadow: 0 0 100px rgba(172,39,39,1);
+  }
+}
+/* MOMOSHIKI EYE END */
+
+/* NAKA EYES START */
+.naka-eye {
+  background: black;
+}
+
+.naka-eye::after {
+  width: 30px;
+  height: 30px;
+}
+
+.naka-eye > .inner-eye {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.naka-eye > .inner-eye::after {
+  position: absolute;
+  content: '';
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(110,12,12,1) 39%, rgba(75,8,8,1) 60%);
+}
+
+.naka-eye > .inner-eye > .tag-container > .tag {
+  position: absolute;
+  width: 50%;
+  left: 0;
+  height: 100%;
+  margin: auto;
+  overflow: hidden;
+  background-color: transparent;
+  transform-origin: center right;
+}
+
+.naka-eye > .inner-eye > .tag-container > .tag::after {
+  display: none;
+}
+
+.naka-eye > .inner-eye > .tag-container > .tag > .circle {
+  width: 80px;
+  height: 80px;
+  background-color: transparent;
+  border-bottom: none;
+  border-left: 80px solid rgba(75,8,8,1);
+  border-right: 80px solid transparent;
+  border-top: none;
+  left: -25px;
+  top: -30px;
+  position: absolute;
+  transform: rotate(-75deg);
+}
+
+.naka-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.naka-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(240deg);
+}
+/* NAKA EYES END */
+
+/* NAORI EYES START */
+.naori-eye {
+  background: black;
+}
+
+.naori-eye > .inner-eye {
+  border: none;
+}
+
+.naori-eye > .inner-eye > .tag {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: transparent;
+}
+
+.naori-eye > .inner-eye > .tag::after {
+  display: none;
+}
+
+.naori-eye > .inner-eye > .tag > div {
+  position: absolute;
+  width: 210%;
+  height: 210%;
+  top: -175px;
+  left: 9px;
+  background-color: transparent;
+  transform: rotate(30deg);
+  border: 2px solid black;
+  clip-path: polygon(57% 0, 100% 0, 43% 100%, 0% 100%);
+}
+
+.naori-eye > .inner-eye > .tag > div::after {
+  position: absolute;
+  content: '';
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  top: 160px;
+  left: 25px;
+  background: radial-gradient(circle, rgba(0,0,0,1) -170%, rgba(110,12,12,1) 39%, rgba(75,8,8,1) 71%, rgba(0,0,0,1) 100%);
+}
+
+.naori-eye > .inner-eye > .tag:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.naori-eye > .inner-eye > .tag:nth-child(3) {
+  transform: rotate(240deg);
+}
+/* NAORI EYES END */
+
+/* RAI EYES START */
+.rai-eye > .inner-eye {
+  width: 90px;
+  height: 90px;
+}
+
+.rai-eye > .inner-eye > .tag {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  margin: auto;
+  background-color: transparent;
+}
+
+.rai-eye > .inner-eye > .tag::before {
+  position: absolute;
+  content: '';
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 40px solid black;
+  border-bottom: none;
+  border-top: none;
+  border-right: none;
+  top: -10px;
+  left: -40px;
+  transform: rotate(145deg);
+}
+
+.rai-eye > .inner-eye > .tag::after {
+  width: 250px;
+  height: 200px;
+  margin: auto;
+  border-radius: 50%;
+  border: 3px solid black;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid transparent;
+  border-right: 3px solid transparent;
+  top: -50px;
+  left: 15px;
+  transform: rotate(65deg);
+}
+
+.rai-eye > .inner-eye > .tag:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.rai-eye > .inner-eye > .tag:nth-child(3) {
+  transform: rotate(240deg);
+}
+/* RAI EYES END */
+
+/* SASUKE EYES START */
+.sasuke-eye {
+  background: black;
+}
+
+.sasuke-eye > .inner-eye {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+.sasuke-eye > .inner-eye > .tag-container > .tag {
+  width: 140px;
+  height: 140px;
+  margin: auto;
+  background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(110,12,12,1) 39%, rgba(75,8,8,1) 60%, rgb(51, 32, 32) 100%);
+  border-radius: 0% 100% 0% 100%;
+}
+
+.sasuke-eye > .inner-eye > .tag-container:nth-child(3) > .tag {
+  border: 3px solid black;
+}
+
+.sasuke-eye > .inner-eye > .tag-container > .tag::after {
+  display: none;
+}
+
+.sasuke-eye > .inner-eye > .tag-container:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+.sasuke-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(165deg);
+}
+
+.sasuke-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(285deg);
+}
+
+.sasuke-eye > .inner-eye > .tag-container:nth-child(3) > .tag::before,
+.sasuke-eye > .inner-eye > .tag-container:nth-child(3) > .tag::after {
+  position: absolute;
+  content: '';
+  display: block;
+  border: inherit;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border-radius: inherit;
+  margin: auto;
+  left: -4px;
+  top: -4px;
+}
+
+.sasuke-eye > .inner-eye > .tag-container:nth-child(3) > .tag::before {
+  transform: rotate(120deg);
+}
+
+.sasuke-eye > .inner-eye > .tag-container:nth-child(3) > .tag::after {
+  transform: rotate(240deg);
+}
+
+/* SASUKE ETERNAL MANGEKYO SHARINGAN */
+.s-ems::after {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(110,12,12,1);
+}
+
+.s-ems > .inner-eye > .ems-tags > div {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  left: 50px;
+  overflow: hidden;
+}
+
+.s-ems > .inner-eye > .ems-tags > div::after {
+  position: absolute;
+  content: '';
+  width: 35%;
+  height: 200%;
+  background-color: black;
+  top: 30px;
+  left: 33px;
+  border-radius: 50%;
+  border: none;
+}
+
+.s-ems > .inner-eye > .ems-tags > div:nth-child(2) {
+  transform-origin: bottom center;
+  transform: rotate(120deg);
+}
+
+.s-ems > .inner-eye > .ems-tags > div:nth-child(3) {
+  transform-origin: bottom center;
+  transform: rotate(240deg);
+}
+
+/* SASUKE RINNEGAN */
+.s-rgn:hover .tag-circle {
+  animation: reverse-rotation 2.5s ease-in-out .8s reverse;
+}
+
+.s-rgn > .inner-eye > div > .tag-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.s-rgn > .inner-eye > div:nth-child(1) > .tag-container > .tag {
+  top: -10px;
+  left: 20px;
+}
+
+.s-rgn > .inner-eye > div:nth-child(2) {
+  transform: rotate(180deg);
+}
+
+.s-rgn > .inner-eye > div:nth-child(2) > .tag-container > .tag {
+  top: -10px;
+  left: 45px;
+}
+
+.s-rgn > .inner-eye > div > .tag-container:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.s-rgn > .inner-eye > div > .tag-container:nth-child(3) {
+  transform: rotate(240deg);
+}
+
+@keyframes reverse-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(1440deg);
+  }
+}
+/* SASUKE EYES END */
+
+/* SHADOW EYES START */
+
+/* SHADOW EYES END */
+
+/* SHIN EYES START */
+.shin-eye::after {
+  width: 100px;
+  height: 100px;
+}
+
+.shin-eye > .inner-eye {
+  width: 150px;
+  height: 150px;
+  border: 3px solid rgba(0,0,0, .4);
+}
+
+.shin-eye > .inner-eye > .tag-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: transparent;
+}
+
+.shin-eye > .inner-eye > .tag-container > .triangle {
+  width: 0;
+  height: 0;
+  margin: auto;
+  top: -50px;
+  left: 55px;
+  position: absolute;
+  background-color: transparent;
+  border: 50px solid black;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 30px solid transparent;
+}
+
+.shin-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.shin-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(240deg);
+}
+/* SHIN EYES END */
+
+/* SHISUI EYES START */
+.eye:hover .sui {
+  animation: shisuiRotation 2.5s ease-in-out .8s;
+}
+
+.shisui-eye > .inner-eye {
+  width: 0;
+  height: 0;
+  background-color: black;
+  transform: rotate(-45deg);
+}
+
+.shisui-eye::after {
+  border: 12px solid rgba(110,12,12,1);
+}
+
+.shisui-eye > .inner-eye > .tag-container > .tag {
+  width: 150px;
+  height: 150px;
+  top: -100px;
+  background-color: transparent;
+  left: -50px;
+  overflow: hidden;
+  transform-origin: 50px 100px;
+}
+
+.shisui-eye > .inner-eye > .tag-container > .tag > div {
+  position: absolute;
+  width: 375px;
+  height: 96px;
+  top: 72px;
+  transform: rotate(-20deg);
+  transform-origin: 200px 0px;
+  left: -260px;
+  border-radius: 50%;
+  background-color: transparent;
+  border-top: 40px solid black;
+  border-bottom: none;
+  border-left: 20px solid transparent;
+  border-right: none;
+}
+
+.shisui-eye > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(90deg);
+}
+.shisui-eye > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(180deg);
+}
+.shisui-eye > .inner-eye > .tag-container:nth-child(4) {
+  transform: rotate(270deg);
+}
+
+.shisui-eye > .inner-eye > .tag-container > .tag::after {
+  display: none;
+}
+
+@keyframes shisuiRotation {
+  0% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(675deg);
+  }
+}
+/* SHISUI EYES END */

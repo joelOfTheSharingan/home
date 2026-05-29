@@ -8,8 +8,8 @@
 
   <link rel="icon" type="image/png" href="images/favicon.png" />
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="phone.css" />
+  <link rel="stylesheet" href="styles/styles.css" />
+  <link rel="stylesheet" href="styles/phone.css" />
 
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
@@ -135,24 +135,23 @@ document
 const now = new Date();
 const body = document.body;
 
-if (now.getHours() >= 6 &&
-    now.getHours() < 18) {
+const isDay = now.getHours() >= 6 && now.getHours() < 18;
 
-  const selectedImage =
-    Math.floor(Math.random() * 6) + 1;
+function setBackground() {
+  let selectedImage;
 
-  body.style.backgroundImage =
-    `url('images/day/day(${selectedImage}).png')`;
-
-} else {
-
-  const selectedImage =
-    Math.floor(Math.random() * 6) + 1;
-
-  body.style.backgroundImage =
-    `url('images/night/night(${selectedImage}).jpg')`;
+  if (isDay) {
+    selectedImage = Math.floor(Math.random() * 7) + 1;
+    body.style.backgroundImage =
+      `url('images/day/day(${selectedImage}).png')`;
+  } else {
+    selectedImage = Math.floor(Math.random() * 7) + 1;
+    body.style.backgroundImage =
+      `url('images/night/night(${selectedImage}).png')`;
+  }
 }
 
+setBackground();
 </script>
 
 </body>

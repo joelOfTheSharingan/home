@@ -132,4 +132,33 @@
         gap: 10px;
         align-items: center;
     }
+#user-panel {
+
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+
+  }
+
+  /* hide everything inside */
+  #user-panel > * {
+    display: none;
+  }
+
+  /* show logout button only */
+  #user-panel #logoutBtn {
+
+    display: flex !important;
+
+    position: fixed;
+    bottom: 20px;
+    left: 320px;
+
+    z-index: 999;
+  }
+
+  .controls {
+    display: none;
+  }
 }

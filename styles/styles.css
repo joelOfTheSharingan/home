@@ -26,108 +26,84 @@ body {
 
   border: none;
   border-radius: 50%;
-
   cursor: pointer;
 
-  position: fixed;
-  top: 25px;
-  right: 25px;
+  position: relative;
+  top: 90px;
+  left: 170px;
   z-index: 1000;
 
   overflow: hidden;
-
-  transition-duration: 0.4s;
+  transition: 0.4s;
 
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
   background: rgba(255, 255, 255, 0.12);
-
   border: 1px solid rgba(255, 255, 255, 0.18);
 
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
 }
 
-.sign {
+/* ONLY inside logout button */
+#logoutBtn .sign {
   width: 100%;
-
-  transition-duration: 0.4s;
-
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.4s;
 }
 
-.sign svg {
+#logoutBtn .sign svg {
   width: 17px;
 }
 
-.sign svg path {
+#logoutBtn .sign svg path {
   fill: white;
 }
 
-.text {
+#logoutBtn .logout-text {
   position: absolute;
-
-  right: 0%;
-
+  right: 0;
   width: 0%;
   opacity: 0;
 
   color: white;
-
   font-size: 1rem;
   font-weight: 600;
 
   white-space: nowrap;
-
-  transition-duration: 0.4s;
+  transition: 0.4s;
 }
 
+/* hover state */
 #logoutBtn:hover {
-
   width: 150px;
-
   border-radius: 20px;
+  background: rgba(255, 5, 5, 0.65);
 
-  background: rgba(255, 5, 5, 0.652);
-
-  border: 1px solid rgba(255, 255, 255, 0.22);
-
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
 #logoutBtn:hover .sign {
-
   width: 30%;
-
-  transition-duration: 0.4s;
-
   padding-left: 12px;
 }
 
-#logoutBtn:hover .text {
-
-  opacity: 1;
-
+#logoutBtn:hover .logout-text {
   width: 70%;
-
-  transition-duration: 0.4s;
-
+  opacity: 1;
   padding-right: 10px;
 }
 
+/* click effect */
 #logoutBtn:active {
-
-  transform: scale(0.96);
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }
-
 #userBox{
   position:fixed;
   top:20px;
-  right:90px;
+  right:10px;
   display:flex;
   align-items:center;
   gap:12px;
@@ -307,3 +283,46 @@ footer:hover #logo-footer {
 }
 
 /* ... keep all your existing Laptop .project and #container styles here ... */
+.controls {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+width:250px;
+height: 150px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+z-index: 900; 
+}
+#user-panel {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+border-radius: 16px;
+width:250px;
+height: 150px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  z-index: 1000;
+}

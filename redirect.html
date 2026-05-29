@@ -194,7 +194,7 @@ if (
 ) {
 
   const selectedImage =
-    Math.floor(Math.random() * 6) + 1;
+    Math.floor(Math.random() * 7) + 1;
 
   body.style.backgroundImage =
     `url('images/day/day(${selectedImage}).png')`;
@@ -202,10 +202,10 @@ if (
 } else {
 
   const selectedImage =
-    Math.floor(Math.random() * 6) + 1;
+    Math.floor(Math.random() * 7) + 1;
 
   body.style.backgroundImage =
-    `url('images/night/night(${selectedImage}).jpg')`;
+    `url('images/night/night(${selectedImage}).png')`;
 }
 
 /* ─────────────────────────────
@@ -252,7 +252,7 @@ const routes = {
 
   titan: isLocal
     ? "http://localhost:3000/titan-dynamics"
-    : "https://joelofthesharingan.github.io/titan-dynamics",
+    : "https://joelofthesharingan.github.io/home/redirect.html?app=titan",
 
   wordle:
     "https://joelofthesharingan.github.io/Wordle_game/",
@@ -260,8 +260,9 @@ const routes = {
   timetable:
     "https://joelofthesharingan.github.io/home/timetable.html",
 
-  livit:
-    "https://joelofthesharingan.github.io/livit-invoice-app/",
+  livit: isLocal
+  ? "http://localhost:3000/livit-invoice-app"
+  :  "https://joelofthesharingan.github.io/livit-invoice-app/",
 
   chroma:
     "https://joelofthesharingan.github.io/home/games/the-chroma-incident.html"
