@@ -1,0 +1,164 @@
+/* --- PHONE STYLES (Mobile Only) --- */
+@media (max-width: 768px) {
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+    }
+
+    /* REMOVE container styling */
+    #container {
+        width: 100%;
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+    #arrow{
+      transform: scale(2);
+      font-size: 28px;
+      margin-top: 40px;
+      animation: bounce 1.5s infinite;
+      text-shadow: 0 0 10px rgba(255,255,255,0.6);
+    }
+    /* INTRO + HEADER SAME SCREEN */
+    .intro-text {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* 🔥 move to top */
+        padding-top: 20px; /* 🔥 control how high/low */
+        scroll-snap-align: start;
+        gap: 20px;
+        text-align: center;
+    }
+    #uchiha{
+        display:none;
+    }
+    #logoutBtn{
+        top:100px;
+    }
+    #userBox{
+        display:none;
+    }
+    /* My Projects (inside intro) */
+    #header {
+        font-size: 22px;
+        padding: 12px 25px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.3);
+        margin: 0;
+    }
+
+    /* LIST */
+    .project-list {
+        display: block;
+    }
+
+    /* FIX: anchor stretching issue (IMPORTANT) */
+    .project-wrapper {
+        height: 100vh;
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        scroll-snap-align: start;
+    }
+
+    .project-wrapper a {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* CARDS */
+    .project, .project1 {
+        position: relative;
+        top: 100px; /* 🔥 fixed vertical position */
+
+        width: 90%;
+        max-width: 400px; /* 🔥 ensures ALL cards same width */
+        height: 400px;
+
+        margin: 0 auto;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 20px;
+        overflow: hidden;
+        box-sizing: border-box;
+
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+
+        flex-shrink: 0;
+    }
+
+    /* IMAGES */
+    .project img, .project1 img {
+        max-width: 90%;
+        max-height: 80%;
+        object-fit: contain;
+    }
+
+    /* scaling fixes */
+    #livit svg { transform: scale(3); }
+    #titan img { transform: scale(1.6); }
+    #excel img { transform: scale(1); }
+
+    /* FOOTER */
+    footer {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        scroll-snap-align: end;
+        padding: 40px 10px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+#user-panel {
+
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+
+  }
+
+  /* hide everything inside */
+  #user-panel > * {
+    display: none;
+  }
+
+  /* show logout button only */
+  #user-panel #logoutBtn {
+
+    display: flex !important;
+
+    position: fixed;
+    bottom: 20px;
+    left: 320px;
+
+    z-index: 999;
+  }
+
+  .controls {
+    display: none;
+  }
+}

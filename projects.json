@@ -1,0 +1,398 @@
+{
+  "cards": [
+    {
+      "name": "SAVEBITE",
+      "id":1,
+      "description": "AI food waste reduction",
+      "img": "images/savebite.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/react.png",
+          "label": "React"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/firebase.png",
+          "label": "Firebase"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Launch",
+          "url": "/home/redirect?app=savebite"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/SaveBiteApp"
+        }
+      ]
+    },
+
+    {
+      "name": "EXCEL",
+      "id":2,
+      "description": "Expense Tracker",
+      "img": "images/excel.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/html.png",
+          "label": "HTML"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/css.png",
+          "label": "CSS"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/javascript.png",
+          "label": "JavaScript"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Live",
+          "url": "/home/redirect?app=excel"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/home/blob/main/xl.html"
+        }
+      ]
+    },
+
+    {
+      "name": "N8N",
+      "id":3,
+      "description": "Workflow automation",
+      "img": "images/gmail.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/n8n.png",
+          "label": "n8n"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/api.png",
+          "label": "APIs"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/automation.png",
+          "label": "Automation",
+          "url": "https://github.com/joelOfTheSharingan/home/blob/main/images/n8n-workflow.png?raw=true"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/docs.png",
+          "label": "Docs",
+          "url": "https://joelofthesharingan.github.io/home/n8n.html"
+        }
+      ]
+    },
+
+    {
+      "name": "CALCULATOR",
+      "id":4,
+      "description": "Futuristic calculator",
+      "img": "images/calculator.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/html.png",
+          "label": "HTML"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/css.png",
+          "label": "CSS"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/javascript.png",
+          "label": "JavaScript"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Open",
+          "url": "/home/redirect?app=calculator"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Source",
+          "url": "https://github.com/joelOfTheSharingan/home/blob/main/calculator.html"
+        }
+      ]
+    },
+
+    {
+      "name": "TRAVEL",
+      "id":5,
+      "description": "Explore the world",
+      "img": "images/world.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/svg.png",
+          "label": "SVG"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/javascript.png",
+          "label": "JavaScript"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/html.png",
+          "label": "HTML"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Explore",
+          "url": "/home/redirect?app=travel"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/travelEarth"
+        }
+      ]
+    },
+
+    {
+      "name": "MEENACHIL",
+      "id":6,
+      "description": "Tool Tracker",
+      "img": "images/meenachil.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/react.png",
+          "label": "React"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/supabase.png",
+          "label": "Supabase"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Open",
+          "url": "/home/redirect?app=meenachil"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/meenachil_app"
+        }
+      ]
+    },
+
+    {
+      "name": "TITAN",
+      "id":7,
+      "description": "Work Tracker",
+      "img": "images/titan.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/react.png",
+          "label": "React"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/vercel.png",
+          "label": "Vercel"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/supabase.png",
+          "label": "Supabase"
+        }   ,
+         {
+          "type": "img",
+          "src": "images/stack/node.png",
+          "label": "Node"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Launch",
+          "url": "/home/redirect?app=titan"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/titan-dynamics"
+        }
+      ]
+    },
+
+    {
+      "name": "WORDLE",
+      "id":8,
+      "description": "Word puzzle game",
+      "img": "images/wordle.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/html.png",
+          "label": "HTML"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/css.png",
+          "label": "CSS"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/javascript.png",
+          "label": "JS"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Visit",
+          "url": "/home/redirect?app=wordle"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/Wordle_game"
+        }
+      ]
+    },
+
+    {
+      "name": "TIMETABLE",
+      "id":9,
+      "description": "Schedule manager",
+      "img": "images/ceasar.png",
+      "svg": false,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/calendar.png",
+          "label": "Calendar"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/storage.png",
+          "label": "Storage"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Open",
+          "url": "/home/redirect?app=timetable"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/home/blob/main/timetable.html"
+        }
+      ]
+    },
+
+    {
+      "name": "LIVIT",
+      "id":0,
+      "description": "Invoice Generator",
+      "img": "",
+      "svg": true,
+
+      "stack": [
+        {
+          "type": "img",
+          "src": "images/stack/vercel.png",
+          "label": "Vercel"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/supabase.png",
+          "label": "Supabase"
+        },
+        {
+          "type": "img",
+          "src": "images/stack/react.png",
+          "label": "React"
+        }
+      ],
+
+      "links": [
+        {
+          "type": "img",
+          "src": "images/icons/launch.png",
+          "label": "Launch",
+          "url": "/home/redirect?app=livit"
+        },
+        {
+          "type": "img",
+          "src": "images/icons/github.png",
+          "label": "Github",
+          "url": "https://github.com/joelOfTheSharingan/livit-invoice-app"
+        }
+      ]
+    }
+  ]
+}
