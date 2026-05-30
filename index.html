@@ -404,43 +404,248 @@ function activateSharingan() {
 <script src="cards.js"></script>
 
     <script>
-   const toggle = document.querySelector(".theme-switch__checkbox");
+/* ==========================================================
+   BACKGROUND SYSTEM
+   ========================================================== */
+
+/* -------------------------
+   1. ELEMENTS
+------------------------- */
+
 const body = document.body;
 
-const now = new Date();
-let isNight = !(now.getHours() >= 6 && now.getHours() < 18);
+const toggle =
+  document.querySelector(".theme-switch__checkbox");
 
-// match UI meaning
+/* -------------------------
+   2. AUTO DAY / NIGHT
+------------------------- */
+
+const now = new Date();
+
+let isNight =
+  !(now.getHours() >= 6 && now.getHours() < 18);
+
 toggle.checked = isNight;
 
-function setBackground() {
+/* -------------------------
+   3. IMAGE ARRAYS
+------------------------- */
 
-  let selectedImage;
+const nightImages = [
+  "images/night/night(1).png",
+  "images/night/night(2).png",
+  "images/night/night(3).png",
+  "images/night/night(4).png",
+  "images/night/night(5).png",
+  "images/night/night(6).png",
+  "images/night/night(7).png"
+];
 
-  if (isNight) {
+const dayImages = [
+  "images/day/day(1).png",
+  "images/day/day(2).png",
+  "images/day/day(3).png",
+  "images/day/day(4).png",
+  "images/day/day(5).png",
+  "images/day/day(6).png",
+  "images/day/day(7).png"
+];
 
-    // 1 → 7
-    selectedImage = Math.floor(Math.random() * 7) + 1;
+/* -------------------------
+   4. GET CURRENT IMAGE SET
+------------------------- */
 
-    body.style.backgroundImage =
-      `url('images/night/night(${selectedImage}).png')`;
+function getCurrentImages() {
 
-  } else {
+  return isNight
+    ? nightImages
+    : dayImages;
 
-    // 1 → 19
-    selectedImage = Math.floor(Math.random() * 7) + 1;
-
-    body.style.backgroundImage =
-      `url('images/day/day(${selectedImage}).png')`;
-  }
 }
 
-setBackground();
+/* -------------------------
+   5. APPLY BACKGROUND
+------------------------- */
 
-toggle.addEventListener("change", () => {
-  isNight = toggle.checked;
-  setBackground();
-});</script>
+function applyBackground(imagePath) {
+
+  body.style.backgroundImage =
+    `url("${imagePath}")`;
+
+}
+
+/* -------------------------
+   6. RANDOM IMAGE
+------------------------- */
+
+function setRandomBackground() {
+
+  const images =
+    getCurrentImages();
+
+  const randomIndex =
+    Math.floor(
+      Math.random() * images.length
+    );
+
+  const selectedImage =
+    images[randomIndex];
+
+  applyBackground(
+    selectedImage
+  );
+
+  return selectedImage;
+
+}
+
+/* -------------------------
+   7. PRELOAD ALL EXCEPT
+      CURRENT IMAGE
+------------------------- */
+
+function preloadRemainingImages(
+  currentImage
+) {
+
+  const allImages = [
+
+    ...dayImages,
+
+    ...nightImages
+
+  ];
+
+  allImages
+    .filter(
+      src => src !== currentImage
+    )
+    .forEach(src => {
+
+      const img =
+        new Image();
+
+      img.src = src;
+
+    });
+
+}
+
+/* -------------------------
+   8. CACHE ALL IMAGES
+------------------------- */
+
+async function cacheImages() {
+
+  if (!("caches" in window))
+    return;
+
+  try {
+
+    const cache =
+      await caches.open(
+        "background-cache-v1"
+      );
+
+    const allImages = [
+
+      ...dayImages,
+
+      ...nightImages
+
+    ];
+
+    await Promise.all(
+
+      allImages.map(
+        async image => {
+
+          try {
+
+            await cache.add(
+              image
+            );
+
+          } catch (err) {
+
+            console.warn(
+              "Cache failed:",
+              image
+            );
+
+          }
+
+        }
+      )
+
+    );
+
+    console.log(
+      "Background cache ready"
+    );
+
+  } catch (err) {
+
+    console.error(
+      "Cache error:",
+      err
+    );
+
+  }
+
+}
+
+/* -------------------------
+   9. INITIAL PAGE LOAD
+------------------------- */
+
+const currentImage =
+  setRandomBackground();
+
+/* -------------------------
+   10. AFTER PAGE LOAD
+------------------------- */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    setTimeout(() => {
+
+      preloadRemainingImages(
+        currentImage
+      );
+
+      cacheImages();
+
+    }, 200);
+
+  }
+);
+
+/* -------------------------
+   11. TOGGLE SWITCH
+------------------------- */
+
+toggle.addEventListener(
+  "change",
+  () => {
+
+    isNight =
+      toggle.checked;
+
+    const currentImage =
+      setRandomBackground();
+
+    preloadRemainingImages(
+      currentImage
+    );
+
+  }
+);
+
+</script>
     <script type="module">
 import {supabase,getUser,logout} from "./shared/auth.js";
 /* ─────────────────────────────
@@ -552,114 +757,6 @@ document
   });
 
 </script>
-<script>
-const toggle = document.querySelector(".theme-switch__checkbox");
 
-toggle.checked = isNight;
-
-/* --------------------------
-   IMAGE ARRAYS
--------------------------- */
-
-const nightImages = [
-  "images/night/night(1).png",
-  "images/night/night(2).png",
-  "images/night/night(3).png",
-  "images/night/night(4).png",
-  "images/night/night(5).png",
-  "images/night/night(6).png",
-  "images/night/night(7).png"
-];
-
-const dayImages = [
-  "images/day/day(1).png",
-  "images/day/day(2).png",
-  "images/day/day(3).png",
-  "images/day/day(4).png",
-  "images/day/day(5).png",
-  "images/day/day(6).png",
-  "images/day/day(7).png"
-];
-
-/* --------------------------
-   GET CURRENT IMAGE SET
--------------------------- */
-
-function getCurrentImages() {
-
-  return isNight
-    ? nightImages
-    : dayImages;
-
-}
-
-/* --------------------------
-   SHOW FIRST IMAGE FAST
--------------------------- */
-
-function setInitialBackground() {
-
-  const images = getCurrentImages();
-
-  const randomIndex =
-    Math.floor(Math.random() * images.length);
-
-  const selectedImage =
-    images[randomIndex];
-
-  body.style.backgroundImage =
-    `url('${selectedImage}')`;
-
-}
-
-/* --------------------------
-   PRELOAD REMAINING IMAGES
--------------------------- */
-
-function preloadImages(images) {
-
-  images.forEach(src => {
-
-    const img = new Image();
-
-    img.src = src;
-
-  });
-
-}
-
-/* --------------------------
-   INITIAL LOAD
--------------------------- */
-
-setInitialBackground();
-
-/* preload after page becomes visible */
-
-window.addEventListener("load", () => {
-
-  setTimeout(() => {
-
-    preloadImages([
-      ...nightImages,
-      ...dayImages
-    ]);
-
-  }, 300);
-
-});
-
-/* --------------------------
-   TOGGLE
--------------------------- */
-
-toggle.addEventListener("change", () => {
-
-  isNight = toggle.checked;
-
-  setInitialBackground();
-
-});
-</script>
 </body>
 </html>
