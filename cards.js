@@ -667,3 +667,35 @@ fetch("projects.json")
 
   });
 
+/* =========================================
+   VIEW TOGGLE SYSTEM
+========================================= */
+
+function initViewToggle() {
+  const gridRadio = document.getElementById("glass-gold");
+  const carouselRadio = document.getElementById("glass-platinum");
+  const gridContainer = document.getElementById("container");
+  const carouselContainer = document.getElementById("all-projects-container");
+
+  function updateVisibility() {
+    if (carouselRadio && carouselRadio.checked) {
+      if (carouselContainer) carouselContainer.style.display = "block";
+      if (gridContainer) gridContainer.style.display = "none";
+      focused = false; // Ensures the 3D animation loop runs
+    } else if (gridRadio && gridRadio.checked) {
+      if (carouselContainer) carouselContainer.style.display = "none";
+      if (gridContainer) gridContainer.style.display = "grid"; // Or 'flex' / 'block'
+      focused = true; // Pauses the 3D loop animation when hidden
+    }
+  }
+
+  // Listen for user manual selection switches
+  if (gridRadio) gridRadio.addEventListener("change", updateVisibility);
+  if (carouselRadio) carouselRadio.addEventListener("change", updateVisibility);
+
+  // Run immediately on page load to match your default HTML 'checked' status
+  updateVisibility();
+}
+
+// Initialize the view state management system
+initViewToggle();
