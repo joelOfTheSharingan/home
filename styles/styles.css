@@ -326,3 +326,28 @@ height: 150px;
 
   z-index: 1000;
 }
+
+#qoute-container {
+  width: 50%;
+  margin: 0 auto;
+  text-align: left;
+
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+#qoute { 
+  font-family: "Eagle Lake", sans-serif; 
+  font-optical-sizing: auto; 
+  width: 100%; 
+  color: #ffffff; 
+  font-size: 32px; 
+  text-align: center; 
+  padding-left: 0px;  
+}
