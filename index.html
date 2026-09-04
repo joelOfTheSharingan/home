@@ -32,7 +32,7 @@
 
         <!-- User,Logout -->
        <div id="user-panel">
-        <div id="userBox">
+        <div id="userBox" class="hidden">
   <img id="userAvatar" />
 
   <span id="username">
@@ -40,7 +40,7 @@
   </span>
 
 </div>
-<button id="logoutBtn">
+<button id="logoutBtn" class="hidden">
   <div class="sign">
     <svg viewBox="0 0 512 512">
       <path
@@ -51,6 +51,14 @@
 
   <div class="logout-text">Logout</div>
 </button>
+
+       <!-- Login Button (shown when not logged in) -->
+       <div id="login-panel">
+         <button id="loginBtn" class="google-btn">
+           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+           Login
+         </button>
+       </div>
        </div>
 <!-- User,Logout -->
 <!-- View type switcher -->
@@ -62,7 +70,9 @@
     <label for="glass-gold">Grid</label>
 
     <input type="radio" name="plan" id="glass-platinum" checked/>
-    <label for="glass-platinum">Carousel</label>
+    <label for="glass-platinum">Carousel
+      
+    </label>
 
     <div class="glass-glider"></div>
   </div>
@@ -360,10 +370,16 @@ carouselBtn.addEventListener("change", () => {
   const userPanel = document.getElementById("user-panel");
 
 userPanel.addEventListener("mouseenter", () => {
-  document.getElementById("logoutBtn").style.transform = "translateX(-110px)";
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn && !logoutBtn.classList.contains("hidden")) {
+    logoutBtn.style.transform = "translateX(-110px)";
+  }
 });
 userPanel.addEventListener("mouseleave", () => {
-  document.getElementById("logoutBtn").style.transform = "translateX(0px)";
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn && !logoutBtn.classList.contains("hidden")) {
+    logoutBtn.style.transform = "translateX(0px)";
+  }
 });
 
 let sharinganStarted = false;
@@ -660,7 +676,7 @@ toggle.addEventListener(
 
 </script>
     <script type="module">
-import {supabase,getUser,logout} from "./shared/auth.js";
+import {supabase,getUser,logout,googleLogin} from "./shared/auth.js";
 /* ─────────────────────────────
    1. REMOVE ACCESS TOKEN HASH
 ───────────────────────────── */
@@ -694,64 +710,76 @@ const {
   data: { session }
 } = await supabase.auth.getSession();
 
+const userBox = document.getElementById("userBox");
+const logoutBtn = document.getElementById("logoutBtn");
+const loginPanel = document.getElementById("login-panel");
+
 /* ─────────────────────────────
-   4. REDIRECT IF NOT LOGGED IN
+   4. SHOW UI BASED ON SESSION
 ───────────────────────────── */
 
 if (!session) {
 
-  const isLocal =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+  // Not logged in: show login button, hide user box + logout
+  userBox.classList.add("hidden");
+  logoutBtn.classList.add("hidden");
+  loginPanel.classList.remove("hidden");
 
-  window.location.href = isLocal
-    ? "/home/login.html"
-    : "https://joelofthesharingan.github.io/home/login.html";
+} else {
+
+  // Logged in: show user box + logout, hide login button
+  userBox.classList.remove("hidden");
+  logoutBtn.classList.remove("hidden");
+  loginPanel.classList.add("hidden");
+
 }
 
 /* ─────────────────────────────
-   5. GET USER
+   5. WIRE LOGIN BUTTON
 ───────────────────────────── */
 
-const {
-  data: { user }
-} = await supabase.auth.getUser();
-
-console.log(user);
+document
+  .getElementById("loginBtn")
+  .addEventListener("click", googleLogin);
 
 /* ─────────────────────────────
-   6. USERNAME
+   6. POPULATE USER INFO (if logged in)
 ───────────────────────────── */
 
-document.getElementById("username").textContent =
+if (session) {
 
-  user?.user_metadata?.full_name ||
-  user?.user_metadata?.name ||
-  user?.email ||
-  "User";
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-/* ─────────────────────────────
-   7. AVATAR
-───────────────────────────── */
+  console.log(user);
 
-const avatar =
-  document.getElementById("userAvatar");
+  document.getElementById("username").textContent =
 
-avatar.src =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email ||
+    "User";
 
-  user?.user_metadata?.avatar_url ||
-  "images/default-avatar.png";
-
-avatar.alt = "User Avatar";
-
-avatar.onerror = () => {
+  const avatar =
+    document.getElementById("userAvatar");
 
   avatar.src =
+    user?.user_metadata?.avatar_url ||
     "images/default-avatar.png";
-};
+
+  avatar.alt = "User Avatar";
+
+  avatar.onerror = () => {
+
+    avatar.src =
+      "images/default-avatar.png";
+  };
+
+}
 
 /* ─────────────────────────────
-   8. LOGOUT
+   7. LOGOUT
 ───────────────────────────── */
 
 document
@@ -760,13 +788,7 @@ document
 
     await logout();
 
-    const isLocal =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1";
-
-    window.location.href = isLocal
-      ? "/home/login.html"
-      : "https://joelofthesharingan.github.io/home/login.html";
+    window.location.href = window.location.pathname;
   });
 
 </script>
