@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles/styles.css"> 
     <link rel="stylesheet" href="styles/carousel.css">
       <link rel="stylesheet" href="styles/switches.css">
-   
+    <link rel="stylesheet" href="styles/hardware.css">
       <link rel="stylesheet" href="styles/phone.css">
   <link rel="stylesheet" href="styles/sharingan.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,8 +17,18 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
   <style>
-
-
+    #qoute-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .guest-message {
+      margin-top: 30px;
+      font-size: 1.1rem;
+      color: #ccc;
+      font-weight: 600;
+    }
   </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -32,7 +42,7 @@
 
         <!-- User,Logout -->
        <div id="user-panel">
-        <div id="userBox" class="hidden">
+        <div id="userBox">
   <img id="userAvatar" />
 
   <span id="username">
@@ -40,7 +50,7 @@
   </span>
 
 </div>
-<button id="logoutBtn" class="hidden">
+<button id="logoutBtn">
   <div class="sign">
     <svg viewBox="0 0 512 512">
       <path
@@ -51,9 +61,7 @@
 
   <div class="logout-text">Logout</div>
 </button>
-
-       <!-- Login Button (shown when not logged in) -->
-       <div id="login-panel">
+<div id="login-panel">
          <button id="loginBtn" class="google-btn">
            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
            Login
@@ -64,18 +72,7 @@
 <!-- View type switcher -->
 <div class="controls">
 
-  <div class="glass-radio-group">
-
-    <input type="radio" name="plan" id="glass-gold"/>
-    <label for="glass-gold">Grid</label>
-
-    <input type="radio" name="plan" id="glass-platinum" checked/>
-    <label for="glass-platinum">Carousel
-      
-    </label>
-
-    <div class="glass-glider"></div>
-  </div>
+  
 
   <!-- View type switcher -->
   <div class="toggle-container">
@@ -222,113 +219,54 @@
       </div>
 </div>
     <!--Sharingan ends here-->
-    
-    <!-- Grid Container starts here-->
- <div id="container">
-        
-        <div class="project-list">
-            <section class="project-wrapper">
-              <a href='/home/redirect?app=savebite'>
-                <div class="project">
-                  <img src="images/savebite.png">
-                </div>
-              </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=excel'>
-                    <div class="project" id="excel">
-                        <img src="images/excel.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=n8n'>
-                    <div class="project" id="gmail">
-                        <img src="images/gmail.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=calculator'>
-                    <div class="project" id="calculator">
-                        <img src="images/calculator.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=travel'>
-                    <div class="project" id="world">
-                        <img src="images/world.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=meenachil'>
-                    <div class="project1" id="meenachil">
-                        <img src="images/meenachil.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=titan'>
-                    <div class="project1" id="titan">
-                        <img src="images/titan.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=wordle'>
-                    <div class="project1" id="wordle">
-                        <img src="images/wordle.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=timetable'>
-                    <div class="project" id="ceasar">
-                        <img src="images/ceasar.png">
-                    </div>
-                </a>
-            </section>
-
-            <section class="project-wrapper">
-                <a href='/home/redirect?app=livit'>
-                    <div class="project" id="livit">
-
-                        <svg id="logo-svg"
-                            viewBox="-2 -20 40 44"
-                            width="70"
-                            xmlns="http://www.w3.org/2000/svg">
-
-                            <path d="M -1 1 L 20 23 L 24 19 L 7 1 L 24 -16 L 20 -20 Z"
-                                fill="#E53935"/>
-
-                            <path d="M 11 1 L 26 -14 L 30 -10 L 25 -5 L 37 7 L 33 11 L 21 -1 L 19 1 L 31 13 L 27 17 Z"
-                                fill="#E53935"/>
-
-                        </svg>
-
-                    </div>
-                </a>
-            </section>
-        </div>
-    </div>
-
-      <!-- Grid Container ends here-->
     <!--Carousel Container starts here-->
 
   <div id="all-projects-container">
 
   </div>
         <!-- Carousel Container ends here-->
+    <!-- Grid Container starts here-->
+<!-- HARDWARE PROJECTS -->
+<section id="hardware-projects">
+
+    <div class="hardware-grid">
+
+        <!-- JARVIS -->
+        <article class="hardware-card">
+            <a href="/home/redirect?app=jarvis">
+                <div class="hardware-image">
+                    <img src="images/jarvis.png" alt="JARVIS">
+                </div>
+            </a>
+        </article>
+        <article class="hardware-card">
+            <a href="/home/redirect?app=rcPlane">
+                <div class="hardware-image">
+                    <img src="images/rc-plane.png" alt="JARVIS">
+                </div>
+            </a>
+        </article>
+
+        <!-- ESP32 FARM -->
+        <article class="hardware-card">
+            <a href="/home/redirect?app=esp32Farm">
+                <div class="hardware-image">
+                    <img src="images/esp32-farm.png" alt="ESP32 AI Farm">
+                </div>
+            </a>
+        </article>
+        <article class="hardware-card">
+            <a href="/home/redirect?app=soilMoisture">
+                <div class="hardware-image">
+                    <img src="images/moisture.png" alt="ESP32 AI Farm">
+                </div>
+            </a>
+        </article>
+    </div>
+
+</section>
+      <!-- Grid Container ends here-->
+
 
     <footer id="footer" onclick="window.location.href='https://github.com/joelOfTheSharingan'">
         <div class="footer-content">
@@ -336,347 +274,42 @@
             <img id="logo-footer" src="images/github.png" alt="GitHub Logo">
         </div>
     </footer>
-    
-<script>
-  const gridBtn = document.getElementById("glass-gold");
-const carouselBtn = document.getElementById("glass-platinum");
-const gridCont=document.getElementById("container");
-const carouselCont=document.getElementById("all-projects-container");
-/* GRID VIEW */
-gridBtn.addEventListener("change", () => {
 
-  if (gridBtn.checked) {
-
-    carouselCont.style.display="none";
-    gridCont.style.display="block";
-    
-  }
-
-});
-
-/* CAROUSEL VIEW */
-carouselBtn.addEventListener("change", () => {
-
-  if (carouselBtn.checked) {
-
-      gridCont.style.display="none";
-     carouselCont.style.display="flex";
-
-  }
-
-});
-
-
-  const userPanel = document.getElementById("user-panel");
-
-userPanel.addEventListener("mouseenter", () => {
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn && !logoutBtn.classList.contains("hidden")) {
-    logoutBtn.style.transform = "translateX(-110px)";
-  }
-});
-userPanel.addEventListener("mouseleave", () => {
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn && !logoutBtn.classList.contains("hidden")) {
-    logoutBtn.style.transform = "translateX(0px)";
-  }
-});
-
-let sharinganStarted = false;
-
-function activateSharingan() {
-
-    if (sharinganStarted) return;
-    sharinganStarted = true;
-
-    const containers =
-      document.querySelectorAll(".eye-and-reflection-container");
-
-    let current = 0;
-
-    const effect =
-      document.getElementById("sharingan-effect");
-
-    effect.style.display = "flex";
-
-    containers[current].classList.add("active");
-
-    setInterval(() => {
-
-      const oldEye = containers[current];
-
-      oldEye.classList.remove("active");
-      oldEye.classList.add("exit");
-
-      current =
-        (current + 1) % containers.length;
-
-      const nextEye = containers[current];
-
-      nextEye.classList.add("active");
-
-      setTimeout(() => {
-        oldEye.classList.remove("exit");
-      }, 1200);
-
-    }, 1800);
-
-    setTimeout(() => {
-      window.location.href =
-        "games/expanded-chroma.html";
-    }, 11000);
-
-  }
-
-  
-</script>
 <script type="module" src="main.js"></script>
+<script type="module" src="scripts/background.js"></script>
+<script src="sharingan/sharingan.js"></script>
 
-    <script>
-/* ==========================================================
-   BACKGROUND SYSTEM
-   ========================================================== */
+    <script type="module">
+import {supabase,getUser,logout,googleLogin,googleSignup} from "./shared/auth.js";
 
-/* -------------------------
-   1. ELEMENTS
-------------------------- */
+// ─────────────────────────────
+// Random quote feature
+// ─────────────────────────────
 
-const body = document.body;
-
-const toggle =
-  document.querySelector(".theme-switch__checkbox");
-
-/* -------------------------
-   2. AUTO DAY / NIGHT
-------------------------- */
-
-const now = new Date();
-
-let isNight =
-  !(now.getHours() >= 6 && now.getHours() < 18);
-
-toggle.checked = isNight;
-
-/* -------------------------
-   3. IMAGE ARRAYS
-------------------------- */
-
-const nightImages = [
-  "images/night/night(1).png",
-  "images/night/night(2).png",
-  "images/night/night(3).png",
-  "images/night/night(4).png",
-  "images/night/night(5).png",
-  "images/night/night(6).png",
-  "images/night/night(7).png"
-];
-
-const dayImages = [
-  "images/day/day(1).png",
-  "images/day/day(2).png",
-  "images/day/day(3).png",
-  "images/day/day(4).png",
-  "images/day/day(5).png",
-  "images/day/day(6).png",
-  "images/day/day(7).png"
-];
-
-/* -------------------------
-   4. GET CURRENT IMAGE SET
-------------------------- */
-
-function getCurrentImages() {
-
-  return isNight
-    ? nightImages
-    : dayImages;
-
+async function loadQuotes() {
+  const res = await fetch("./qoutes.json");
+  if (!res.ok) return;
+  return await res.json();
 }
 
-/* -------------------------
-   5. APPLY BACKGROUND
-------------------------- */
-
-function applyBackground(imagePath) {
-
-  body.style.backgroundImage =
-    `url("${imagePath}")`;
-
+function renderQuote(quotes) {
+  if (!quotes || quotes.length === 0) return;
+  const random = quotes[Math.floor(Math.random() * quotes.length)];
+  document.getElementById("qoute").textContent = random;
 }
 
-/* -------------------------
-   6. RANDOM IMAGE
-------------------------- */
-
-function setRandomBackground() {
-
-  const images =
-    getCurrentImages();
-
-  const randomIndex =
-    Math.floor(
-      Math.random() * images.length
-    );
-
-  const selectedImage =
-    images[randomIndex];
-
-  applyBackground(
-    selectedImage
-  );
-
-  return selectedImage;
-
+async function initQuote() {
+  const quotes = await loadQuotes();
+  renderQuote(quotes);
 }
 
-/* -------------------------
-   7. PRELOAD ALL EXCEPT
-      CURRENT IMAGE
-------------------------- */
-
-function preloadRemainingImages(
-  currentImage
-) {
-
-  const allImages = [
-
-    ...dayImages,
-
-    ...nightImages
-
-  ];
-
-  allImages
-    .filter(
-      src => src !== currentImage
-    )
-    .forEach(src => {
-
-      const img =
-        new Image();
-
-      img.src = src;
-
-    });
-
-}
-
-/* -------------------------
-   8. CACHE ALL IMAGES
-------------------------- */
-
-async function cacheImages() {
-
-  if (!("caches" in window))
-    return;
-
-  try {
-
-    const cache =
-      await caches.open(
-        "background-cache-v1"
-      );
-
-    const allImages = [
-
-      ...dayImages,
-
-      ...nightImages
-
-    ];
-
-    await Promise.all(
-
-      allImages.map(
-        async image => {
-
-          try {
-
-            await cache.add(
-              image
-            );
-
-          } catch (err) {
-
-            console.warn(
-              "Cache failed:",
-              image
-            );
-
-          }
-
-        }
-      )
-
-    );
-
-    console.log(
-      "Background cache ready"
-    );
-
-  } catch (err) {
-
-    console.error(
-      "Cache error:",
-      err
-    );
-
-  }
-
-}
-
-/* -------------------------
-   9. INITIAL PAGE LOAD
-------------------------- */
-
-const currentImage =
-  setRandomBackground();
-
-/* -------------------------
-   10. AFTER PAGE LOAD
-------------------------- */
-
-window.addEventListener(
-  "load",
-  () => {
-
-    setTimeout(() => {
-
-      preloadRemainingImages(
-        currentImage
-      );
-
-      cacheImages();
-
-    }, 200);
-
-  }
-);
-
-/* -------------------------
-   11. TOGGLE SWITCH
-------------------------- */
-
-toggle.addEventListener(
-  "change",
-  () => {
-
-    isNight =
-      toggle.checked;
-
-    const currentImage =
-      setRandomBackground();
-
-    preloadRemainingImages(
-      currentImage
-    );
-
-  }
-);
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", initQuote);
 
 </script>
-    <script type="module">
-import {supabase,getUser,logout,googleLogin} from "./shared/auth.js";
+
+<script type="module">
+import {supabase,getUser,logout,googleLogin,googleSignup} from "./shared/auth.js";
 /* ─────────────────────────────
    1. REMOVE ACCESS TOKEN HASH
 ───────────────────────────── */
@@ -710,56 +343,43 @@ const {
   data: { session }
 } = await supabase.auth.getSession();
 
-const userBox = document.getElementById("userBox");
-const logoutBtn = document.getElementById("logoutBtn");
-const loginPanel = document.getElementById("login-panel");
-
 /* ─────────────────────────────
-   4. SHOW UI BASED ON SESSION
+   4. REDIRECT IF NOT LOGGED IN
 ───────────────────────────── */
 
 if (!session) {
-
-  // Not logged in: show login button, hide user box + logout
-  userBox.classList.add("hidden");
-  logoutBtn.classList.add("hidden");
-  loginPanel.classList.remove("hidden");
-
-} else {
-
-  // Logged in: show user box + logout, hide login button
-  userBox.classList.remove("hidden");
-  logoutBtn.classList.remove("hidden");
-  loginPanel.classList.add("hidden");
-
-}
+    // Show guest avatar and username
+    const userBox = document.getElementById("userBox");
+    if (userBox) {
+      userBox.innerHTML =
+        '<img id="userAvatar" src="images/default-avatar.png" /><span id="username">Guest</span>';
+    }
+  }
 
 /* ─────────────────────────────
-   5. WIRE LOGIN BUTTON
+   5. GET USER
 ───────────────────────────── */
 
-document
-  .getElementById("loginBtn")
-  .addEventListener("click", googleLogin);
+const {
+  data: { user }
+} = await supabase.auth.getUser();
+
+console.log(user);
 
 /* ─────────────────────────────
-   6. POPULATE USER INFO (if logged in)
+   6. USERNAME
 ───────────────────────────── */
 
 if (session) {
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  console.log(user);
-
   document.getElementById("username").textContent =
-
     user?.user_metadata?.full_name ||
     user?.user_metadata?.name ||
     user?.email ||
     "User";
+
+  /* ─────────────────────────────
+     7. AVATAR
+───────────────────────────── */
 
   const avatar =
     document.getElementById("userAvatar");
@@ -775,11 +395,10 @@ if (session) {
     avatar.src =
       "images/default-avatar.png";
   };
-
 }
 
 /* ─────────────────────────────
-   7. LOGOUT
+   8. LOGOUT
 ───────────────────────────── */
 
 document
@@ -788,8 +407,67 @@ document
 
     await logout();
 
-    window.location.href = window.location.pathname;
+    const isLocal =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    window.location.href = isLocal
+      ? "/home/login.html"
+      : "https://joelofthesharingan.github.io/home/login.html";
   });
+
+// ─────────────────────────────
+// Random quote feature
+// ─────────────────────────────
+
+async function loadQuotes() {
+  const res = await fetch("./qoutes.json");
+  if (!res.ok) return;
+  return await res.json();
+}
+
+function renderQuote(quotes) {
+  if (!quotes || quotes.length === 0) return;
+  const random = quotes[Math.floor(Math.random() * quotes.length)];
+  document.getElementById("qoute").textContent = random;
+}
+
+async function initQuote() {
+  const quotes = await loadQuotes();
+  renderQuote(quotes);
+}
+
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", initQuote);
+
+
+
+const logoutButton = document.getElementById("logoutBtn");
+const panel = document.getElementById("user-panel");
+
+panel.addEventListener("mouseenter", () => {
+  logoutButton.style.left = "50px";
+});
+
+panel.addEventListener("mouseleave", () => {
+  logoutButton.style.left = "170px";
+});
+
+// Hide logout button for guests, show for logged-in users
+if (!session) {
+  logoutButton.style.display = "none";
+  document.getElementById("login-panel").style.display = "flex";
+} else {
+  logoutButton.style.display = "flex";
+  document.getElementById("login-panel").style.display = "none";
+}
+
+/* ─────────────────────────────
+   9. LOGIN BUTTON
+───────────────────────────── */
+document
+  .getElementById("loginBtn")
+  .addEventListener("click", googleLogin);
 
 </script>
 

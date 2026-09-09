@@ -100,25 +100,24 @@ body {
   transform: translate(2px, 2px);
   box-shadow: none;
 }
-#userBox{
-  position:fixed;
-  top:20px;
-  right:10px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:10px 16px;
-  border-radius:18px;
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.12);
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.25);
-  z-index:1000;
-  transform: scale(0.8);
-  padding-top:10px;
-  top:15px;
+#userBox {
+  position: fixed;
+  top: 15px;             /* Kept your updated top value */
+  left: 50%;             /* 1. Move the left edge to the exact center of the screen */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 18px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  z-index: 1000;
+  
+  /* 2. Combine the horizontal centering shift (-50%) with your scale adjustments */
+  transform: translateX(-50%) scale(0.8); 
 }
 
 #username{
@@ -154,28 +153,12 @@ body {
         display: none; /* hide mobile version */
     }
 
-    #container::before {
-        content: "My Projects";
-        display: block;
-        font-size: 32px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
+
 }
 h1, h4 { text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
 .intro-text { padding: 40px 20px; }
 
 /* Laptop: Normal Grid Layout */
-#container {
-    width: 1000px;
-    margin: 50px auto;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 20px 20px 60px 20px;
-}
 
 #header {
     font-size: 32px;
@@ -291,8 +274,8 @@ footer:hover #logo-footer {
   display: flex;
   flex-direction: column;
   gap: 12px;
-width:250px;
-height: 150px;
+  width:250px;
+  height: 150px;
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.08);
 
@@ -325,6 +308,31 @@ height: 150px;
   gap: 10px;
 
   z-index: 1000;
+}
+
+#qoute-container {
+  width: 50%;
+  margin: 0 auto;
+  text-align: left;
+
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+#qoute { 
+  font-family: "Eagle Lake", sans-serif; 
+  font-optical-sizing: auto; 
+  width: 100%; 
+  color: #ffffff; 
+  font-size: 32px; 
+  text-align: center; 
+  padding-left: 0px;  
 }
 
 #login-panel {
@@ -361,33 +369,4 @@ height: 150px;
 #loginBtn img {
   width: 22px;
   height: 22px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-#qoute-container {
-  width: 50%;
-  margin: 0 auto;
-  text-align: left;
-
-  font-size: 18px;
-  background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 0.5px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-  color: #333;
-}
-
-#qoute { 
-  font-family: "Eagle Lake", sans-serif; 
-  font-optical-sizing: auto; 
-  width: 100%; 
-  color: #ffffff; 
-  font-size: 32px; 
-  text-align: center; 
-  padding-left: 0px;  
 }

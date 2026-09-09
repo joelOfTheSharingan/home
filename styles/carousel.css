@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+   margin-bottom: 0; 
 }
 
 .inner {
@@ -366,5 +367,5 @@ img[src="images/stack/storage.png"]{
   transition: 0.15s ease;
 }
 #all-projects-container{
-  display: none;
+  display:none;
 }

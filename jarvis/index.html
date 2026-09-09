@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS — The Complete Home Assistant</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --blue:#1674df;
+  --light-blue:#eef7ff;
+  --bg:#f7f9fc;
+  --white:#fff;
+  --dark:#111827;
+  --text:#344054;
+  --muted:#687486;
+  --border:#dce3eb;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  line-height:1.6;
+}
+
+img,video{max-width:100%;display:block}
+
+a{text-decoration:none;color:inherit}
+
+nav{
+  height:68px;
+  padding:0 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav-logo{
+  color:var(--blue);
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.back-link{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.back-link:hover{color:var(--blue)}
+
+.hero{
+  max-width:1180px;
+  margin:auto;
+  padding:100px 6% 85px;
+  text-align:center;
+}
+
+.eyebrow{
+  display:inline-block;
+  padding:7px 14px;
+  margin-bottom:22px;
+  border:1px solid #c9e6ff;
+  border-radius:999px;
+  background:var(--light-blue);
+  color:var(--blue);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.hero h1{
+  color:var(--blue);
+  font-size:clamp(75px,14vw,155px);
+  line-height:.85;
+  letter-spacing:7px;
+  text-shadow:0 0 12px rgba(42,157,255,.4),0 0 30px rgba(42,157,255,.18);
+}
+
+.subtitle{
+  margin-top:24px;
+  color:#222d3a;
+  font-family:Georgia,serif;
+  font-size:17px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.hero-description{
+  max-width:720px;
+  margin:30px auto 0;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.8;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin-top:25px;
+}
+
+.tag{
+  padding:7px 12px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:6px;
+  color:#536173;
+  font-size:12px;
+}
+
+main{
+  max-width:1080px;
+  margin:auto;
+  padding:0 6% 80px;
+}
+
+section{
+  padding:75px 0;
+  border-top:1px solid var(--border);
+}
+
+.label{
+  margin-bottom:14px;
+  color:var(--blue);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+h2{
+  margin-bottom:18px;
+  color:var(--dark);
+  font-size:clamp(30px,5vw,45px);
+  line-height:1.15;
+  letter-spacing:-1.5px;
+}
+
+.description{
+  max-width:760px;
+  margin-bottom:32px;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.8;
+}
+
+.card{
+  overflow:hidden;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:0 10px 35px rgba(22,50,80,.07);
+}
+
+.card img{
+  width:100%;
+  height:auto;
+}
+
+.caption{
+  padding:13px 16px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.video{
+  overflow:hidden;
+  background:#05070a;
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:0 12px 40px rgba(20,50,80,.1);
+}
+
+.video video{
+  width:100%;
+  max-height:650px;
+}
+
+.video .caption{background:white}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:32px;
+}
+
+.info{
+  padding:26px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+}
+
+.info h3{
+  margin-bottom:9px;
+  color:var(--blue);
+  font-size:18px;
+}
+
+.info p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.75;
+}
+
+.flow{
+  display:flex;
+  align-items:stretch;
+  gap:10px;
+  margin-top:35px;
+}
+
+.step{
+  flex:1;
+  padding:22px 16px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  text-align:center;
+}
+
+.icon{
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 12px;
+  border-radius:50%;
+  background:var(--light-blue);
+  color:var(--blue);
+  font-weight:800;
+}
+
+.icon img{
+  width:27px;
+  height:27px;
+  object-fit:contain;
+}
+
+.step-number{
+  color:#9aa5b3;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+.step h3{
+  margin-top:4px;
+  color:var(--dark);
+  font-size:14px;
+}
+
+.step p{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.arrow{
+  display:flex;
+  align-items:center;
+  color:var(--blue);
+  font-size:20px;
+}
+
+.hardware{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:22px;
+  margin-top:32px;
+}
+
+.list{
+  padding:28px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+
+.list h3{
+  margin-bottom:15px;
+  color:var(--dark);
+}
+
+.item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #edf0f4;
+  color:#4c5969;
+  font-size:14px;
+}
+
+.item:last-child{border-bottom:0}
+
+.dot{
+  width:8px;
+  height:8px;
+  flex:none;
+  border-radius:50%;
+  background:var(--blue);
+  box-shadow:0 0 8px rgba(22,116,223,.45);
+}
+
+.highlight{
+  padding:40px;
+  background:linear-gradient(135deg,#eef8ff,#fff);
+  border:1px solid #cfe8ff;
+  border-radius:14px;
+}
+
+.highlight h3{
+  margin-bottom:12px;
+  color:var(--blue);
+  font-size:25px;
+}
+
+.highlight p{
+  max-width:780px;
+  color:#566477;
+  font-size:15px;
+  line-height:1.85;
+}
+
+.components{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:32px;
+}
+
+.component{
+  padding:21px 15px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  text-align:center;
+}
+
+.component-icon{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 8px;
+}
+
+.component-icon img{
+  width:30px;
+  height:30px;
+  object-fit:contain;
+}
+
+.component h3{
+  color:var(--dark);
+  font-size:14px;
+}
+
+.component p{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* =========================================================
+   SOURCE CODE
+========================================================= */
+
+.code-card{
+  margin-top:15px;
+  overflow:hidden;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+
+.code-card summary{
+  padding:18px 20px;
+  color:var(--blue);
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  user-select:none;
+  background:#fbfcfe;
+  border-bottom:1px solid transparent;
+}
+
+.code-card summary:hover{
+  background:var(--light-blue);
+}
+
+.code-card[open] summary{
+  border-bottom:1px solid var(--border);
+}
+
+.code-card pre{
+  margin:0;
+  padding:22px;
+  overflow-x:auto;
+  max-height:600px;
+  background:#101720;
+  color:#d9e7f5;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.code-card code{
+  font-family:inherit;
+  white-space:pre;
+}
+
+.final{
+  text-align:center;
+}
+
+.final h2{
+  color:var(--blue);
+  font-size:clamp(38px,7vw,70px);
+  letter-spacing:2px;
+}
+
+.final p{
+  max-width:650px;
+  margin:18px auto 0;
+  color:var(--muted);
+}
+
+footer{
+  padding:30px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:white;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:13px;
+}
+
+.footer-title{
+  color:var(--blue);
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+@media(max-width:850px){
+  .grid-2,.hardware{grid-template-columns:1fr}
+
+  .flow{flex-direction:column}
+
+  .arrow{
+    justify-content:center;
+    height:18px;
+    transform:rotate(90deg);
+  }
+
+  .components{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+  nav{padding:0 5%}
+
+  .hero{padding:75px 5%}
+
+  main{padding:0 5% 60px}
+
+  section{padding:55px 0}
+
+  .hero h1{
+    font-size:70px;
+    letter-spacing:3px;
+  }
+
+  .subtitle{font-size:12px}
+
+  .highlight{padding:28px}
+
+  .components{grid-template-columns:1fr 1fr}
+
+  footer{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .code-card pre{
+    font-size:11px;
+    padding:16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="nav-logo">JARVIS</div>
+  <a href="../home/" class="back-link">← Back to portfolio</a>
+</nav>
+
+<header class="hero">
+
+  <div class="eyebrow">AI · HARDWARE · HOME AUTOMATION</div>
+
+  <h1>JARVIS</h1>
+
+  <div class="subtitle">The Complete Home Assistant</div>
+
+  <p class="hero-description">
+    A voice-controlled home assistant that connects natural
+    language with physical hardware. JARVIS captures spoken
+    commands, processes them using AI, and sends specific
+    commands to an Arduino to control connected devices.
+  </p>
+
+  <div class="tags">
+    <span class="tag">Voice Commands</span>
+    <span class="tag">Gemini</span>
+    <span class="tag">Arduino</span>
+    <span class="tag">ElevenLabs</span>
+    <span class="tag">Hardware Control</span>
+  </div>
+
+</header>
+
+<main>
+
+<section>
+
+  <div class="label">01 / DEMO</div>
+
+  <h2>See JARVIS in action.</h2>
+
+  <p class="description">
+    A demonstration of the JARVIS voice assistant interacting
+    with the connected Arduino hardware.
+  </p>
+
+  <div class="video">
+
+    <video
+      controls
+      playsinline
+      preload="metadata"
+      poster="jarvis/assets/demo.png"
+    >
+      <source src="jarvis/assets/jarvis-demo.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
+    <div class="caption">
+      JARVIS demonstration — voice command, AI processing and physical hardware control.
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">02 / THE PROJECT</div>
+
+  <h2>What is JARVIS?</h2>
+
+  <p class="description">
+    JARVIS is a complete home assistant concept combining
+    voice interaction, artificial intelligence and physical
+    electronics. Instead of only responding with text, the
+    system can turn an interpreted command into an action
+    on real hardware.
+  </p>
+
+  <div class="card">
+
+    <img
+      src="jarvis/assets/chart.png"
+      alt="JARVIS project poster"
+    >
+
+    <div class="caption">
+      Project poster showing the JARVIS system and its complete interaction pipeline.
+    </div>
+
+  </div>
+
+  <div class="grid-2">
+
+    <div class="info">
+      <h3>Voice Command Capture</h3>
+      <p>
+        The system begins with voice input. Speech is captured
+        through a microphone and converted into text using
+        speech recognition.
+      </p>
+    </div>
+
+    <div class="info">
+      <h3>Getting the Command</h3>
+      <p>
+        JARVIS converts a user's request into a specific
+        command such as FAN_ON or LIGHT_OFF and forwards it
+        to the Arduino through serial communication.
+      </p>
+    </div>
+
+    <div class="info">
+      <h3>Physical Action</h3>
+      <p>
+        The Arduino receives the command and activates the
+        appropriate connected hardware, including LEDs,
+        a motor or a servo.
+      </p>
+    </div>
+
+    <div class="info">
+      <h3>Replying Back</h3>
+      <p>
+        The generated response can be sent to ElevenLabs,
+        where the text is converted back into speech for
+        the user.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">03 / HOW IT WORKS</div>
+
+  <h2>From speech to action.</h2>
+
+  <p class="description">
+    JARVIS connects speech recognition, AI processing,
+    serial communication and Arduino hardware into one
+    interaction.
+  </p>
+
+  <div class="flow">
+
+    <div class="step">
+      <div class="icon">
+        <img src="jarvis/assets/microphone.png" style="transform: scale(1.5);" alt="Microphone">
+      </div>
+      <div class="step-number">01</div>
+      <h3>Speech</h3>
+      <p>User speaks a command.</p>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="step">
+      <div class="icon">
+        <img src="jarvis/assets/ai.png" style="transform: scale(1.7);" alt="AI">
+      </div>
+      <div class="step-number">02</div>
+      <h3>Gemini</h3>
+      <p>The request is interpreted.</p>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="step">
+      <div class="icon">
+        <img src="jarvis/assets/command.png" style="transform: scale(2);" alt="Command">
+      </div>
+      <div class="step-number">03</div>
+      <h3>Command</h3>
+      <p>A hardware command is sent.</p>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="step">
+      <div class="icon">
+        <img src="jarvis/assets/arduino.png" style="transform: scale(4);" alt="Arduino">
+      </div>
+      <div class="step-number">04</div>
+      <h3>Arduino</h3>
+      <p>The hardware responds.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">04 / HOW IT'S BETTER</div>
+
+  <h2>More than a voice assistant.</h2>
+
+  <div class="highlight">
+
+    <h3>AI + Hardware</h3>
+
+    <p>
+      JARVIS is designed to be more flexible than a conventional
+      home assistant because it directly controls hardware such
+      as LEDs, motors and servos through Arduino. This allows
+      natural-language requests to become physical actions
+      instead of remaining only as a digital response.
+    </p>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">05 / HARDWARE</div>
+
+  <h2>The electronics behind JARVIS.</h2>
+
+  <p class="description">
+    The physical prototype uses an Arduino Uno, breadboard
+    components and output devices to turn commands from the
+    assistant into real actions.
+  </p>
+
+  <div class="hardware">
+
+    <div class="card">
+
+      <img
+        src="jarvis/assets/circuit.png"
+        alt="JARVIS Arduino circuit diagram"
+      >
+
+      <div class="caption">
+        Arduino Uno circuit showing the connected LEDs, motor and servo.
+      </div>
+
+    </div>
+
+    <div class="list">
+
+      <h3>Components shown</h3>
+
+      <div class="item">
+        <span class="dot"></span>
+        Arduino Uno
+      </div>
+
+      <div class="item">
+        <span class="dot"></span>
+        Breadboard
+      </div>
+
+      <div class="item">
+        <span class="dot"></span>
+        LEDs
+      </div>
+
+      <div class="item">
+        <span class="dot"></span>
+        Motor / Fan
+      </div>
+
+      <div class="item">
+        <span class="dot"></span>
+        Servo motor
+      </div>
+
+      <div class="item">
+        <span class="dot"></span>
+        Transistor, resistor and jumper wires
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">06 / PROTOTYPE</div>
+
+  <h2>From circuit to physical model.</h2>
+
+  <p class="description">
+    The project was implemented as a physical prototype.
+    The images show the assembled electronics, miniature
+    home model and computer used during development.
+  </p>
+
+  <div class="card">
+
+    <img
+      src="jarvis/assets/demo.png"
+      alt="JARVIS physical prototype and development setup"
+    >
+
+    <div class="caption">
+      Physical JARVIS prototype, Arduino setup and development environment.
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">07 / REPLYING BACK</div>
+
+  <h2>JARVIS talks back.</h2>
+
+  <p class="description">
+    The interaction can continue after the hardware receives
+    its command. JARVIS can generate a response and return
+    it to the user as speech.
+  </p>
+
+  <div class="grid-2">
+
+    <div class="info">
+      <h3>Gemini Reply</h3>
+      <p>
+        Gemini generates a response to the user's request
+        or conversation.
+      </p>
+    </div>
+
+    <div class="info">
+      <h3>ElevenLabs</h3>
+      <p>
+        The text response is converted into speech using
+        ElevenLabs.
+      </p>
+    </div>
+
+    <div class="info">
+      <h3>Spoken Response</h3>
+      <p>
+        The generated speech is played back to the user,
+        completing the conversational interaction.
+      </p>
+    </div>
+
+    <div class="info">
+      <h3>Hardware Feedback</h3>
+      <p>
+        Physical devices respond to commands sent from the
+        assistant through the Arduino.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">08 / SYSTEM</div>
+
+  <h2>The complete JARVIS loop.</h2>
+
+  <p class="description">
+    The project connects the user's voice, AI processing,
+    hardware commands and spoken responses into one system.
+  </p>
+
+  <div class="components">
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/microphone.png" style="transform: scale(1.2);"alt="Microphone">
+      </div>
+      <h3>Microphone</h3>
+      <p>Captures speech</p>
+    </div>
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/ai.png" style="transform: scale(1.5);"alt="Gemini">
+      </div>
+      <h3>Gemini</h3>
+      <p>Understands requests</p>
+    </div>
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/command.png" style="transform: scale(1.5);" alt="Serial command">
+      </div>
+      <h3>Serial Command</h3>
+      <p>Sends instruction</p>
+    </div>
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/arduino.png" style="transform: scale(3);" alt="Arduino">
+      </div>
+      <h3>Arduino</h3>
+      <p>Controls hardware</p>
+    </div>
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/led.png" style="transform: scale(2);" alt="LED">
+      </div>
+      <h3>LED</h3>
+      <p>Light control</p>
+    </div>
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/motor.png" style="transform: scale(2);" alt="Motor">
+      </div>
+      <h3>Motor</h3>
+      <p>Motor / fan control</p>
+    </div>
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/servo.png" style="transform: scale(2);" alt="Servo">
+      </div>
+      <h3>Servo</h3>
+      <p>Servo movement</p>
+    </div>
+
+    <div class="component">
+      <div class="component-icon">
+        <img src="jarvis/assets/speaker.png" style="transform: scale(1.5);" alt="ElevenLabs">
+      </div>
+      <h3>ElevenLabs</h3>
+      <p>Text to speech</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="label">09 / TECHNOLOGY</div>
+
+  <h2>Built with.</h2>
+
+  <p class="description">
+    The project combines AI services, speech processing,
+    serial communication and physical electronics.
+  </p>
+
+  <div class="tags" style="justify-content:flex-start">
+
+    <span class="tag">Arduino Uno</span>
+    <span class="tag">Gemini</span>
+    <span class="tag">ElevenLabs</span>
+    <span class="tag">Speech Recognition</span>
+    <span class="tag">Serial Communication</span>
+    <span class="tag">LEDs</span>
+    <span class="tag">Motor</span>
+    <span class="tag">Servo</span>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SOURCE CODE
+========================================================= -->
+
+<section>
+
+  <div class="label">10 / SOURCE CODE</div>
+
+  <h2>The code behind JARVIS.</h2>
+
+  <p class="description">
+    The main source files used to connect the Arduino hardware,
+    voice assistant, AI processing and physical devices.
+  </p>
+
+  <details class="code-card">
+
+    <summary>
+      01 / arduino.ino — Arduino Hardware Control
+    </summary>
+
+    <pre><code id="arduinoCode">Loading arduino.ino...</code></pre>
+
+  </details>
+
+  <details class="code-card">
+
+    <summary>
+      02 / server.py — JARVIS Voice + AI Server
+    </summary>
+
+    <pre><code id="serverCode">Loading server.py...</code></pre>
+
+  </details>
+
+</section>
+
+<section class="final">
+
+  <div class="label">11 / RESULT</div>
+
+  <h2>Voice → AI → Action.</h2>
+
+  <p>
+    JARVIS demonstrates how a conversational AI system can
+    connect to physical electronics, allowing spoken
+    instructions to become real actions inside a home
+    environment.
+  </p>
+
+</section>
+
+</main>
+
+<footer>
+
+  <div class="footer-title">
+    JARVIS / THE COMPLETE HOME ASSISTANT
+  </div>
+
+  <a href="../home/">
+    Back to portfolio ↑
+  </a>
+
+</footer>
+
+<script>
+
+async function loadCode(file, elementId){
+
+  const element = document.getElementById(elementId);
+
+  try{
+
+    const response = await fetch(file);
+
+    if(!response.ok){
+      throw new Error("HTTP " + response.status);
+    }
+
+    const code = await response.text();
+
+    element.textContent = code;
+
+  }catch(error){
+
+    console.error("Could not load:",file,error);
+
+    element.textContent =
+      "Could not load " + file;
+
+  }
+
+}
+
+loadCode("jarvis/code/arduino.ino","arduinoCode");
+loadCode("jarvis/code/server.py","serverCode");
+
+</script>
+
+</body>
+</html>

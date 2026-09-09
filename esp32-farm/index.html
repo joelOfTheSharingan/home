@@ -1,0 +1,2739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="Smart Farm AI - AI-assisted plant monitoring using ESP32-CAM, Python, OpenCV and future autonomous drone technology.">
+
+<title>Smart Farm AI</title>
+
+<style>
+
+/* =========================================================
+   BASIC
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+:root {
+    --green: #00ffc8;
+    --green2: #00ff96;
+    --blue: #62b6ff;
+    --yellow: #ffaa00;
+    --red: #ff3b30;
+    --purple: #b47cff;
+
+    --bg: #020609;
+    --panel: #07151a;
+    --panel2: #0a2027;
+
+    --line: rgba(0,255,200,.25);
+    --blue-line: rgba(98,182,255,.3);
+}
+
+body {
+    margin: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #0b252c 0%,
+            #020609 45%,
+            #010304 100%
+        );
+
+    color: white;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #010405;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0d4a48;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--green);
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    min-height: 78vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+
+    border-bottom: 1px solid var(--line);
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #103038 0%,
+            #020609 65%
+        );
+}
+
+header::before {
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    background: rgba(0,255,200,.08);
+
+    border-radius: 50%;
+
+    filter: blur(110px);
+}
+
+header .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.tag {
+    color: var(--green);
+
+    font-family: monospace;
+
+    letter-spacing: 3px;
+
+    font-size: 13px;
+}
+
+h1 {
+    color: var(--green);
+
+    font-size: clamp(45px, 8vw, 85px);
+
+    margin: 20px 0;
+
+    letter-spacing: 5px;
+
+    text-shadow:
+        0 0 15px rgba(0,255,200,.5),
+        0 0 40px rgba(0,255,200,.15);
+}
+
+.subtitle {
+    max-width: 700px;
+
+    margin: auto;
+
+    color: #a5b8b8;
+
+    font-family: monospace;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+.status {
+    display: inline-block;
+
+    margin-top: 30px;
+
+    padding: 10px 20px;
+
+    border: 1px solid var(--green);
+
+    border-radius: 25px;
+
+    color: var(--green);
+
+    font-family: monospace;
+
+    background: rgba(0,255,200,.05);
+
+    box-shadow:
+        0 0 15px rgba(0,255,200,.08);
+}
+
+.future-note {
+    margin-top: 18px;
+
+    color: #71898c;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section {
+    margin: 75px auto;
+}
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+}
+
+.section-number {
+    color: var(--green);
+
+    font-family: monospace;
+
+    font-size: 14px;
+}
+
+h2 {
+    margin: 0;
+
+    font-size: 24px;
+
+    letter-spacing: 2px;
+}
+
+.section-line {
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--line),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.card {
+    background: rgba(7,21,26,.9);
+
+    border: 1px solid var(--line);
+
+    border-radius: 12px;
+
+    padding: 25px;
+
+    transition: .25s;
+}
+
+.card:hover {
+    border-color: var(--green);
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 0 20px rgba(0,255,200,.08);
+}
+
+.card h3 {
+    color: var(--green);
+
+    font-size: 15px;
+
+    letter-spacing: 1px;
+}
+
+.card p {
+    color: #9fb3b5;
+
+    font-family: monospace;
+
+    line-height: 1.7;
+
+    font-size: 14px;
+}
+
+.current {
+    border-color: rgba(0,255,200,.35);
+}
+
+.future {
+    border-color: rgba(98,182,255,.35);
+}
+
+.future h3 {
+    color: var(--blue);
+}
+
+.future-tag {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    color: var(--blue);
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   ICON IMAGES
+========================================================= */
+
+.icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+
+    filter:
+        drop-shadow(
+            0 0 8px rgba(0,255,200,.25)
+        );
+}
+
+.future-flow-box .icon img {
+    filter:
+        drop-shadow(
+            0 0 8px rgba(98,182,255,.3)
+        );
+}
+
+
+/* =========================================================
+   CARD ICON
+========================================================= */
+
+.card-icon {
+    width: 42px;
+    height: 42px;
+
+    margin-bottom: 15px;
+
+    object-fit: contain;
+
+    display: block;
+
+    filter:
+        drop-shadow(
+            0 0 7px rgba(0,255,200,.2)
+        );
+}
+
+
+/* =========================================================
+   IMAGES
+========================================================= */
+
+.images {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+.image-card {
+    background: rgba(7,21,26,.9);
+
+    border: 1px solid var(--line);
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+    transition: .25s;
+
+    overflow: hidden;
+}
+
+.image-card:hover {
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 20px rgba(0,255,200,.08);
+}
+
+.image-card > img {
+    width: 100%;
+
+    height: 330px;
+
+    object-fit: contain;
+
+    background: #010405;
+
+    border-radius: 8px;
+
+    display: block;
+}
+
+.image-label {
+    padding: 14px 5px 5px;
+
+    color: var(--green);
+
+    font-family: monospace;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+}
+
+.image-description {
+    padding: 4px 5px 8px;
+
+    color: #71898c;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CIRCUIT
+========================================================= */
+
+.circuit-card {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,21,26,.95),
+            rgba(2,8,11,.95)
+        );
+
+    border: 1px solid var(--line);
+
+    border-radius: 14px;
+
+    padding: 15px;
+
+    text-align: center;
+}
+
+.circuit-card img {
+    display: block;
+
+    width: 100%;
+
+    max-height: 650px;
+
+    object-fit: contain;
+
+    background: #010405;
+
+    border-radius: 9px;
+}
+
+.circuit-caption {
+    padding: 18px 10px 8px;
+
+    color: var(--green);
+
+    font-family: monospace;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   FLOWCHART
+========================================================= */
+
+.flow-wrapper {
+    padding: 25px;
+
+    border: 1px solid var(--line);
+
+    border-radius: 15px;
+
+    background:
+        rgba(3,12,17,.7);
+
+    overflow-x: auto;
+}
+
+.flowchart {
+    min-width: 950px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+}
+
+.flow-box {
+    width: 155px;
+
+    min-height: 155px;
+
+    padding: 20px 12px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #0a2027,
+            #061116
+        );
+
+    border: 1px solid var(--green);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 0 15px rgba(0,255,200,.08);
+
+    flex-shrink: 0;
+}
+
+.flow-box h3 {
+    color: var(--green);
+
+    margin: 5px 0 10px;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+}
+
+.flow-box p {
+    margin: 0;
+
+    color: #8fa5a8;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+.flow-arrow {
+    color: var(--green);
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 0 10px var(--green);
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   FUTURE DRONE FLOW
+========================================================= */
+
+.future-flow-wrapper {
+    padding: 25px;
+
+    border: 1px solid var(--blue-line);
+
+    border-radius: 15px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(98,182,255,.05),
+            rgba(3,12,17,.8)
+        );
+
+    overflow-x: auto;
+}
+
+.future-flowchart {
+    min-width: 900px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+}
+
+.future-flow-box {
+    width: 160px;
+
+    min-height: 150px;
+
+    padding: 20px 12px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #0b1e2b,
+            #061116
+        );
+
+    border: 1px solid var(--blue);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 0 18px rgba(98,182,255,.07);
+
+    flex-shrink: 0;
+}
+
+.future-flow-box h3 {
+    color: var(--blue);
+
+    margin: 5px 0 10px;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+}
+
+.future-flow-box p {
+    margin: 0;
+
+    color: #8fa5a8;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+.future-arrow {
+    color: var(--blue);
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 0 10px var(--blue);
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   DETECTION
+========================================================= */
+
+.health-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+.health {
+    padding: 20px;
+
+    border-radius: 10px;
+
+    font-family: monospace;
+
+    transition: .2s;
+}
+
+.health:hover {
+    transform: translateY(-3px);
+}
+
+.health strong {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: Arial, sans-serif;
+}
+
+.healthy {
+    color: var(--green2);
+
+    border: 1px solid var(--green2);
+
+    background: rgba(0,255,150,.06);
+}
+
+.warning {
+    color: var(--yellow);
+
+    border: 1px solid var(--yellow);
+
+    background: rgba(255,170,0,.06);
+}
+
+.critical {
+    color: #ff4b4b;
+
+    border: 1px solid var(--red);
+
+    background: rgba(255,50,50,.06);
+}
+
+.offline {
+    color: #aaa;
+
+    border: 1px solid #555;
+
+    background: rgba(255,255,255,.03);
+}
+
+
+/* =========================================================
+   STEPS
+========================================================= */
+
+.steps {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+.step {
+    background: var(--panel);
+
+    border: 1px solid var(--line);
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    position: relative;
+}
+
+.step-number {
+    color: var(--green);
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+}
+
+.step h3 {
+    margin: 5px 0;
+
+    font-size: 15px;
+}
+
+.step p {
+    color: #9fb3b5;
+
+    font-family: monospace;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ARCHITECTURE
+========================================================= */
+
+.architecture-card {
+    background: var(--panel);
+
+    border: 1px solid var(--line);
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    overflow-x: auto;
+}
+
+.architecture {
+    min-width: 700px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.arch-box {
+    padding: 18px 22px;
+
+    background: #081a20;
+
+    border: 1px solid var(--green);
+
+    border-radius: 8px;
+
+    color: var(--green);
+
+    font-family: monospace;
+
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+.arch-box-image {
+    width: 28px;
+    height: 28px;
+
+    object-fit: contain;
+
+    vertical-align: middle;
+
+    margin-right: 7px;
+
+    filter:
+        drop-shadow(
+            0 0 6px rgba(0,255,200,.25)
+        );
+}
+
+.arch-box.future-arch {
+    border-color: var(--blue);
+
+    color: var(--blue);
+
+    box-shadow:
+        0 0 12px rgba(98,182,255,.06);
+}
+
+.arch-box.future-arch .arch-box-image {
+    filter:
+        drop-shadow(
+            0 0 6px rgba(98,182,255,.3)
+        );
+}
+
+.arch-arrow {
+    color: var(--green);
+
+    font-size: 22px;
+}
+
+.arch-arrow.future-arch {
+    color: var(--blue);
+}
+
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+.roadmap {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+.roadmap-card {
+    padding: 25px;
+
+    background: var(--panel);
+
+    border-radius: 12px;
+
+    border: 1px solid var(--line);
+}
+
+.roadmap-card h3 {
+    margin-top: 0;
+
+    color: var(--green);
+
+    font-size: 16px;
+}
+
+.roadmap-card.future-roadmap {
+    border-color: rgba(98,182,255,.35);
+}
+
+.future-roadmap h3 {
+    color: var(--blue);
+}
+
+.roadmap-list {
+    padding: 0;
+
+    margin: 15px 0 0;
+
+    list-style: none;
+}
+
+.roadmap-list li {
+    padding: 10px 0;
+
+    color: #9fb3b5;
+
+    border-bottom: 1px solid rgba(255,255,255,.05);
+
+    font-family: monospace;
+
+    font-size: 13px;
+}
+
+.roadmap-list li:last-child {
+    border-bottom: none;
+}
+
+.roadmap-list li::before {
+    content: "→ ";
+
+    color: var(--green);
+}
+
+.future-roadmap .roadmap-list li::before {
+    color: var(--blue);
+}
+
+
+/* =========================================================
+   CODE
+========================================================= */
+
+details {
+    margin-bottom: 12px;
+
+    background: #07151a;
+
+    border: 1px solid var(--line);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+details[open] {
+    border-color: var(--green);
+}
+
+summary {
+    padding: 17px 20px;
+
+    color: var(--green);
+
+    font-family: monospace;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+summary:hover {
+    background: rgba(0,255,200,.04);
+}
+
+pre {
+    margin: 0;
+
+    padding: 20px;
+
+    overflow-x: auto;
+
+    max-height: 500px;
+
+    background: #010405;
+
+    color: #b8d4d2;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+code {
+    font-family: monospace;
+}
+
+.loading {
+    color: #71898c;
+}
+
+.error {
+    color: #ff6464;
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final-card {
+    text-align: center;
+
+    padding: 50px 30px;
+}
+
+.final-card h2 {
+    color: var(--green);
+
+    margin: 20px 0;
+
+    font-size: 28px;
+}
+
+.final-card p {
+    color: #9fb3b5;
+
+    font-family: monospace;
+
+    line-height: 1.7;
+}
+
+.final-flow {
+    margin-top: 25px;
+
+    color: var(--blue);
+
+    font-family: monospace;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    margin-top: 100px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    border-top: 1px solid var(--line);
+
+    color: #587174;
+
+    font-family: monospace;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   BACK TO PORTFOLIO
+========================================================= */
+
+header > a {
+    position: absolute;
+
+    top: 25px;
+    right: 25px;
+
+    z-index: 10;
+
+    padding: 10px 16px;
+
+    color: var(--green);
+
+    border: 1px solid var(--line);
+
+    border-radius: 8px;
+
+    background: rgba(0,255,200,.04);
+
+    font-family: monospace;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+
+    text-decoration: none;
+
+    transition: .25s;
+}
+
+header > a:hover {
+    color: #020609;
+
+    background: var(--green);
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 18px rgba(0,255,200,.25);
+
+    transform: translateY(-2px);
+}
+
+@media(max-width: 800px) {
+
+    header > a {
+        top: 15px;
+        right: 15px;
+
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+
+}
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width: 800px) {
+
+    .cards,
+    .images,
+    .health-grid,
+    .steps,
+    .roadmap {
+        grid-template-columns: 1fr;
+    }
+
+    .flow-wrapper,
+    .future-flow-wrapper {
+        overflow-x: hidden;
+    }
+
+    .flowchart,
+    .future-flowchart {
+        min-width: 0;
+
+        flex-direction: column;
+    }
+
+    .flow-arrow,
+    .future-arrow {
+        transform: rotate(90deg);
+    }
+
+    .flow-box,
+    .future-flow-box {
+        width: 100%;
+
+        max-width: 300px;
+    }
+
+    .architecture-card {
+        overflow-x: hidden;
+    }
+
+    .architecture {
+        min-width: 0;
+
+        flex-direction: column;
+    }
+
+    .arch-arrow {
+        transform: rotate(90deg);
+    }
+
+    header {
+        min-height: 80vh;
+    }
+
+    h1 {
+        font-size: 48px;
+    }
+
+    .section-title {
+        gap: 10px;
+    }
+
+    h2 {
+        font-size: 19px;
+    }
+
+    .image-card > img {
+        height: 250px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<header>
+
+<div class="container">
+
+    <div class="tag">
+        SMART AGRICULTURE PROJECT
+    </div>
+
+    <h1>
+        SMART FARM AI
+    </h1>
+
+    <p class="subtitle">
+
+        An AI-assisted plant monitoring system
+        using an ESP32-CAM prototype, Python,
+        OpenCV and a web dashboard.
+
+    </p>
+
+    <div class="status">
+        PROTOTYPE ONLINE
+    </div>
+
+    <div class="future-note">
+
+        CURRENT: ESP32-CAM
+        <br>
+        FUTURE: AUTONOMOUS DRONE FARM MONITORING
+
+    </div>
+
+</div>
+ <a href="../home/">
+    Back to portfolio ↑
+  </a>
+</header>
+
+
+<!-- =========================================================
+     WHAT I MADE
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        01
+    </span>
+
+    <h2>
+        WHAT I MADE
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="cards">
+
+
+<div class="card current">
+
+    <img
+        class="card-icon"
+        src="esp32-farm/assets/esp32-cam.png"
+        style="transform: scale(2);"
+        alt="ESP32-CAM"
+    >
+
+   
+    <h3>
+        CAMERA PROTOTYPE
+    </h3>
+
+    <p>
+        I used an ESP32-CAM to capture
+        images of the plants.
+    </p>
+
+</div>
+
+
+<div class="card current">
+
+    <img
+        class="card-icon"
+        src="esp32-farm/assets/opencv.png"
+        style="border-radius:5px ;"
+        alt="OpenCV"
+    >
+
+    <h3>
+        DETECTION
+    </h3>
+
+    <p>
+        I used Python and OpenCV to
+        analyse plant colours and detect
+        possible problems.
+    </p>
+
+</div>
+
+
+<div class="card current">
+
+    <img
+        class="card-icon"
+        src="esp32-farm/assets/dashboard-icon.png"
+        alt="Dashboard"
+    >
+
+    <h3>
+        DASHBOARD
+    </h3>
+
+    <p>
+        I made a web dashboard to display
+        plant condition and processed results.
+    </p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     VISION DATA
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        02
+    </span>
+
+    <h2>
+        VISION DATA
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="images">
+
+
+<div class="image-card">
+
+    <img
+        src="esp32-farm/assets/data.png"
+        alt="Plant camera image"
+    >
+
+    <div class="image-label">
+        RAW CAMERA IMAGE
+    </div>
+
+    <div class="image-description">
+        Image captured by the current ESP32-CAM prototype.
+    </div>
+
+</div>
+
+
+<div class="image-card">
+
+    <img
+        src="esp32-farm/assets/dashboard.png"
+        alt="Plant detection dashboard"
+    >
+
+    <div class="image-label">
+        DETECTION RESULT
+    </div>
+
+    <div class="image-description">
+        Processed information displayed on the dashboard.
+    </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     CIRCUIT
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        03
+    </span>
+
+    <h2>
+        CIRCUIT
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="circuit-card">
+
+    <img
+        src="esp32-farm/assets/circuit.png"
+        style="border-radius: 100px;"
+        alt="Smart Farm AI circuit diagram"
+    >
+
+    <div class="circuit-caption">
+        ESP32-CAM PROTOTYPE CIRCUIT
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     CURRENT SYSTEM FLOW
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        04
+    </span>
+
+    <h2>
+        CURRENT SYSTEM FLOW
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="flow-wrapper">
+
+<div class="flowchart">
+
+
+<div class="flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/esp32-cam.png"
+        style="transform: scale(2);"
+            alt="ESP32-CAM"
+        >
+    </div>
+
+    <h3>
+        ESP32-CAM
+    </h3>
+
+    <p>
+        Captures the
+        plant image.
+    </p>
+
+</div>
+
+
+<div class="flow-arrow">
+    →
+</div>
+
+
+<div class="flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/python.png"
+            alt="Python"
+        >
+    </div>
+
+    <h3>
+        PYTHON
+    </h3>
+
+    <p>
+        Receives and
+        processes image.
+    </p>
+
+</div>
+
+
+<div class="flow-arrow">
+    →
+</div>
+
+
+<div class="flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/opencv.png"
+            style="border-radius:5px ;"
+            alt="OpenCV"
+        >
+    </div>
+
+    <h3>
+        OPENCV
+    </h3>
+
+    <p>
+        Checks plant
+        colours.
+    </p>
+
+</div>
+
+
+<div class="flow-arrow">
+    →
+</div>
+
+
+<div class="flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/data-json.png"
+            style="transform: scale(1.5);"
+            alt="Data JSON"
+        >
+    </div>
+
+    <h3>
+        DATA.JSON
+    </h3>
+
+    <p>
+        Stores the
+        plant status.
+    </p>
+
+</div>
+
+
+<div class="flow-arrow">
+    →
+</div>
+
+
+<div class="flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/dashboard-icon.png"
+            alt="Dashboard"
+        >
+    </div>
+
+    <h3>
+        DASHBOARD
+    </h3>
+
+    <p>
+        Shows the
+        results.
+    </p>
+
+</div>
+
+
+<div class="flow-arrow">
+    →
+</div>
+
+
+<div class="flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/ai.png"
+            alt="AI"
+        >
+    </div>
+
+    <h3>
+        AI ASSISTANT
+    </h3>
+
+    <p>
+        Helps explain
+        the results.
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     FUTURE DRONE SYSTEM
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        05
+    </span>
+
+    <h2>
+        FUTURE DRONE SYSTEM
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="future-flow-wrapper">
+
+<div class="future-flowchart">
+
+
+<div class="future-flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/drone.png"
+            alt="Autonomous agricultural drone"
+        >
+    </div>
+
+    <h3>
+        AUTONOMOUS DRONE
+    </h3>
+
+    <p>
+        Flies over the
+        farm automatically.
+    </p>
+
+</div>
+
+
+<div class="future-arrow">
+    →
+</div>
+
+
+<div class="future-flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/aerial-camera.png"
+            alt="Aerial camera"
+        >
+    </div>
+
+    <h3>
+        AERIAL CAMERA
+    </h3>
+
+    <p>
+        Captures images
+        from above.
+    </p>
+
+</div>
+
+
+<div class="future-arrow">
+    →
+</div>
+
+
+<div class="future-flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/ai-vision.png"
+            alt="AI vision"
+        >
+    </div>
+
+    <h3>
+        AI VISION
+    </h3>
+
+    <p>
+        Analyses plant
+        health.
+    </p>
+
+</div>
+
+
+<div class="future-arrow">
+    →
+</div>
+
+
+<div class="future-flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/farm-map.png"
+            alt="Farm map"
+        >
+    </div>
+
+    <h3>
+        FARM MAP
+    </h3>
+
+    <p>
+        Locates areas
+        with problems.
+    </p>
+
+</div>
+
+
+<div class="future-arrow">
+    →
+</div>
+
+
+<div class="future-flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/dashboard-icon.png"
+            alt="Farm dashboard"
+        >
+    </div>
+
+    <h3>
+        DASHBOARD
+    </h3>
+
+    <p>
+        Shows farm-wide
+        results.
+    </p>
+
+</div>
+
+
+<div class="future-arrow">
+    →
+</div>
+
+
+<div class="future-flow-box">
+
+    <div class="icon">
+        <img
+            src="esp32-farm/assets/ai.png"
+            alt="AI assistant"
+        >
+    </div>
+
+    <h3>
+        AI ASSISTANT
+    </h3>
+
+    <p>
+        Explains problems
+        and recommendations.
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     PLANT DETECTION
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        06
+    </span>
+
+    <h2>
+        PLANT DETECTION
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="health-grid">
+
+
+<div class="health healthy">
+
+    <strong>
+        DARK GREEN
+    </strong>
+
+    Healthy plant
+
+</div>
+
+
+<div class="health warning">
+
+    <strong>
+        LIGHT GREEN
+    </strong>
+
+    Warning
+
+</div>
+
+
+<div class="health critical">
+
+    <strong>
+        YELLOW
+    </strong>
+
+    Possible problem
+
+</div>
+
+
+<div class="health offline">
+
+    <strong>
+        MISSING
+    </strong>
+
+    No plant detected
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW DETECTION WORKS
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        07
+    </span>
+
+    <h2>
+        HOW THE DETECTION WORKS
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="steps">
+
+
+<div class="step">
+
+    <div class="step-number">
+        STEP 01
+    </div>
+
+    <h3>
+        Take Picture
+    </h3>
+
+    <p>
+        The ESP32-CAM takes a picture
+        of the plant.
+    </p>
+
+</div>
+
+
+<div class="step">
+
+    <div class="step-number">
+        STEP 02
+    </div>
+
+    <h3>
+        Receive Image
+    </h3>
+
+    <p>
+        Python receives the image
+        from the camera.
+    </p>
+
+</div>
+
+
+<div class="step">
+
+    <div class="step-number">
+        STEP 03
+    </div>
+
+    <h3>
+        Check Colours
+    </h3>
+
+    <p>
+        OpenCV checks the colours
+        in the image.
+    </p>
+
+</div>
+
+
+<div class="step">
+
+    <div class="step-number">
+        STEP 04
+    </div>
+
+    <h3>
+        Save Result
+    </h3>
+
+    <p>
+        The plant status is saved
+        in data.json.
+    </p>
+
+</div>
+
+
+<div class="step">
+
+    <div class="step-number">
+        STEP 05
+    </div>
+
+    <h3>
+        Show Dashboard
+    </h3>
+
+    <p>
+        The website reads the data
+        and displays the result.
+    </p>
+
+</div>
+
+
+<div class="step">
+
+    <div class="step-number">
+        STEP 06
+    </div>
+
+    <h3>
+        AI Assistant
+    </h3>
+
+    <p>
+        The AI can help explain
+        the plant condition.
+    </p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     POWER
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        08
+    </span>
+
+    <h2>
+        POWER
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="architecture-card">
+
+<div class="architecture">
+
+
+    <div class="arch-box">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/battery.png"
+            style="transform: scale(2);"
+            alt="Battery"
+        >
+
+        BATTERY
+
+    </div>
+
+
+    <div class="arch-arrow">
+        →
+    </div>
+
+
+    <div class="arch-box">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/power-converter.png"
+            style="transform: scale(4);"
+            alt="Power converter"
+        >
+
+        POWER CONVERTER
+
+    </div>
+
+
+    <div class="arch-arrow">
+        →
+    </div>
+
+
+    <div class="arch-box">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/esp32-cam.png"
+        style="transform: scale(2);"
+            alt="ESP32-CAM"
+        >
+
+        ESP32-CAM
+
+    </div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     CURRENT ARCHITECTURE
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        09
+    </span>
+
+    <h2>
+        CURRENT SYSTEM ARCHITECTURE
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="architecture-card">
+
+<div class="architecture">
+
+
+    <div class="arch-box">
+        ESP32-CAM
+    </div>
+
+
+    <div class="arch-arrow">
+        →
+    </div>
+
+
+    <div class="arch-box">
+        Python
+    </div>
+
+
+    <div class="arch-arrow">
+        →
+    </div>
+
+
+    <div class="arch-box">
+        OpenCV
+    </div>
+
+
+    <div class="arch-arrow">
+        →
+    </div>
+
+
+    <div class="arch-box">
+        data.json
+    </div>
+
+
+    <div class="arch-arrow">
+        →
+    </div>
+
+
+    <div class="arch-box">
+        Dashboard
+    </div>
+
+
+    <div class="arch-arrow">
+        →
+    </div>
+
+
+    <div class="arch-box">
+        AI
+    </div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     FUTURE DRONE ARCHITECTURE
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        10
+    </span>
+
+    <h2>
+        FUTURE DRONE ARCHITECTURE
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="architecture-card">
+
+<div class="architecture">
+
+
+    <div class="arch-box future-arch">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/drone.png"
+            alt="Drone"
+        >
+
+        DRONE
+
+    </div>
+
+
+    <div class="arch-arrow future-arch">
+        →
+    </div>
+
+
+    <div class="arch-box future-arch">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/aerial-camera.png"
+            alt="Aerial camera"
+        >
+
+        AERIAL CAMERA
+
+    </div>
+
+
+    <div class="arch-arrow future-arch">
+        →
+    </div>
+
+
+    <div class="arch-box future-arch">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/ai-vision.png"
+            alt="AI vision"
+        >
+
+        AI VISION
+
+    </div>
+
+
+    <div class="arch-arrow future-arch">
+        →
+    </div>
+
+
+    <div class="arch-box future-arch">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/farm-map.png"
+            alt="Farm map"
+        >
+
+        FARM MAP
+
+    </div>
+
+
+    <div class="arch-arrow future-arch">
+        →
+    </div>
+
+
+    <div class="arch-box future-arch">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/dashboard-icon.png"
+            alt="Dashboard"
+        >
+
+        DASHBOARD
+
+    </div>
+
+
+    <div class="arch-arrow future-arch">
+        →
+    </div>
+
+
+    <div class="arch-box future-arch">
+
+        <img
+            class="arch-box-image"
+            src="esp32-farm/assets/ai.png"
+            alt="AI"
+        >
+
+        AI
+
+    </div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     DEVELOPMENT ROADMAP
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        11
+    </span>
+
+    <h2>
+        DEVELOPMENT ROADMAP
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="roadmap">
+
+
+<div class="roadmap-card">
+
+    <h3>
+        CURRENT PROTOTYPE
+    </h3>
+
+    <ul class="roadmap-list">
+
+        <li>
+            ESP32-CAM image capture
+        </li>
+
+        <li>
+            Python image processing
+        </li>
+
+        <li>
+            OpenCV plant detection
+        </li>
+
+        <li>
+            JSON data storage
+        </li>
+
+        <li>
+            Web dashboard
+        </li>
+
+        <li>
+            AI-assisted explanation
+        </li>
+
+    </ul>
+
+</div>
+
+
+<div class="roadmap-card future-roadmap">
+
+    <h3>
+        FUTURE DEVELOPMENT
+    </h3>
+
+    <ul class="roadmap-list">
+
+        <li>
+            Drone-based image capture
+        </li>
+
+        <li>
+            Automated farm flights
+        </li>
+
+        <li>
+            Aerial plant monitoring
+        </li>
+
+        <li>
+            GPS-based problem locations
+        </li>
+
+        <li>
+            Farm health mapping
+        </li>
+
+        <li>
+            AI-assisted farm recommendations
+        </li>
+
+    </ul>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     SOURCE CODE
+========================================================= -->
+
+<section class="container">
+
+<div class="section-title">
+
+    <span class="section-number">
+        12
+    </span>
+
+    <h2>
+        SOURCE CODE
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<details>
+
+<summary>
+    01 // server.py — Camera + OpenCV
+</summary>
+
+<pre><code id="serverPy"
+class="loading">Loading server.py...</code></pre>
+
+</details>
+
+
+<details>
+
+<summary>
+    02 // server.js — AI + Voice
+</summary>
+
+<pre><code id="serverJs"
+class="loading">Loading server.js...</code></pre>
+
+</details>
+
+
+<details>
+
+<summary>
+    03 // index.js — Dashboard
+</summary>
+
+<pre><code id="indexJs"
+class="loading">Loading index.js...</code></pre>
+
+</details>
+
+
+<details>
+
+<summary>
+    04 // index.html — Dashboard
+</summary>
+
+<pre><code id="indexHtml"
+class="loading">Loading index.html...</code></pre>
+
+</details>
+
+
+</section>
+
+
+<!-- =========================================================
+     FINAL
+========================================================= -->
+
+<section class="container">
+
+<div class="card final-card">
+
+    <div class="tag">
+        PROJECT GOAL
+    </div>
+
+    <h2>
+        FIND PLANT PROBLEMS EARLY
+    </h2>
+
+    <p>
+        The current prototype uses an ESP32-CAM
+        to monitor plants and analyse their condition.
+    </p>
+
+    <div class="final-flow">
+
+        CURRENT
+        <br>
+
+        ESP32-CAM → AI VISION → DASHBOARD
+
+        <br><br>
+
+        FUTURE
+
+        <br>
+
+        DRONE → AERIAL CAMERA → AI VISION
+        → FARM MAP → DASHBOARD → AI
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    SMART FARM AI
+
+    <br><br>
+
+    ESP32-CAM • PYTHON • OPENCV • AI • DRONE VISION
+
+</footer>
+
+
+<!-- =========================================================
+     LOAD CODE FROM /code/
+========================================================= -->
+
+<script>
+
+async function loadCode(file, elementId) {
+
+    const element =
+        document.getElementById(elementId);
+
+    try {
+
+        const response =
+            await fetch(file);
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " + response.status
+            );
+
+        }
+
+        const code =
+            await response.text();
+
+        element.textContent = code;
+
+        element.classList.remove("loading");
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not load:",
+            file,
+            error
+        );
+
+        element.textContent =
+            "Could not load " + file;
+
+        element.classList.remove("loading");
+
+        element.classList.add("error");
+
+    }
+
+}
+
+
+/*
+=========================================================
+GITHUB PAGES STRUCTURE
+
+/index.html
+
+/esp32-farm/
+    /assets/
+        data.png
+        dashboard.png
+        circuit.png
+
+        esp32-cam.png
+        python.png
+        opencv.png
+        data-json.png
+        dashboard-icon.png
+        ai.png
+
+        battery.png
+        power-converter.png
+
+        drone.png
+        aerial-camera.png
+        ai-vision.png
+        farm-map.png
+
+    /code/
+        server.py
+        server.js
+        index.js
+        index.html
+=========================================================
+*/
+
+
+loadCode(
+    "esp32-farm/code/server.py",
+    "serverPy"
+);
+
+loadCode(
+    "esp32-farm/code/server.js",
+    "serverJs"
+);
+
+loadCode(
+    "esp32-farm/code/index.js",
+    "indexJs"
+);
+
+loadCode(
+    "esp32-farm/code/index.html",
+    "indexHtml"
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -62,9 +62,15 @@ export function handleUnlockSuccess() {
     sharinganEffect.style.display = "flex";
   }
 
+  // Show carousel with fade-in animation
+  const carouselContainer = document.getElementById("all-projects-container");
+  if (carouselContainer) {
+    carouselContainer.classList.add("visible");
+  }
+
   document.querySelector("body").style.background = "black";
 
-  const elements = document.querySelectorAll("body > :not(#sharingan-effect)");
+  const elements = document.querySelectorAll("body > :not(#sharingan-effect):not(#all-projects-container)");
   elements.forEach(el => {
     el.style.display = "none";
   });
@@ -72,7 +78,27 @@ export function handleUnlockSuccess() {
   sessionStorage.setItem("chroma_pin_unlocked", "true");
   sessionStorage.setItem("chroma_unlock_time", Date.now().toString());
 
-  if (typeof window.activateSharingan === "function") {
-    window.activateSharingan();
+  // Start sharingan cycling from first eye
+  if (typeof window.startSharinganCycle === "function") {
+    window.startSharinganCycle();
+  }
+}
+
+// Function to toggle carousel visibility with fade effect
+export function toggleCarousel() {
+  const carouselContainer = document.getElementById("all-projects-container");
+  if (!carouselContainer) return;
+
+  const isVisible = carouselContainer.classList.contains("visible");
+
+  if (isVisible) {
+    // Fade out
+    carouselContainer.classList.remove("visible");
+    setTimeout(() => {
+      carouselContainer.classList.add("visible");
+    }, 1500);
+  } else {
+    // Fade in
+    carouselContainer.classList.add("visible");
   }
 }

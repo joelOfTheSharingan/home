@@ -169,16 +169,22 @@ await new Promise(resolve =>
 // auth protection
 console.log("Starting auth check");
 
-try {
+const session = await requireAuth();
 
-  await requireAuth();
+if (!session) {
+  console.log("Auth failed - redirecting to login");
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
 
-  console.log("Auth passed");
+  window.location.href = isLocal
+    ? "http://localhost:3000/home/login.html"
+    : "https://joelofthesharingan.github.io/home/login.html";
 
-} catch (err) {
-
-  console.error("Auth failed:", err);
+  throw new Error("Redirected to login");
 }
+
+console.log("Auth passed");
 
 /* ─────────────────────────────
    BACKGROUND LOGIC
@@ -250,9 +256,25 @@ const routes = {
     ? "http://localhost:3000/meenachil_app"
     :"https://joelofthesharingan.github.io/meenachil_app/",
 
+  jarvis: isLocal
+    ? "http://localhost:3000/home/jarvis"
+    :"https://joelofthesharingan.github.io/home/jarvis",
+
+  esp32Farm: isLocal
+    ? "http://localhost:3000/home/esp32-farm"
+    :"https://joelofthesharingan.github.io/home/esp32-farm",
+
+  rcPlane: isLocal
+    ? "http://localhost:3000/home/rc-plane"
+    :"https://joelofthesharingan.github.io/home/rc-plane",
+ soilMoisture: isLocal
+    ? "http://localhost:3000/home/soil-moisture"
+    :"https://joelofthesharingan.github.io/home/soil-moisture",
+
+
   titan: isLocal
     ? "http://localhost:3000/titan-dynamics"
-    : "https://joelofthesharingan.github.io/titan-dynamics/",
+    : "https://joelofthesharingan.github.io/home/redirect.html?app=titan",
 
   wordle:
     "https://joelofthesharingan.github.io/Wordle_game/",

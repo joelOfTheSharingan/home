@@ -9,14 +9,7 @@
     }
 
     /* REMOVE container styling */
-    #container {
-        width: 100%;
-        background: transparent;
-        backdrop-filter: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-    }
+
     #arrow{
       transform: scale(2);
       font-size: 28px;
@@ -161,4 +154,15 @@
   .controls {
     display: none;
   }
+  #qoute{
+    font-size: 25px;
+  }
+  #qoute-container {
+  width: 50%;
+  margin: 0 auto;
+  display: flex; /* Changed from block */
+  align-items: center; /* Vertical center */
+  justify-content: center; /* Horizontal center */
+  min-height: 150px; /* Example to ensure space */
+}
 }

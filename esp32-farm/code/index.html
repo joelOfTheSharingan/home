@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Farm Dashboard - CyberHUD v4.0</title>
+
+<style>
+/* Import futuristic sci-fi fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+body {
+    margin: 0;
+    /* Deep space background with digital grid pattern overlay */
+    background: 
+        radial-gradient(circle at center, #0a141d 0%, #020609 100%),
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
+        linear-gradient(90deg, rgba(0, 255, 200, 0.03), rgba(0, 0, 0, 0), rgba(0, 255, 200, 0.03));
+    background-size: 100% 100%, 100% 4px, 8px 100%;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Subtle futuristic scanline overlay effect */
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+    z-index: 10;
+    background-size: 100% 3px;
+    pointer-events: none;
+}
+
+/* Header Telemetry Text */
+.header-panel {
+    text-align: center;
+    margin-bottom: 25px;
+    z-index: 5;
+}
+.header-panel h1 {
+    color: #00ffc8;
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 5px;
+    text-shadow: 0 0 15px rgba(0, 255, 200, 0.6);
+}
+.header-panel p {
+    font-family: 'Share Tech Mono', monospace;
+    color: #8ab4f8;
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 280px);
+    grid-template-rows: repeat(3, 180px);
+    gap: 20px;
+    padding: 25px;
+    background: rgba(3, 15, 22, 0.6);
+    border: 2px solid rgba(0, 255, 200, 0.15);
+    border-radius: 20px;
+    box-shadow: 
+        0 0 40px rgba(0, 255, 200, 0.05),
+        inset 0 0 30px rgba(0, 255, 200, 0.05);
+    backdrop-filter: blur(12px);
+    position: relative;
+    z-index: 5;
+}
+
+.cell {
+    background: linear-gradient(135deg, rgba(10, 25, 35, 0.8) 0%, rgba(4, 10, 15, 0.95) 100%);
+    border: 1px solid rgba(0, 255, 200, 0.2);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* High-tech glow states */
+.cell:hover {
+    transform: scale(1.04);
+    box-shadow: 0 10px 20px rgba(0, 255, 200, 0.15);
+}
+
+/* Interactive Sci-Fi Voice Trigger Button */
+#micBtn {
+    margin-top: 35px;
+    padding: 16px 40px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #020609;
+    background: #00ffc8;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.4);
+    transition: all 0.3s ease;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#micBtn.listening {
+    background: #ff3b30;
+    color: #ffffff;
+    box-shadow: 0 0 30px rgba(255, 59, 48, 0.6);
+    animation: pulse 1.5s infinite;
+}
+
+#micBtn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="header-panel">
+    <h1>V4.0</h1>
+    <p>AI Matrix • Real-Time Botanical Diagnostics</p>
+</div>
+<div class="video-container" style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
+    <div style="text-align: center;">
+        <p style="color: #00ffc8; font-family: 'Share Tech Mono';">RAW CAMERA FEED</p>
+        <img src="http://localhost:5000/video_raw" width="320" style="border: 2px solid #00ffc8; border-radius: 8px;">
+    </div>
+    <div style="text-align: center;">
+        <p style="color: #00ffc8; font-family: 'Share Tech Mono';">AI DETECTION MASK</p>
+        <img src="http://localhost:5000/video_mask" width="320" style="border: 2px solid #00ffc8; border-radius: 8px;">
+    </div>
+</div>
+<div class="grid">
+    <div class="cell" id="p0"></div>
+    <div class="cell" id="p1"></div>
+    <div class="cell" id="p2"></div>
+
+    <div class="cell" id="p3"></div>
+    <div class="cell" id="p4"></div>
+    <div class="cell" id="p5"></div>
+
+    <div class="cell" id="p6"></div>
+    <div class="cell" id="p7"></div>
+    <div class="cell" id="p8"></div>
+</div>
+
+<button id="micBtn">🎤 Talk to AI</button>
+
+<script src="index.js"></script>
+</body>
+</html>
