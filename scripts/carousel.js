@@ -4,7 +4,7 @@
 
 import { getInfoCardHTML, getRightCardHTML } from "./templates.js";
 
-const ROTATE_SPEED = 0.3;
+const ROTATE_SPEED = 0.2;
 
 export const state = {
   rotation: 0,

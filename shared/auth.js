@@ -50,6 +50,30 @@ export async function googleLogin() {
 }
 
 /* ─────────────────────────────
+   GOOGLE SIGNUP
+───────────────────────────── */
+export async function googleSignup() {
+
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  const redirectUrl = isLocal
+    ? "http://localhost:3000/home/"
+    : "https://joelofthesharingan.github.io/home/";
+
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: redirectUrl,
+      queryParams: {
+        prompt: "signup"
+      }
+    }
+  });
+}
+
+/* ─────────────────────────────
    GET USER
 ───────────────────────────── */
 export async function getUser() {

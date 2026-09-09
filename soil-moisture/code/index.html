@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Automated Irrigation System</title>
+
+    <link
+        rel="stylesheet"
+        href="/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="background-grid"></div>
+
+<main class="dashboard">
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                💧
+            </div>
+
+            <div>
+
+                <h1>
+                    AUTOMATED
+                    <span>IRRIGATION</span>
+                </h1>
+
+                <p>
+                    SMART SOIL MONITORING SYSTEM
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="live-indicator">
+
+            <span class="live-dot"></span>
+
+            LIVE MONITOR
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         SYSTEM STATUS
+         ===================================================== -->
+
+    <section class="system-status">
+
+        <div class="status-line">
+
+            <div class="status-icon">
+                ◉
+            </div>
+
+            <div>
+
+                <div class="small-label">
+                    SYSTEM STATUS
+                </div>
+
+                <div id="systemStatus">
+                    CONNECTING...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="status-time">
+
+            <div class="small-label">
+                LAST UPDATE
+            </div>
+
+            <div id="lastUpdate">
+                --
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DASHBOARD
+         ===================================================== -->
+
+    <section class="main-grid">
+
+
+        <!-- =================================================
+             SOIL MOISTURE
+             ================================================= -->
+
+        <div class="card moisture-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        SOIL SENSOR
+                    </div>
+
+                    <h2>
+                        Soil Moisture
+                    </h2>
+
+                </div>
+
+                <div class="sensor-icon">
+                    ◉
+                </div>
+
+            </div>
+
+
+            <div class="moisture-value">
+
+                <span id="moisture">
+                    --
+                </span>
+
+                <span class="percentage">
+                    %
+                </span>
+
+            </div>
+
+
+            <div class="moisture-bar">
+
+                <div
+                    id="moistureFill"
+                    class="moisture-fill"
+                ></div>
+
+                <!-- 80% threshold -->
+                <div
+                    class="threshold low"
+                    style="left: 80%;"
+                ></div>
+
+                <!-- 95% threshold -->
+                <div
+                    class="threshold high"
+                    style="left: 95%;"
+                ></div>
+
+            </div>
+
+
+            <div class="scale">
+
+                <span>0%</span>
+
+                <span>LOW</span>
+
+                <span>80%</span>
+
+                <span>95%</span>
+
+                <span>100%</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CURRENT STATUS
+             ================================================= -->
+
+        <div
+            id="statusCard"
+            class="card irrigation-card"
+        >
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        IRRIGATION ANALYSIS
+                    </div>
+
+                    <h2>
+                        Current Status
+                    </h2>
+
+                </div>
+
+
+                <div
+                    id="statusIndicator"
+                    class="status-indicator"
+                >
+                    !
+                </div>
+
+            </div>
+
+
+            <div
+                id="statusText"
+                class="big-status"
+            >
+                CONNECTING
+            </div>
+
+
+            <p
+                id="statusDescription"
+                class="status-description"
+            >
+                Waiting for soil moisture data from Arduino.
+            </p>
+
+
+            <div class="status-rule"></div>
+
+
+            <div class="logic-grid">
+
+                <div class="logic-item">
+
+                    <span class="logic-range">
+                        0–79%
+                    </span>
+
+                    <span class="logic-name">
+                        TOO LOW
+                    </span>
+
+                </div>
+
+
+                <div class="logic-item">
+
+                    <span class="logic-range">
+                        80–95%
+                    </span>
+
+                    <span class="logic-name">
+                        PERFECT
+                    </span>
+
+                </div>
+
+
+                <div class="logic-item">
+
+                    <span class="logic-range">
+                        96–100%
+                    </span>
+
+                    <span class="logic-name">
+                        TOO WET
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ARDUINO
+             ================================================= -->
+
+        <div class="card connection-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        HARDWARE
+                    </div>
+
+                    <h2>
+                        Arduino
+                    </h2>
+
+                </div>
+
+
+                <div
+                    id="arduinoIcon"
+                    class="hardware-icon"
+                >
+                    ✓
+                </div>
+
+            </div>
+
+
+            <div class="connection-state">
+
+                <span
+                    id="connectionDot"
+                    class="connection-dot"
+                ></span>
+
+                <span id="arduinoStatus">
+                    CONNECTING
+                </span>
+
+            </div>
+
+
+            <div class="hardware-info">
+
+                <div class="info-row">
+
+                    <span>
+                        SENSOR
+                    </span>
+
+                    <strong>
+                        SOIL MOISTURE
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        DATA LINK
+                    </span>
+
+                    <strong>
+                        SERIAL / 9600
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        CONTROL
+                    </span>
+
+                    <strong>
+                        ARDUINO
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MOTOR STATUS
+             ================================================= -->
+
+        <div
+            id="motorCard"
+            class="card motor-card"
+        >
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        IRRIGATION HARDWARE
+                    </div>
+
+                    <h2>
+                        Motor Status
+                    </h2>
+
+                </div>
+
+
+                <div
+                    id="motorIcon"
+                    class="motor-icon"
+                >
+                    ⚙
+                </div>
+
+            </div>
+
+
+            <div
+                id="motorStatus"
+                class="motor-status"
+            >
+                WAITING
+            </div>
+
+
+            <p
+                id="motorDescription"
+                class="motor-description"
+            >
+                Waiting for moisture data.
+            </p>
+
+
+            <div class="motor-line"></div>
+
+
+            <div class="motor-info">
+
+                <span>
+                    CONTROL SOURCE
+                </span>
+
+                <strong>
+                    ARDUINO
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CONTROL ARCHITECTURE
+             ================================================= -->
+
+        <div class="card logic-card">
+
+            <div class="eyebrow">
+                CONTROL ARCHITECTURE
+            </div>
+
+            <h2>
+                Independent Control
+            </h2>
+
+
+            <div class="architecture">
+
+                <div class="architecture-box">
+
+                    <div class="architecture-number">
+                        01
+                    </div>
+
+                    <div class="architecture-title">
+                        SENSOR
+                    </div>
+
+                    <div class="architecture-text">
+                        Measures soil moisture
+                    </div>
+
+                </div>
+
+
+                <div class="arrow">
+                    →
+                </div>
+
+
+                <div class="architecture-box">
+
+                    <div class="architecture-number">
+                        02
+                    </div>
+
+                    <div class="architecture-title">
+                        ARDUINO
+                    </div>
+
+                    <div class="architecture-text">
+                        Controls motor and RGB
+                    </div>
+
+                </div>
+
+
+                <div class="arrow">
+                    →
+                </div>
+
+
+                <div class="architecture-box">
+
+                    <div class="architecture-number">
+                        03
+                    </div>
+
+                    <div class="architecture-title">
+                        PYTHON
+                    </div>
+
+                    <div class="architecture-text">
+                        Displays live information
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="architecture-note">
+
+                <span>●</span>
+
+                Arduino controls the hardware independently.
+                Python monitors the moisture reading and updates
+                the dashboard.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+
+        <div>
+            AUTOMATED IRRIGATION SYSTEM
+        </div>
+
+        <div>
+            ARDUINO + PYTHON FLASK
+        </div>
+
+        <div>
+
+            <span class="footer-dot"></span>
+
+            SYSTEM ACTIVE
+
+        </div>
+
+    </footer>
+
+</main>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+async function updateDashboard() {
+
+    try {
+
+        const response = await fetch(
+            "/api/moisture",
+            {
+                cache: "no-store"
+            }
+        );
+
+
+        if (!response.ok) {
+            throw new Error("Server error");
+        }
+
+
+        const data = await response.json();
+
+
+        const moistureElement =
+            document.getElementById("moisture");
+
+        const moistureFill =
+            document.getElementById("moistureFill");
+
+        const systemStatus =
+            document.getElementById("systemStatus");
+
+        const arduinoStatus =
+            document.getElementById("arduinoStatus");
+
+        const connectionDot =
+            document.getElementById("connectionDot");
+
+        const arduinoIcon =
+            document.getElementById("arduinoIcon");
+
+        const lastUpdate =
+            document.getElementById("lastUpdate");
+
+        const statusCard =
+            document.getElementById("statusCard");
+
+        const statusText =
+            document.getElementById("statusText");
+
+        const statusDescription =
+            document.getElementById("statusDescription");
+
+        const statusIndicator =
+            document.getElementById("statusIndicator");
+
+        const motorCard =
+            document.getElementById("motorCard");
+
+        const motorStatus =
+            document.getElementById("motorStatus");
+
+        const motorDescription =
+            document.getElementById("motorDescription");
+
+        const motorIcon =
+            document.getElementById("motorIcon");
+
+
+        // =================================================
+        // OFFLINE
+        // =================================================
+
+        if (!data.arduino) {
+
+            moistureElement.textContent = "--";
+
+            moistureFill.style.width = "0%";
+
+            systemStatus.textContent =
+                "ARDUINO OFFLINE";
+
+            arduinoStatus.textContent =
+                "DISCONNECTED";
+
+            connectionDot.classList.remove(
+                "online"
+            );
+
+            arduinoIcon.textContent = "!";
+
+            lastUpdate.textContent =
+                "NO DATA";
+
+            statusText.textContent =
+                "OFFLINE";
+
+            statusDescription.textContent =
+                "No recent moisture reading received from Arduino.";
+
+            statusCard.className =
+                "card irrigation-card offline";
+
+            statusIndicator.textContent =
+                "!";
+
+
+            motorStatus.textContent =
+                "OFFLINE";
+
+            motorStatus.className =
+                "motor-status motor-offline";
+
+            motorDescription.textContent =
+                "Waiting for Arduino moisture data.";
+
+            motorIcon.textContent =
+                "⚙";
+
+            motorCard.className =
+                "card motor-card offline";
+
+            return;
+        }
+
+
+        // =================================================
+        // ONLINE
+        // =================================================
+
+        const moisture =
+            Number(data.moisture);
+
+
+        moistureElement.textContent =
+            moisture;
+
+
+        moistureFill.style.width =
+            moisture + "%";
+
+
+        systemStatus.textContent =
+            "SYSTEM ONLINE";
+
+
+        arduinoStatus.textContent =
+            "CONNECTED";
+
+
+        connectionDot.classList.add(
+            "online"
+        );
+
+
+        arduinoIcon.textContent =
+            "✓";
+
+
+        lastUpdate.textContent =
+            new Date().toLocaleTimeString();
+
+
+        // =================================================
+        // IRRIGATION STATUS
+        // =================================================
+
+        if (moisture < 80) {
+
+            statusText.textContent =
+                "TOO LOW";
+
+            statusDescription.textContent =
+                "Soil moisture is below 80%. Irrigation is required.";
+
+            statusCard.className =
+                "card irrigation-card dry";
+
+            statusIndicator.textContent =
+                "!";
+
+        }
+
+        else if (moisture <= 95) {
+
+            statusText.textContent =
+                "PERFECT WATER";
+
+            statusDescription.textContent =
+                "Soil moisture is within the ideal 80–95% range.";
+
+            statusCard.className =
+                "card irrigation-card good";
+
+            statusIndicator.textContent =
+                "✓";
+
+        }
+
+        else {
+
+            statusText.textContent =
+                "TOO WET";
+
+            statusDescription.textContent =
+                "Soil moisture is above 95%. No irrigation is required.";
+
+            statusCard.className =
+                "card irrigation-card wet";
+
+            statusIndicator.textContent =
+                "↑";
+
+        }
+
+
+        // =================================================
+        // MOTOR STATUS
+        // =================================================
+        //
+        // Dashboard interpretation:
+        //
+        // 0–79%  = MOTOR ON
+        // 80–100% = MOTOR OFF
+        //
+        // Python does not send commands to Arduino.
+        //
+        // =================================================
+
+        if (moisture < 80) {
+
+            motorStatus.textContent =
+                "MOTOR ON";
+
+            motorStatus.className =
+                "motor-status motor-on";
+
+            motorDescription.textContent =
+                "Moisture is below 80%. Arduino irrigation logic indicates the motor should be ON.";
+
+            motorIcon.textContent =
+                "●";
+
+            motorCard.className =
+                "card motor-card motor-active";
+
+        }
+
+        else {
+
+            motorStatus.textContent =
+                "MOTOR OFF";
+
+            motorStatus.className =
+                "motor-status motor-off";
+
+            motorDescription.textContent =
+                "Moisture is 80% or higher. Arduino irrigation logic indicates the motor should be OFF.";
+
+            motorIcon.textContent =
+                "○";
+
+            motorCard.className =
+                "card motor-card motor-inactive";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        document.getElementById(
+            "systemStatus"
+        ).textContent =
+            "SERVER OFFLINE";
+
+
+        document.getElementById(
+            "arduinoStatus"
+        ).textContent =
+            "NO CONNECTION";
+
+
+        document.getElementById(
+            "statusText"
+        ).textContent =
+            "OFFLINE";
+
+
+        document.getElementById(
+            "motorStatus"
+        ).textContent =
+            "OFFLINE";
+
+
+        document.getElementById(
+            "lastUpdate"
+        ).textContent =
+            "NO DATA";
+
+    }
+
+}
+
+
+// First update
+updateDashboard();
+
+
+// Update every second
+setInterval(
+    updateDashboard,
+    1000
+);
+
+</script>
+
+</body>
+
+</html>

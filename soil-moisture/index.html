@@ -1,0 +1,2832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Automatic Plant Watering System</title>
+
+<style>
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background: #050907;
+    color: #ecfff3;
+    overflow-x: hidden;
+}
+
+button {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+
+    background:
+        linear-gradient(rgba(55,255,135,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(55,255,135,.045) 1px, transparent 1px);
+
+    background-size: 45px 45px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        black,
+        rgba(0,0,0,.2)
+    );
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(37,255,119,.09), transparent 28%),
+        radial-gradient(circle at 85% 35%, rgba(0,255,170,.06), transparent 25%),
+        radial-gradient(circle at 50% 90%, rgba(36,255,105,.05), transparent 30%);
+}
+
+.grid-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -3;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(45,255,125,.035) 50%,
+            transparent 100%
+        );
+
+    animation: gridMove 8s linear infinite;
+}
+
+@keyframes gridMove {
+    from {
+        transform: translateX(-40%);
+    }
+
+    to {
+        transform: translateX(40%);
+    }
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #67ff9d;
+    box-shadow: 0 0 8px #67ff9d;
+    opacity: .5;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    from {
+        transform: translateY(110vh);
+    }
+
+    to {
+        transform: translateY(-20vh);
+    }
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 6vw;
+
+    background: rgba(4,10,7,.78);
+    border-bottom: 1px solid rgba(80,255,140,.15);
+
+    backdrop-filter: blur(18px);
+
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.logo-mark {
+    width: 31px;
+    height: 31px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #54ff91;
+
+    color: #54ff91;
+
+    font-size: 15px;
+
+    box-shadow:
+        0 0 15px rgba(84,255,145,.2);
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+
+    color: #9bb7a5;
+}
+
+.nav-links a {
+    transition: .25s;
+}
+
+.nav-links a:hover {
+    color: #6cff9f;
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+main {
+    width: min(1400px, 90%);
+    margin: auto;
+}
+
+section {
+    padding: 120px 0;
+}
+
+.section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 18px;
+
+    color: #63ff9b;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+.section-label::before {
+    content: "";
+    width: 25px;
+    height: 1px;
+    background: #63ff9b;
+    box-shadow: 0 0 10px #63ff9b;
+}
+
+.section-title {
+    font-size: clamp(32px, 5vw, 62px);
+    line-height: .95;
+    letter-spacing: -2px;
+    font-weight: 850;
+}
+
+.section-description {
+    max-width: 680px;
+
+    margin-top: 22px;
+
+    color: #91a89a;
+
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    padding-top: 100px;
+
+    position: relative;
+}
+
+.hero-content {
+    width: 100%;
+}
+
+.status-line {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 25px;
+
+    color: #69ff9f;
+
+    font-family: monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    background: #63ff9b;
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 10px #63ff9b,
+        0 0 25px rgba(99,255,155,.5);
+
+    animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .35;
+        transform: scale(.7);
+    }
+}
+
+.hero h1 {
+    max-width: 1100px;
+
+    font-size: clamp(55px, 9vw, 125px);
+    line-height: .83;
+
+    letter-spacing: -6px;
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+.hero h1 span {
+    display: block;
+
+    color: transparent;
+
+    -webkit-text-stroke: 1px rgba(105,255,159,.8);
+
+    text-shadow:
+        0 0 30px rgba(70,255,140,.08);
+}
+
+.hero-subtitle {
+    max-width: 700px;
+
+    margin-top: 35px;
+
+    color: #9db5a5;
+
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+
+    margin-top: 38px;
+}
+
+.btn {
+    position: relative;
+
+    padding: 14px 23px;
+
+    border: 1px solid #326b48;
+
+    background: rgba(17,40,26,.55);
+
+    color: #baffce;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.btn:hover {
+    background: #58ff93;
+    border-color: #58ff93;
+
+    color: #041108;
+
+    box-shadow:
+        0 0 25px rgba(88,255,147,.3);
+}
+
+.btn.primary {
+    background: #58ff93;
+    color: #041108;
+    border-color: #58ff93;
+}
+
+
+/* =========================================================
+   CORNER FRAME
+========================================================= */
+
+.tech-frame {
+    position: absolute;
+
+    right: 0;
+    bottom: 8%;
+
+    width: 250px;
+    height: 160px;
+
+    border: 1px solid rgba(86,255,146,.18);
+
+    opacity: .6;
+}
+
+.tech-frame::before,
+.tech-frame::after {
+    content: "";
+    position: absolute;
+
+    width: 35px;
+    height: 35px;
+
+    border-color: #63ff9b;
+    border-style: solid;
+}
+
+.tech-frame::before {
+    top: -1px;
+    left: -1px;
+
+    border-width: 2px 0 0 2px;
+}
+
+.tech-frame::after {
+    right: -1px;
+    bottom: -1px;
+
+    border-width: 0 2px 2px 0;
+}
+
+.frame-text {
+    position: absolute;
+    bottom: 14px;
+    left: 15px;
+
+    font-family: monospace;
+    font-size: 9px;
+
+    color: #557261;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   OVERVIEW
+========================================================= */
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 25px;
+
+    margin-top: 55px;
+}
+
+.panel {
+    position: relative;
+
+    padding: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(15,31,21,.9),
+            rgba(5,13,8,.92)
+        );
+
+    border: 1px solid rgba(82,255,141,.14);
+
+    clip-path: polygon(
+        0 0,
+        calc(100% - 18px) 0,
+        100% 18px,
+        100% 100%,
+        18px 100%,
+        0 calc(100% - 18px)
+    );
+}
+
+.panel::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        #5cff98,
+        transparent 65%
+    );
+}
+
+.panel-number {
+    font-family: monospace;
+
+    color: #4b755b;
+
+    font-size: 10px;
+
+    margin-bottom: 22px;
+}
+
+.panel h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.panel p {
+    color: #8da796;
+    line-height: 1.75;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ARCHITECTURE
+========================================================= */
+
+.architecture {
+    margin-top: 50px;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    border: 1px solid rgba(90,255,145,.12);
+}
+
+.arch-node {
+    min-height: 190px;
+
+    padding: 25px;
+
+    border-right: 1px solid rgba(90,255,145,.1);
+
+    position: relative;
+
+    background: rgba(9,21,14,.65);
+}
+
+.arch-node:last-child {
+    border-right: none;
+}
+
+.arch-icon {
+    font-size: 27px;
+    margin-bottom: 22px;
+}
+
+.arch-node h4 {
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+.arch-node p {
+    color: #718a79;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.arch-number {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+
+    color: #31543d;
+
+    font-family: monospace;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   LIVE SYSTEM
+========================================================= */
+
+.live-section {
+    position: relative;
+}
+
+.live-layout {
+    margin-top: 55px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.gauge-panel {
+    min-height: 500px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    position: relative;
+
+    background: #07110b;
+
+    border: 1px solid rgba(87,255,145,.17);
+
+    overflow: hidden;
+}
+
+.gauge-panel::before {
+    content: "";
+
+    position: absolute;
+    width: 420px;
+    height: 420px;
+
+    border: 1px solid rgba(92,255,150,.08);
+    border-radius: 50%;
+}
+
+.gauge-panel::after {
+    content: "";
+
+    position: absolute;
+    width: 310px;
+    height: 310px;
+
+    border: 1px dashed rgba(92,255,150,.1);
+    border-radius: 50%;
+
+    animation: rotate 18s linear infinite;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.gauge {
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    position: relative;
+
+    background:
+        radial-gradient(
+            circle,
+            #08130c 0 57%,
+            transparent 58%
+        );
+
+    z-index: 2;
+}
+
+.gauge-ring {
+    position: absolute;
+    inset: 0;
+
+    border-radius: 50%;
+
+    background: conic-gradient(
+        #5cff98 var(--progress),
+        #14291c var(--progress)
+    );
+
+    mask: radial-gradient(
+        farthest-side,
+        transparent calc(100% - 9px),
+        #000 calc(100% - 8px)
+    );
+
+    -webkit-mask: radial-gradient(
+        farthest-side,
+        transparent calc(100% - 9px),
+        #000 calc(100% - 8px)
+    );
+
+    transition: .5s;
+}
+
+.gauge-value {
+    font-size: 55px;
+    font-weight: 900;
+
+    letter-spacing: -3px;
+}
+
+.gauge-unit {
+    color: #70917c;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: -8px;
+}
+
+.system-state {
+    margin-top: 28px;
+
+    padding: 9px 18px;
+
+    border: 1px solid #326b48;
+
+    color: #65ff9b;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    z-index: 5;
+}
+
+.data-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.data-box {
+    min-height: 145px;
+
+    padding: 25px;
+
+    background: rgba(8,18,12,.8);
+
+    border: 1px solid rgba(90,255,145,.12);
+
+    position: relative;
+}
+
+.data-box::after {
+    content: "";
+
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+
+    width: 6px;
+    height: 6px;
+
+    background: #54ff91;
+
+    box-shadow: 0 0 12px #54ff91;
+}
+
+.data-label {
+    color: #668271;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.data-value {
+    margin-top: 18px;
+
+    font-family: monospace;
+
+    font-size: 27px;
+    font-weight: 800;
+
+    color: #d9ffe5;
+}
+
+.data-small {
+    margin-top: 5px;
+
+    color: #5c7565;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   THRESHOLDS
+========================================================= */
+
+.thresholds {
+    margin-top: 25px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.threshold {
+    padding: 22px;
+
+    border: 1px solid rgba(255,255,255,.07);
+
+    background: rgba(9,18,12,.75);
+}
+
+.threshold h4 {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.threshold p {
+    color: #738d7b;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.threshold-range {
+    font-family: monospace;
+
+    margin-bottom: 12px;
+
+    color: #61ff99;
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   WORKING FLOW
+========================================================= */
+
+.flow {
+    margin-top: 55px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.flow-step {
+    padding: 30px;
+
+    min-height: 190px;
+
+    border-top: 1px solid rgba(90,255,145,.18);
+    border-bottom: 1px solid rgba(90,255,145,.08);
+    border-left: 1px solid rgba(90,255,145,.08);
+
+    position: relative;
+}
+
+.flow-step:last-child {
+    border-right: 1px solid rgba(90,255,145,.08);
+}
+
+.flow-step::after {
+    content: "→";
+
+    position: absolute;
+
+    right: -12px;
+    top: 25px;
+
+    color: #55ff91;
+
+    font-size: 18px;
+
+    z-index: 2;
+}
+
+.flow-step:last-child::after {
+    display: none;
+}
+
+.step-number {
+    color: #3b694a;
+
+    font-family: monospace;
+    font-size: 10px;
+
+    margin-bottom: 25px;
+}
+
+.flow-step h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.flow-step p {
+    color: #718b79;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   COMPONENTS
+========================================================= */
+
+.components {
+    margin-top: 55px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.component {
+    padding: 27px;
+
+    min-height: 175px;
+
+    border: 1px solid rgba(82,255,140,.12);
+
+    background: rgba(8,17,11,.72);
+
+    transition: .3s;
+
+    position: relative;
+}
+
+.component:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(82,255,140,.4);
+
+    background: rgba(14,30,19,.85);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.25);
+}
+
+.component-icon {
+    font-size: 25px;
+
+    margin-bottom: 25px;
+}
+
+.component h3 {
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+.component p {
+    color: #718a79;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MEDIA
+========================================================= */
+
+.media-grid {
+    margin-top: 55px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.media-card {
+    background: #07100a;
+
+    border: 1px solid rgba(85,255,145,.13);
+
+    overflow: hidden;
+}
+
+.media-heading {
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-bottom: 1px solid rgba(85,255,145,.1);
+}
+
+.media-heading span:first-child {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.media-tag {
+    color: #4e765d;
+
+    font-family: monospace;
+    font-size: 9px;
+}
+
+.media-content {
+    min-height: 350px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #09130d,
+            #030705
+        );
+
+    position: relative;
+}
+
+.media-content img,
+.media-content video {
+    width: 100%;
+    height: 350px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.media-placeholder {
+    color: #52705d;
+
+    font-family: monospace;
+    font-size: 11px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   CODE LAB
+========================================================= */
+
+.code-section {
+    padding-bottom: 150px;
+}
+
+.code-lab {
+    margin-top: 55px;
+
+    border: 1px solid rgba(85,255,145,.16);
+
+    background: #050a07;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.3);
+}
+
+.code-header {
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-bottom: 1px solid rgba(85,255,145,.1);
+
+    background: #09120c;
+}
+
+.window-controls {
+    display: flex;
+    gap: 7px;
+}
+
+.window-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    background: #294232;
+}
+
+.code-title {
+    color: #6d8976;
+
+    font-family: monospace;
+    font-size: 10px;
+}
+
+.copy-btn {
+    padding: 7px 12px;
+
+    border: 1px solid #284e35;
+
+    background: #0a160e;
+
+    color: #75ff9f;
+
+    font-family: monospace;
+    font-size: 9px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.copy-btn:hover {
+    background: #57ff91;
+    color: #031007;
+}
+
+.code-tabs {
+    display: flex;
+
+    border-bottom: 1px solid rgba(85,255,145,.1);
+
+    overflow-x: auto;
+}
+
+.code-tab {
+    padding: 15px 22px;
+
+    border: none;
+    border-right: 1px solid rgba(85,255,145,.08);
+
+    background: transparent;
+
+    color: #637c6c;
+
+    font-family: monospace;
+    font-size: 10px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: .2s;
+}
+
+.code-tab:hover {
+    color: #baffcc;
+}
+
+.code-tab.active {
+    color: #63ff9b;
+
+    background: rgba(82,255,140,.06);
+
+    box-shadow:
+        inset 0 -2px #63ff9b;
+}
+
+.code-meta {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    color: #496151;
+
+    font-family: monospace;
+    font-size: 9px;
+
+    border-bottom: 1px solid rgba(85,255,145,.07);
+}
+
+.code-container {
+    height: 600px;
+
+    overflow: auto;
+
+    display: flex;
+
+    background:
+        linear-gradient(
+            90deg,
+            #070d09,
+            #050907
+        );
+}
+
+.line-numbers {
+    flex: 0 0 55px;
+
+    padding: 22px 12px;
+
+    color: #294634;
+
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.65;
+
+    text-align: right;
+
+    user-select: none;
+
+    border-right: 1px solid rgba(85,255,145,.07);
+}
+
+.code-content {
+    flex: 1;
+
+    padding: 22px;
+
+    overflow-x: auto;
+
+    white-space: pre;
+
+    color: #b9d9c3;
+
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+
+    line-height: 1.65;
+}
+
+.code-loading {
+    color: #52705d;
+}
+
+
+/* =========================================================
+   CODE SYNTAX
+========================================================= */
+
+.kw {
+    color: #7dffab;
+}
+
+.str {
+    color: #b8df8c;
+}
+
+.num {
+    color: #8bdcff;
+}
+
+.comment {
+    color: #42634e;
+}
+
+.func {
+    color: #d0ffdf;
+}
+
+.tag {
+    color: #73dfff;
+}
+
+.attr {
+    color: #b8ffcc;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #050907;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #21482f;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3e8155;
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(35px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .overview-grid,
+    .live-layout,
+    .media-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .architecture {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .arch-node:nth-child(2n) {
+        border-right: none;
+    }
+
+    .flow {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .flow-step {
+        border-right: 1px solid rgba(90,255,145,.08);
+    }
+
+    .flow-step::after {
+        display: none;
+    }
+
+    .components {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tech-frame {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    main {
+        width: 92%;
+    }
+
+    section {
+        padding: 90px 0;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+        letter-spacing: -3px;
+    }
+
+    .architecture,
+    .flow,
+    .components,
+    .thresholds,
+    .data-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .arch-node {
+        border-right: none;
+        border-bottom: 1px solid rgba(90,255,145,.1);
+    }
+
+    .flow-step {
+        border-right: 1px solid rgba(90,255,145,.08);
+    }
+
+    .code-container {
+        height: 500px;
+    }
+
+    .code-content {
+        font-size: 10px;
+    }
+
+    .gauge {
+        width: 210px;
+        height: 210px;
+    }
+
+    .gauge-panel {
+        min-height: 420px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid-glow"></div>
+
+<div class="particles" id="particles"></div>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-mark">⌁</div>
+        AUTO-WATER
+    </div>
+
+    <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#system">System</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#media">Media</a>
+        <a href="#code">Code</a>
+    </div>
+
+</nav>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            AUTOMATIC
+            <span>PLANT WATERING</span>
+            SYSTEM
+        </h1>
+
+        <p class="hero-subtitle">
+            A precision irrigation system that continuously monitors
+            soil moisture and intelligently activates a water pump
+            when the plant requires hydration.
+        </p>
+
+        <div class="hero-actions">
+
+            <a href="#system" class="btn primary">
+                Explore System
+            </a>
+
+            <a href="#code" class="btn">
+                View Source Code
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="tech-frame">
+
+        <div class="frame-text">
+            SENSOR_STATUS: ACTIVE<br>
+            PUMP_CONTROL: AUTOMATIC<br>
+            MOISTURE_MODE: CONTINUOUS<br>
+            SYSTEM_CORE: ARDUINO UNO
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     OVERVIEW
+========================================================= -->
+
+<section id="overview" class="reveal">
+
+    <div class="section-label">
+        01 / OVERVIEW
+    </div>
+
+    <h2 class="section-title">
+        WATER ONLY<br>
+        WHEN NEEDED.
+    </h2>
+
+    <p class="section-description">
+        The system replaces manual watering with sensor-based
+        decision making. Soil moisture is measured continuously,
+        converted into a percentage, and compared against
+        predefined moisture thresholds.
+    </p>
+
+
+    <div class="overview-grid">
+
+        <div class="panel">
+
+            <div class="panel-number">
+                SYSTEM / 001
+            </div>
+
+            <h3>
+                The Core Idea
+            </h3>
+
+            <p>
+                Instead of watering plants according to a fixed
+                schedule, the system responds to the actual
+                condition of the soil. This reduces unnecessary
+                watering and provides a more controlled irrigation
+                process.
+            </p>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-number">
+                CONTROL / 002
+            </div>
+
+            <h3>
+                Closed-Loop Operation
+            </h3>
+
+            <p>
+                The moisture sensor provides feedback to the
+                Arduino. The Arduino decides whether the pump
+                should operate, creating a simple closed-loop
+                automatic watering system.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SYSTEM ARCHITECTURE -->
+
+    <div class="architecture">
+
+        <div class="arch-node">
+
+            <div class="arch-number">01</div>
+
+            <div class="arch-icon">◉</div>
+
+            <h4>SOIL SENSOR</h4>
+
+            <p>
+                Measures the moisture condition of the soil.
+            </p>
+
+        </div>
+
+
+        <div class="arch-node">
+
+            <div class="arch-number">02</div>
+
+            <div class="arch-icon">▣</div>
+
+            <h4>ARDUINO UNO</h4>
+
+            <p>
+                Converts sensor readings and makes the control
+                decision.
+            </p>
+
+        </div>
+
+
+        <div class="arch-node">
+
+            <div class="arch-number">03</div>
+
+            <div class="arch-icon">⚡</div>
+
+            <h4>MOSFET</h4>
+
+            <p>
+                Electrically switches the external pump circuit.
+            </p>
+
+        </div>
+
+
+        <div class="arch-node">
+
+            <div class="arch-number">04</div>
+
+            <div class="arch-icon">≈</div>
+
+            <h4>WATER PUMP</h4>
+
+            <p>
+                Delivers water when the soil enters the dry zone.
+            </p>
+
+        </div>
+
+
+        <div class="arch-node">
+
+            <div class="arch-number">05</div>
+
+            <div class="arch-icon">▤</div>
+
+            <h4>DASHBOARD</h4>
+
+            <p>
+                Provides a visual interface for monitoring the
+                system.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LIVE SYSTEM
+========================================================= -->
+
+<section id="system" class="live-section reveal">
+
+    <div class="section-label">
+        02 / LIVE SYSTEM
+    </div>
+
+    <h2 class="section-title">
+        CONTROL<br>
+        CORE
+    </h2>
+
+    <p class="section-description">
+        A visual representation of the moisture-control logic.
+        The indicator below demonstrates how the system classifies
+        soil conditions and controls the pump.
+    </p>
+
+
+    <div class="live-layout">
+
+        <div class="gauge-panel">
+
+            <div class="gauge">
+
+                <div
+                    class="gauge-ring"
+                    id="gaugeRing"
+                    style="--progress:72%"
+                ></div>
+
+                <div>
+                    <div
+                        class="gauge-value"
+                        id="moistureValue"
+                    >
+                        72
+                    </div>
+
+                    <div class="gauge-unit">
+                        MOISTURE %
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                class="system-state"
+                id="systemState"
+            >
+                PUMP ACTIVE
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="data-panel">
+
+                <div class="data-box">
+
+                    <div class="data-label">
+                        Sensor Reading
+                    </div>
+
+                    <div
+                        class="data-value"
+                        id="sensorValue"
+                    >
+                        72%
+                    </div>
+
+                    <div class="data-small">
+                        calibrated moisture
+                    </div>
+
+                </div>
+
+
+                <div class="data-box">
+
+                    <div class="data-label">
+                        Pump
+                    </div>
+
+                    <div
+                        class="data-value"
+                        id="pumpValue"
+                    >
+                        ON
+                    </div>
+
+                    <div class="data-small">
+                        automatic control
+                    </div>
+
+                </div>
+
+
+                <div class="data-box">
+
+                    <div class="data-label">
+                        Condition
+                    </div>
+
+                    <div
+                        class="data-value"
+                        id="conditionValue"
+                    >
+                        DRY
+                    </div>
+
+                    <div class="data-small">
+                        threshold classification
+                    </div>
+
+                </div>
+
+
+                <div class="data-box">
+
+                    <div class="data-label">
+                        Controller
+                    </div>
+
+                    <div class="data-value">
+                        UNO
+                    </div>
+
+                    <div class="data-small">
+                        Arduino controller
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="thresholds">
+
+                <div class="threshold">
+
+                    <div class="threshold-range">
+                        &lt; 80%
+                    </div>
+
+                    <h4>DRY</h4>
+
+                    <p>
+                        Pump activates to supply water.
+                    </p>
+
+                </div>
+
+
+                <div class="threshold">
+
+                    <div class="threshold-range">
+                        80–95%
+                    </div>
+
+                    <h4>OK</h4>
+
+                    <p>
+                        Moisture is suitable. Pump remains off.
+                    </p>
+
+                </div>
+
+
+                <div class="threshold">
+
+                    <div class="threshold-range">
+                        &gt; 95%
+                    </div>
+
+                    <h4>FULL</h4>
+
+                    <p>
+                        Soil is sufficiently wet. Pump remains off.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WORKING PRINCIPLE
+========================================================= -->
+
+<section class="reveal">
+
+    <div class="section-label">
+        03 / LOGIC
+    </div>
+
+    <h2 class="section-title">
+        FROM SOIL<br>
+        TO DECISION.
+    </h2>
+
+    <p class="section-description">
+        Every watering decision follows a simple chain:
+        measure → calculate → classify → control.
+    </p>
+
+
+    <div class="flow">
+
+        <div class="flow-step">
+
+            <div class="step-number">
+                STEP 01
+            </div>
+
+            <h3>
+                Measure
+            </h3>
+
+            <p>
+                The soil moisture sensor continuously produces
+                a raw electrical reading.
+            </p>
+
+        </div>
+
+
+        <div class="flow-step">
+
+            <div class="step-number">
+                STEP 02
+            </div>
+
+            <h3>
+                Convert
+            </h3>
+
+            <p>
+                Arduino converts the calibrated sensor reading
+                into a moisture percentage.
+            </p>
+
+        </div>
+
+
+        <div class="flow-step">
+
+            <div class="step-number">
+                STEP 03
+            </div>
+
+            <h3>
+                Classify
+            </h3>
+
+            <p>
+                The percentage is compared with the 80% and 95%
+                threshold values.
+            </p>
+
+        </div>
+
+
+        <div class="flow-step">
+
+            <div class="step-number">
+                STEP 04
+            </div>
+
+            <h3>
+                Control
+            </h3>
+
+            <p>
+                The Arduino switches the pump through the MOSFET
+                whenever watering is required.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HARDWARE
+========================================================= -->
+
+<section id="hardware" class="reveal">
+
+    <div class="section-label">
+        04 / HARDWARE
+    </div>
+
+    <h2 class="section-title">
+        HARDWARE<br>
+        STACK
+    </h2>
+
+    <p class="section-description">
+        The physical system combines sensing, computation,
+        switching, pumping and user feedback.
+    </p>
+
+
+    <div class="components">
+
+        <div class="component">
+
+            <div class="component-icon">◉</div>
+
+            <h3>
+                Soil Moisture Sensor
+            </h3>
+
+            <p>
+                Measures the moisture level of the soil and
+                provides the primary feedback signal.
+            </p>
+
+        </div>
+
+
+        <div class="component">
+
+            <div class="component-icon">▣</div>
+
+            <h3>
+                Arduino UNO
+            </h3>
+
+            <p>
+                Processes sensor readings and executes the
+                watering control logic.
+            </p>
+
+        </div>
+
+
+        <div class="component">
+
+            <div class="component-icon">⚡</div>
+
+            <h3>
+                N-Channel MOSFET
+            </h3>
+
+            <p>
+                Allows the Arduino to control the higher-current
+                12V pump circuit.
+            </p>
+
+        </div>
+
+
+        <div class="component">
+
+            <div class="component-icon">≈</div>
+
+            <h3>
+                12V DC Pump
+            </h3>
+
+            <p>
+                Moves water to the plant whenever the controller
+                determines irrigation is required.
+            </p>
+
+        </div>
+
+
+        <div class="component">
+
+            <div class="component-icon">▤</div>
+
+            <h3>
+                16×2 I2C LCD
+            </h3>
+
+            <p>
+                Displays the current moisture percentage and
+                motor status.
+            </p>
+
+        </div>
+
+
+        <div class="component">
+
+            <div class="component-icon">●</div>
+
+            <h3>
+                RGB LED
+            </h3>
+
+            <p>
+                Provides a quick visual indication of DRY,
+                OK and FULL soil states.
+            </p>
+
+        </div>
+
+
+        <div class="component">
+
+            <div class="component-icon">⇄</div>
+
+            <h3>
+                Dashboard
+            </h3>
+
+            <p>
+                Presents system information in a visual computer
+                interface.
+            </p>
+
+        </div>
+
+
+        <div class="component">
+
+            <div class="component-icon">⌁</div>
+
+            <h3>
+                Flyback Diode
+            </h3>
+
+            <p>
+                Protects the switching circuit from voltage
+                generated by the pump's inductive load.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MEDIA
+========================================================= -->
+
+<section id="media" class="reveal">
+
+    <div class="section-label">
+        05 / MEDIA
+    </div>
+
+    <h2 class="section-title">
+        THE<br>
+        PROTOTYPE
+    </h2>
+
+    <p class="section-description">
+        Physical implementation and demonstration of the
+        automatic watering system.
+    </p>
+
+
+    <div class="media-grid">
+
+        <div class="media-card">
+
+            <div class="media-heading">
+
+                <span>
+                    Circuit Architecture
+                </span>
+
+                <span class="media-tag">
+                    CIRCUIT.PNG
+                </span>
+
+            </div>
+
+            <div class="media-content">
+
+                <img
+                    src="soil-moisture/circuit.png"
+                    alt="Automatic Plant Watering System circuit"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                >
+
+                <div
+                    class="media-placeholder"
+                    style="display:none;"
+                >
+                    CIRCUIT IMAGE NOT FOUND<br><br>
+                    Place circuit.png beside this HTML file.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="media-card">
+
+            <div class="media-heading">
+
+                <span>
+                    System Demonstration
+                </span>
+
+                <span class="media-tag">
+                    PROJECT-DEMO.MP4
+                </span>
+
+            </div>
+
+            <div class="media-content">
+
+                <video
+                    src="soil-moisture/project-demo.mp4"
+                    controls
+                    preload="metadata"
+                ></video>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CODE LAB
+========================================================= -->
+
+<section id="code" class="code-section reveal">
+
+    <div class="section-label">
+        06 / CODE LAB
+    </div>
+
+    <h2 class="section-title">
+        INSIDE THE<br>
+        SYSTEM.
+    </h2>
+
+    <p class="section-description">
+        The complete software stack is separated into the
+        Arduino controller, Python server and web dashboard.
+        The source files are loaded directly from the
+        <strong>/code</strong> directory.
+    </p>
+
+
+    <div class="code-lab">
+
+
+        <!-- CODE WINDOW HEADER -->
+
+        <div class="code-header">
+
+            <div class="window-controls">
+
+                <span class="window-dot"></span>
+                <span class="window-dot"></span>
+                <span class="window-dot"></span>
+
+            </div>
+
+            <div
+                class="code-title"
+                id="codeWindowTitle"
+            >
+                /code/arduino.ino
+            </div>
+
+            <button
+                class="copy-btn"
+                id="copyButton"
+            >
+                COPY
+            </button>
+
+        </div>
+
+
+        <!-- TABS -->
+
+        <div class="code-tabs">
+
+            <button
+                class="code-tab active"
+                data-file="arduino.ino"
+                data-language="Arduino"
+            >
+                arduino.ino
+            </button>
+
+            <button
+                class="code-tab"
+                data-file="server.py"
+                data-language="Python"
+            >
+                server.py
+            </button>
+
+            <button
+                class="code-tab"
+                data-file="index.html"
+                data-language="HTML"
+            >
+                index.html
+            </button>
+
+        </div>
+
+
+        <!-- META -->
+
+        <div class="code-meta">
+
+            <span id="languageLabel">
+                Arduino / C++
+            </span>
+
+            <span id="lineCount">
+                LOADING...
+            </span>
+
+        </div>
+
+
+        <!-- CODE -->
+
+        <div class="code-container">
+
+            <div
+                class="line-numbers"
+                id="lineNumbers"
+            >
+                1
+            </div>
+
+            <pre
+                class="code-content"
+                id="codeContent"
+            ><span class="code-loading">Loading source...</span></pre>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<script>
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+const particleContainer =
+    document.getElementById("particles");
+
+for (let i = 0; i < 45; i++) {
+
+    const particle =
+        document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.style.left =
+        Math.random() * 100 + "%";
+
+    particle.style.animationDuration =
+        (8 + Math.random() * 15) + "s";
+
+    particle.style.animationDelay =
+        (-Math.random() * 15) + "s";
+
+    particleContainer.appendChild(particle);
+}
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const revealElements =
+    document.querySelectorAll(".reveal");
+
+const revealObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add(
+                        "visible"
+                    );
+
+                }
+
+            });
+
+        },
+        {
+            threshold: .12
+        }
+    );
+
+revealElements.forEach(
+    element => revealObserver.observe(element)
+);
+
+
+/* =========================================================
+   LIVE SYSTEM SIMULATION
+========================================================= */
+
+const moistureValue =
+    document.getElementById("moistureValue");
+
+const sensorValue =
+    document.getElementById("sensorValue");
+
+const pumpValue =
+    document.getElementById("pumpValue");
+
+const conditionValue =
+    document.getElementById("conditionValue");
+
+const systemState =
+    document.getElementById("systemState");
+
+const gaugeRing =
+    document.getElementById("gaugeRing");
+
+
+let moisture = 72;
+let direction = 1;
+
+
+function updateSystem() {
+
+    moisture += direction * .35;
+
+    if (moisture >= 99) {
+        direction = -1;
+    }
+
+    if (moisture <= 70) {
+        direction = 1;
+    }
+
+
+    let condition;
+    let pump;
+
+
+    if (moisture < 80) {
+
+        condition = "DRY";
+        pump = "ON";
+
+    }
+
+    else if (moisture <= 95) {
+
+        condition = "OK";
+        pump = "OFF";
+
+    }
+
+    else {
+
+        condition = "FULL";
+        pump = "OFF";
+
+    }
+
+
+    moistureValue.textContent =
+        Math.round(moisture);
+
+    sensorValue.textContent =
+        Math.round(moisture) + "%";
+
+    conditionValue.textContent =
+        condition;
+
+    pumpValue.textContent =
+        pump;
+
+    systemState.textContent =
+        pump === "ON"
+            ? "PUMP ACTIVE"
+            : "PUMP STANDBY";
+
+    gaugeRing.style.setProperty(
+        "--progress",
+        moisture + "%"
+    );
+
+}
+
+
+setInterval(
+    updateSystem,
+    100
+);
+
+
+/* =========================================================
+   CODE LAB
+========================================================= */
+
+const codeContent =
+    document.getElementById("codeContent");
+
+const lineNumbers =
+    document.getElementById("lineNumbers");
+
+const lineCount =
+    document.getElementById("lineCount");
+
+const codeWindowTitle =
+    document.getElementById("codeWindowTitle");
+
+const languageLabel =
+    document.getElementById("languageLabel");
+
+const copyButton =
+    document.getElementById("copyButton");
+
+
+const tabs =
+    document.querySelectorAll(".code-tab");
+
+
+let currentCode = "";
+
+
+/*
+    Escape HTML so source code can safely be
+    displayed inside the page.
+*/
+
+function escapeHTML(text) {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/*
+    Lightweight syntax highlighting.
+
+    No external libraries are required, so the
+    presentation still works locally.
+*/
+
+function highlightCode(code, language) {
+
+    let escaped =
+        escapeHTML(code);
+
+
+    /*
+        Strings
+    */
+
+    escaped =
+        escaped.replace(
+            /(["'`])((?:\\.|(?!\1)[\s\S])*?)\1/g,
+            '<span class="str">$1$2$1</span>'
+        );
+
+
+    /*
+        Comments
+    */
+
+    if (
+        language === "Python" ||
+        language === "Arduino"
+    ) {
+
+        escaped =
+            escaped.replace(
+                /(^|\s)(#.*|\/\/.*)/gm,
+                '$1<span class="comment">$2</span>'
+            );
+
+    }
+
+    else {
+
+        escaped =
+            escaped.replace(
+                /(&lt;!--[\s\S]*?--&gt;)/g,
+                '<span class="comment">$1</span>'
+            );
+
+    }
+
+
+    /*
+        Numbers
+    */
+
+    escaped =
+        escaped.replace(
+            /\b\d+(?:\.\d+)?\b/g,
+            '<span class="num">$&</span>'
+        );
+
+
+    /*
+        Keywords
+    */
+
+    const keywords = {
+
+        Arduino: [
+            "void",
+            "int",
+            "float",
+            "bool",
+            "if",
+            "else",
+            "for",
+            "while",
+            "return",
+            "const",
+            "true",
+            "false",
+            "HIGH",
+            "LOW",
+            "OUTPUT",
+            "INPUT",
+            "include"
+        ],
+
+        Python: [
+            "def",
+            "return",
+            "if",
+            "else",
+            "elif",
+            "for",
+            "while",
+            "in",
+            "import",
+            "from",
+            "as",
+            "class",
+            "True",
+            "False",
+            "None",
+            "try",
+            "except",
+            "with"
+        ],
+
+        HTML: [
+            "html",
+            "head",
+            "body",
+            "script",
+            "style",
+            "div",
+            "section",
+            "button"
+        ]
+
+    };
+
+
+    if (keywords[language]) {
+
+        const pattern =
+            new RegExp(
+                "\\b(" +
+                keywords[language].join("|") +
+                ")\\b",
+                "g"
+            );
+
+        escaped =
+            escaped.replace(
+                pattern,
+                '<span class="kw">$1</span>'
+            );
+
+    }
+
+
+    return escaped;
+}
+
+
+/*
+    Create line numbers.
+*/
+
+function createLineNumbers(code) {
+
+    const count =
+        code.split("\n").length;
+
+    let output = "";
+
+    for (let i = 1; i <= count; i++) {
+
+        output += i + "\n";
+
+    }
+
+    return output;
+}
+
+
+/*
+    Load source file from /code/
+*/
+
+async function loadCode(filename, language) {
+
+    codeContent.innerHTML =
+        '<span class="code-loading">Loading ' +
+        filename +
+        '...</span>';
+
+    try {
+
+        const response = await fetch(
+            "soil-moisture/code/" + filename
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "HTTP " + response.status
+            );
+        }
+
+        const code = await response.text();
+
+        currentCode = code;
+
+        codeContent.textContent = code;
+
+        lineNumbers.textContent =
+            createLineNumbers(code);
+
+        lineCount.textContent =
+            code.split("\n").length + " LINES";
+
+        codeWindowTitle.textContent =
+            "code/" + filename;
+
+        languageLabel.textContent =
+            language === "Arduino"
+                ? "Arduino / C++"
+                : language;
+
+        copyButton.textContent = "COPY";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not load:",
+            filename,
+            error
+        );
+
+        currentCode = "";
+
+        codeContent.textContent =
+            "Could not load code/" + filename;
+
+        lineNumbers.textContent = "1";
+
+        lineCount.textContent =
+            "FILE NOT LOADED";
+    }
+}
+
+
+
+/*
+    Tab switching
+*/
+
+tabs.forEach(tab => {
+
+    tab.addEventListener(
+        "click",
+        () => {
+
+            tabs.forEach(
+                item =>
+                    item.classList.remove("active")
+            );
+
+
+            tab.classList.add("active");
+
+
+            loadCode(
+                tab.dataset.file,
+                tab.dataset.language
+            );
+
+        }
+    );
+
+});
+
+
+/*
+    Copy source code
+*/
+
+copyButton.addEventListener(
+    "click",
+    async () => {
+
+        if (!currentCode) {
+            return;
+        }
+
+
+        try {
+
+            await navigator.clipboard.writeText(
+                currentCode
+            );
+
+
+            copyButton.textContent =
+                "COPIED ✓";
+
+
+            setTimeout(
+                () => {
+
+                    copyButton.textContent =
+                        "COPY";
+
+                },
+                1500
+            );
+
+        }
+
+        catch {
+
+            copyButton.textContent =
+                "COPY FAILED";
+
+        }
+
+    }
+);
+
+
+/*
+    Load Arduino source initially.
+*/
+
+loadCode(
+    "arduino.ino",
+    "Arduino"
+);
+</script>
+
+</body>
+</html>
