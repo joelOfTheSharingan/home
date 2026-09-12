@@ -42,15 +42,13 @@
 
         <!-- User,Logout -->
        <div id="user-panel">
-        <div id="userBox">
-  <img id="userAvatar" />
+        <div id="userBox" class="guest-mode">
+  <img id="userAvatar" src="images/default-avatar.png" alt="Guest" />
 
-  <span id="username">
-    Loading...
-  </span>
+  <span id="username">Imposter</span>
 
 </div>
-<button id="logoutBtn">
+<button id="logoutBtn" style="display:none">
   <div class="sign">
     <svg viewBox="0 0 512 512">
       <path
@@ -225,6 +223,10 @@
 
   </div>
         <!-- Carousel Container ends here-->
+    <!-- MOBILE PROJECTS REEL — uniform vertical feed (JS generated, mobile only) -->
+    <div id="mobile-projects-reel">
+      <!-- uniform cards injected by JS — software + hardware, same card divs like Instagram reels -->
+    </div>
     <!-- Grid Container starts here-->
 <!-- HARDWARE PROJECTS -->
 <section id="hardware-projects">
@@ -348,12 +350,15 @@ const {
 ───────────────────────────── */
 
 if (!session) {
-    // Show guest avatar and username
     const userBox = document.getElementById("userBox");
     if (userBox) {
       userBox.innerHTML =
-        '<img id="userAvatar" src="images/default-avatar.png" /><span id="username">Guest</span>';
+        '<img id="userAvatar" src="images/default-avatar.png" alt="Guest" /><span id="username">Imposter</span>';
+      userBox.classList.add('guest-mode');
     }
+  } else {
+    const userBox = document.getElementById("userBox");
+    if (userBox) userBox.classList.remove('guest-mode');
   }
 
 /* ─────────────────────────────
@@ -453,13 +458,16 @@ panel.addEventListener("mouseleave", () => {
   logoutButton.style.left = "170px";
 });
 
-// Hide logout button for guests, show for logged-in users
+// Default is Login (logout hidden via inline style). Only show logout after session confirmed.
+// Header: Guest (left) opposite Login (right) when logged out; real user (left) opposite Logout (right) when logged in.
 if (!session) {
   logoutButton.style.display = "none";
   document.getElementById("login-panel").style.display = "flex";
+  document.getElementById("userBox").style.display = "flex";
 } else {
   logoutButton.style.display = "flex";
   document.getElementById("login-panel").style.display = "none";
+  document.getElementById("userBox").style.display = "flex";
 }
 
 /* ─────────────────────────────
@@ -469,6 +477,103 @@ document
   .getElementById("loginBtn")
   .addEventListener("click", googleLogin);
 
+</script>
+<script>
+/* ===== MOBILE REEL — uniform feed (mobile only via phone.css) =====
+ * Generates identical .mobile-reel-card divs for BOTH software + hardware
+ * into a single #mobile-projects-reel container — like instagram reels.
+ * Desktop view is untouched (hidden by @media in styles.css / phone.css).
+ */
+(function () {
+  var HARDWARE = [
+    { name: 'JARVIS',       desc: 'AI Voice Assistant',      img: 'images/jarvis.png',    href: '/home/redirect?app=jarvis' },
+    { name: 'RC Plane',     desc: 'Remote Control Aircraft', img: 'images/rc-plane.png',  href: '/home/redirect?app=rcPlane' },
+    { name: 'ESP32 Farm',   desc: 'IoT Smart Farm',          img: 'images/esp32-farm.png',href: '/home/redirect?app=esp32Farm' },
+    { name: 'Soil Moisture',desc: 'Soil Moisture Sensor',    img: 'images/moisture.png',  href: '/home/redirect?app=soilMoisture' }
+  ];
+
+  var LIVIT_SVG = '<svg class="project-icon livit-svg" viewBox="-2 -20 40 44" xmlns="http://www.w3.org/2000/svg"><path d="M -1 1 L 20 23 L 24 19 L 7 1 L 24 -16 L 20 -20 Z" fill="#E53935"/><path d="M 11 1 L 26 -14 L 30 -10 L 25 -5 L 37 7 L 33 11 L 21 -1 L 19 1 L 31 13 L 27 17 Z" fill="#E53935"/></svg>';
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s == null ? '' : String(s);
+    return d.innerHTML;
+  }
+
+  function cardHTML(opts) {
+    var icon = opts.svg
+      ? LIVIT_SVG
+      : (opts.img ? '<img src="' + esc(opts.img) + '" class="project-icon" alt="' + esc(opts.name) + '" loading="lazy">' : '');
+    return (
+      '<div class="mobile-reel-card">' +
+        '<span class="reel-card-badge">' + esc(opts.badge) + '</span>' +
+        icon +
+        '<div class="reel-card-name">' + esc(opts.name) + '</div>' +
+        '<div class="reel-card-desc">' + esc(opts.desc) + '</div>' +
+        '<a href="' + esc(opts.href) + '" class="reel-card-link">Launch <img src="images/icons/launch.png" alt=""></a>' +
+      '</div>'
+    );
+  }
+
+  function render(softwareCards) {
+    var reel = document.getElementById('mobile-projects-reel');
+    if (!reel) return;
+    var html = '';
+    (softwareCards || []).forEach(function (p) {
+      html += cardHTML({
+        name: p.name,
+        desc: p.description,
+        img: p.img,
+        svg: p.svg === true,
+        href: '/home/redirect?app=' + encodeURIComponent(String(p.name).toLowerCase()),
+        badge: 'Software'
+      });
+    });
+    HARDWARE.forEach(function (h) {
+      html += cardHTML({
+        name: h.name,
+        desc: h.desc,
+        img: h.img,
+        svg: false,
+        href: h.href,
+        badge: 'Hardware'
+      });
+    });
+    reel.innerHTML = html;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch('projects.json')
+      .then(function (r) { if (!r.ok) throw new Error('fetch failed'); return r.json(); })
+      .then(function (data) { render((data && data.cards) || []); })
+      .catch(function () { render([]); });
+  });
+
+  // Arrow (↓) → scroll to first card on mobile, desktop unchanged visually
+  document.addEventListener('DOMContentLoaded', function () {
+    var arrow = document.getElementById('arrow');
+    if (!arrow) return;
+    arrow.setAttribute('role', 'button');
+    arrow.setAttribute('tabindex', '0');
+    arrow.setAttribute('aria-label', 'Scroll to projects');
+    function goToFirstCard() {
+      // mobile — center first card in viewport, accounting for fixed 56px bar
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        var first = document.querySelector('#mobile-projects-reel .mobile-reel-card');
+        if (first) { first.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' }); return; }
+        var reel = document.getElementById('mobile-projects-reel');
+        if (reel) { reel.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+      }
+      // desktop — carousel container
+      var desktop = document.getElementById('all-projects-container') || document.getElementById('hardware-projects');
+      if (desktop) desktop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    arrow.addEventListener('click', goToFirstCard);
+    arrow.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToFirstCard(); }
+    });
+  });
+})();
 </script>
 
 </body>
