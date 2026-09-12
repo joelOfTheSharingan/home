@@ -144,6 +144,13 @@ body {
   background:rgba(255,255,255,0.1);
   border:2px solid rgba(255,255,255,0.25);
 }
+#userBox.guest-mode #userAvatar{
+  border:none;
+  border-radius:0;
+  background:transparent;
+  object-fit:contain;
+  transform:scale(1.5);
+}
 /* Desktop: move it into container visually */
 @media (min-width: 769px) {
     #arrow{
@@ -262,7 +269,12 @@ footer:hover #logo-footer {
 
 /* Hide the tiny images on laptop so it doesn't mess up your current look */
 .mini-preview {
-    display: none; 
+    display: none;
+}
+
+/* Hide mobile reel on desktop */
+#mobile-projects-reel {
+    display: none !important;
 }
 
 /* ... keep all your existing Laptop .project and #container styles here ... */

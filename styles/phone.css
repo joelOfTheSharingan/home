@@ -1,6 +1,10 @@
 /* --- PHONE STYLES (Mobile Only) --- */
 @media (max-width: 768px) {
 
+    html {
+        scroll-padding-top: 64px;
+        scroll-padding-bottom: 16px;
+    }
     html, body {
         height: 100%;
         margin: 0;
@@ -32,12 +36,7 @@
     #uchiha{
         display:none;
     }
-    #logoutBtn{
-        top:100px;
-    }
-    #userBox{
-        display:none;
-    }
+    /* auth elements are re-styled in the top bar below — remove old mobile hides */
     /* My Projects (inside intro) */
     #header {
         font-size: 22px;
@@ -125,44 +124,278 @@
         gap: 10px;
         align-items: center;
     }
-#user-panel {
-
-    background: transparent !important;
-    backdrop-filter: none !important;
-    box-shadow: none !important;
-    border: none !important;
-
-  }
-
-  /* hide everything inside */
-  #user-panel > * {
-    display: none;
-  }
-
-  /* show logout button only */
-  #user-panel #logoutBtn {
-
+  #user-panel {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 56px !important;
     display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 6px 12px !important;
+    background: rgba(0,0,0,0.55) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 0 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+    z-index: 1001 !important;
+    box-sizing: border-box !important;
+    gap: 10px !important;
+  }
 
-    position: fixed;
-    bottom: 20px;
-    left: 320px;
+  #userBox {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 6px 10px !important;
+    background: rgba(255,255,255,0.08) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: none !important;
+    flex-shrink: 0 !important;
+    max-width: 58% !important;
+  }
 
-    z-index: 999;
+  #userBox #userAvatar {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    border-width: 1.5px !important;
+  }
+  /* Guest: plain default avatar, no circle/border + 1.5x — logged-in keeps circular */
+  #userBox.guest-mode #userAvatar {
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    object-fit: contain !important;
+    transform: scale(1.5) !important;
+  }
+
+  #username {
+    font-size: 0.82rem !important;
+    max-width: 110px !important;
+  }
+
+  #user-panel #logoutBtn {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    flex-shrink: 0 !important;
+    z-index: auto !important;
+    margin-left: auto !important;
+  }
+
+  #user-panel #login-panel {
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+    margin-left: auto !important;
+    width: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  #user-panel #login-panel #loginBtn {
+    padding: 8px 14px !important;
+    font-size: 0.82rem !important;
+    border-radius: 20px !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  #user-panel #login-panel #loginBtn img {
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .controls {
     display: none;
   }
-  #qoute{
-    font-size: 25px;
+
+  /* first page centered like before — header + arrow vertically centered, clear of fixed 56px bar */
+  .intro-text {
+    height: 100dvh !important;
+    height: 100vh !important;
+    min-height: 100dvh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-top: 100px !important;
+    padding-bottom: 16px !important;
+    box-sizing: border-box !important;
+    scroll-snap-align: start !important;
+    gap: 20px !important;
+    text-align: center !important;
   }
+
+  #arrow {
+    cursor: pointer !important;
+  }
+
+  /* ===== MOBILE PROJECTS REEL — uniform vertical feed (instagram reels style) ===== */
+  /* All cards (software + hardware) are injected by JS as identical .mobile-reel-card divs */
+  /* One card per viewport like Reels, centered, never under the fixed login bar */
+
+  #all-projects-container,
+  #hardware-projects {
+    display: none !important;
+  }
+
+  #mobile-projects-reel {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    /* top space so first card starts below fixed 56px bar + centered, bottom 40vh so last card can snap center */
+    padding: 18px 0 42vh 0;
+    scroll-padding-top: 64px;
+  }
+
+  /* suppress old horizontal reel scaffolding if cached */
+  .mobile-reel-section,
+  .mobile-reel,
+  .mobile-reel-label {
+    display: none !important;
+  }
+
+  /* Uniform reel card — identical for software + hardware, normal div like instagram reel */
+  /* Each card is its own snap page: only one fully visible when idle */
+  .mobile-reel-card {
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    scroll-margin-top: 72px;
+    scroll-margin-bottom: 16px;
+    width: 88vw;
+    max-width: 360px;
+    height: 460px;
+    max-height: calc(100dvh - 96px);
+    max-height: calc(100vh - 96px);
+    border-radius: 22px;
+    overflow: hidden;
+    position: relative;
+    background: rgba(30, 30, 30, 0.72);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 22px 16px 18px;
+    box-sizing: border-box;
+  }
+
+  .mobile-reel-card img.project-icon {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+
+  .mobile-reel-card .reel-card-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 0 6px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .mobile-reel-card .reel-card-desc {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+
+  .mobile-reel-card .reel-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-top: auto;
+  }
+
+  .mobile-reel-card .reel-card-link:active {
+    background: rgba(255,255,255,0.22);
+    transform: scale(0.97);
+  }
+
+  .mobile-reel-card .reel-card-link img {
+    width: 16px;
+    height: 16px;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .mobile-reel-card svg.project-icon {
+    width: 120px;
+    height: 120px;
+    filter: drop-shadow(0 0 18px rgba(255,255,255,0.35));
+    margin-bottom: 14px;
+    flex-shrink: 0;
+  }
+
+  /* subtle card type badge (optional, uniform layout keeps it consistent) */
+  .mobile-reel-card .reel-card-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* Quote container - keep visible and centered (below top bar) */
   #qoute-container {
-  width: 50%;
-  margin: 0 auto;
-  display: flex; /* Changed from block */
-  align-items: center; /* Vertical center */
-  justify-content: center; /* Horizontal center */
-  min-height: 150px; /* Example to ensure space */
-}
+    width: 85%;
+    margin: 0 auto 16px auto;
+    padding: 14px 20px;
+  }
+
+  #qoute {
+    font-size: 22px;
+    line-height: 1.4;
+  }
 }
