@@ -325,7 +325,11 @@ function renderQuote(quotes) {
   const random = quotes[Math.floor(Math.random() * quotes.length)];
   const el = document.getElementById("qoute");
   if (!el) return;
-  const text = (random.quote || random.text || "").trim();
+  if (typeof random === "string") {
+    el.textContent = `"${random}"`;
+    return;
+  }
+  const text = (random.quote || random.text || random.content || "").trim();
   const author = random.author ? ` — ${random.author}` : "";
   el.textContent = text ? `"${text}"${author}` : "";
 }
