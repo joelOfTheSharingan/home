@@ -11,28 +11,48 @@
     <link rel="stylesheet" href="styles/hardware.css">
       <link rel="stylesheet" href="styles/phone.css">
   <link rel="stylesheet" href="styles/sharingan.css">
+  <link rel="stylesheet" href="styles/loader.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-  <style>
-    #qoute-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .guest-message {
-      margin-top: 30px;
-      font-size: 1.1rem;
-      color: #ccc;
-      font-weight: 600;
-    }
-  </style>
+  
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
+
+  <!-- 6-7 RESPONSIVE LOADER OVERLAY -->
+  <div id="page-loader" aria-hidden="true">
+    <div class="meme-wrapper">
+      <div class="scale-container">
+        <div class="scale-column left-side">
+          <div class="digit">6</div>
+          <svg class="svg-hand" viewBox="0 0 100 60" aria-hidden="true">
+            <path d="M 5,52 L 20,46 C 30,46 38,48 50,42" />
+            <path d="M 22,44 C 28,32 38,28 44,34" />
+            <path d="M 50,42 C 60,32 75,20 86,22 C 90,23 88,27 80,31 C 70,35 54,42 54,42" />
+            <path d="M 50,45 C 62,38 78,28 88,31 C 92,32 90,36 82,39 C 72,43 54,46 54,46" />
+            <path d="M 48,48 C 60,44 76,37 85,41 C 88,42 86,46 79,48 C 70,51 52,50 52,50" />
+            <path d="M 46,51 C 56,49 70,46 78,50 C 81,51 79,55 73,56 C 65,57 48,53 48,53" />
+          </svg>
+        </div>
+        <div class="scale-column right-side">
+          <div class="digit">7</div>
+          <svg class="svg-hand" viewBox="0 0 100 60" aria-hidden="true">
+            <path d="M 95,52 L 80,46 C 70,46 62,48 50,42" />
+            <path d="M 78,44 C 72,32 62,28 56,34" />
+            <path d="M 50,42 C 40,32 25,20 14,22 C 10,23 12,27 20,31 C 30,35 46,42 46,42" />
+            <path d="M 50,45 C 38,38 22,28 12,31 C 8,32 10,36 18,39 C 28,43 46,46 46,46" />
+            <path d="M 48,48 C 38,44 24,37 15,41 C 12,42 14,46 21,48 C 30,51 48,50 48,50" />
+            <path d="M 46,51 C 36,49 30,46 22,50 C 19,51 21,55 27,56 C 35,57 52,53 52,53" />
+          </svg>
+        </div>
+      </div>
+      <div class="skibidi-text">Loading Assets...</div>
+    </div>
+  </div>
 
     <div class="intro-text">
 
@@ -289,15 +309,25 @@ import {supabase,getUser,logout,googleLogin,googleSignup} from "./shared/auth.js
 // ─────────────────────────────
 
 async function loadQuotes() {
-  const res = await fetch("./qoutes.json");
-  if (!res.ok) return;
-  return await res.json();
+  try {
+    const res = await fetch("./qoutes.json");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (e) {
+    console.warn("Could not load quotes:", e);
+    return [];
+  }
 }
 
 function renderQuote(quotes) {
   if (!quotes || quotes.length === 0) return;
   const random = quotes[Math.floor(Math.random() * quotes.length)];
-  document.getElementById("qoute").textContent = random;
+  const el = document.getElementById("qoute");
+  if (!el) return;
+  const text = (random.quote || random.text || "").trim();
+  const author = random.author ? ` — ${random.author}` : "";
+  el.textContent = text ? `"${text}"${author}` : "";
 }
 
 async function initQuote() {
@@ -305,9 +335,11 @@ async function initQuote() {
   renderQuote(quotes);
 }
 
-// Initialize on page load
-document.addEventListener("DOMContentLoaded", initQuote);
-
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initQuote);
+} else {
+  initQuote();
+}
 </script>
 
 <script type="module">
@@ -420,32 +452,6 @@ document
       ? "/home/login.html"
       : "https://joelofthesharingan.github.io/home/login.html";
   });
-
-// ─────────────────────────────
-// Random quote feature
-// ─────────────────────────────
-
-async function loadQuotes() {
-  const res = await fetch("./qoutes.json");
-  if (!res.ok) return;
-  return await res.json();
-}
-
-function renderQuote(quotes) {
-  if (!quotes || quotes.length === 0) return;
-  const random = quotes[Math.floor(Math.random() * quotes.length)];
-  document.getElementById("qoute").textContent = random;
-}
-
-async function initQuote() {
-  const quotes = await loadQuotes();
-  renderQuote(quotes);
-}
-
-// Initialize on page load
-document.addEventListener("DOMContentLoaded", initQuote);
-
-
 
 const logoutButton = document.getElementById("logoutBtn");
 const panel = document.getElementById("user-panel");
@@ -576,5 +582,16 @@ document
 })();
 </script>
 
+<script>
+  (function () {
+    function dismissLoader() {
+      setTimeout(function () { document.body.classList.add('is-loaded'); }, 1500);
+    }
+    if (document.readyState === 'complete') dismissLoader();
+    else window.addEventListener('load', dismissLoader);
+    // safety: never block longer than 4s
+    setTimeout(function () { document.body.classList.add('is-loaded'); }, 4000);
+  })();
+</script>
 </body>
 </html>
