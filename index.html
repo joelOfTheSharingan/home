@@ -214,14 +214,14 @@
 
         <!-- JARVIS -->
         <article class="hardware-card">
-            <a href="/home/redirect?app=jarvis">
+            <a href="/redirect?app=jarvis">
                 <div class="hardware-image">
                     <img src="images/jarvis.png" alt="JARVIS">
                 </div>
             </a>
         </article>
         <article class="hardware-card">
-            <a href="/home/redirect?app=rcPlane">
+            <a href="/redirect?app=rcPlane">
                 <div class="hardware-image">
                     <img src="images/rc-plane.png" alt="JARVIS">
                 </div>
@@ -230,14 +230,14 @@
 
         <!-- ESP32 FARM -->
         <article class="hardware-card">
-            <a href="/home/redirect?app=esp32Farm">
+            <a href="/redirect?app=esp32Farm">
                 <div class="hardware-image">
                     <img src="images/esp32-farm.png" alt="ESP32 AI Farm">
                 </div>
             </a>
         </article>
         <article class="hardware-card">
-            <a href="/home/redirect?app=soilMoisture">
+            <a href="/redirect?app=soilMoisture">
                 <div class="hardware-image">
                     <img src="images/moisture.png" alt="ESP32 AI Farm">
                 </div>
@@ -455,10 +455,10 @@ document
  */
 (function () {
   var HARDWARE = [
-    { name: 'JARVIS',       desc: 'AI Voice Assistant',      img: 'images/jarvis.png',    href: '/home/redirect?app=jarvis' },
-    { name: 'RC Plane',     desc: 'Remote Control Aircraft', img: 'images/rc-plane.png',  href: '/home/redirect?app=rcPlane' },
-    { name: 'ESP32 Farm',   desc: 'IoT Smart Farm',          img: 'images/esp32-farm.png',href: '/home/redirect?app=esp32Farm' },
-    { name: 'Soil Moisture',desc: 'Soil Moisture Sensor',    img: 'images/moisture.png',  href: '/home/redirect?app=soilMoisture' }
+    { name: 'JARVIS',       desc: 'AI Voice Assistant',      img: 'images/jarvis.png',    href: '/redirect?app=jarvis' },
+    { name: 'RC Plane',     desc: 'Remote Control Aircraft', img: 'images/rc-plane.png',  href: '/redirect?app=rcPlane' },
+    { name: 'ESP32 Farm',   desc: 'IoT Smart Farm',          img: 'images/esp32-farm.png',href: '/redirect?app=esp32Farm' },
+    { name: 'Soil Moisture',desc: 'Soil Moisture Sensor',    img: 'images/moisture.png',  href: '/redirect?app=soilMoisture' }
   ];
 
   var LIVIT_SVG = '<svg class="project-icon livit-svg" viewBox="-2 -20 40 44" xmlns="http://www.w3.org/2000/svg"><path d="M -1 1 L 20 23 L 24 19 L 7 1 L 24 -16 L 20 -20 Z" fill="#E53935"/><path d="M 11 1 L 26 -14 L 30 -10 L 25 -5 L 37 7 L 33 11 L 21 -1 L 19 1 L 31 13 L 27 17 Z" fill="#E53935"/></svg>';
@@ -494,7 +494,7 @@ document
         desc: p.description,
         img: p.img,
         svg: p.svg === true,
-        href: '/home/redirect?app=' + encodeURIComponent(String(p.name).toLowerCase()),
+        href: '/redirect?app=' + encodeURIComponent(String(p.name).toLowerCase()),
         badge: 'Software'
       });
     });
