@@ -1,3 +1,10 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const triggerHeader = document.getElementById('seo-ranking-trigger');
+  if (triggerHeader) triggerHeader.remove();
+  const searchHeading = document.getElementById('search-heading');
+  if (searchHeading) searchHeading.style.display = 'none';
+});
+
 /* =========================================
    MAIN.JS - Main App Orchestrator
    ========================================= */
