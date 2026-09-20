@@ -136,23 +136,11 @@ document
   .addEventListener("click", googleLogin);
 
 // background logic
-const now = new Date();
 const body = document.body;
 
-const isDay = now.getHours() >= 6 && now.getHours() < 18;
-
 function setBackground() {
-  let selectedImage;
-
-  if (isDay) {
-    selectedImage = Math.floor(Math.random() * 7) + 1;
-    body.style.backgroundImage =
-      `url('images/day/day(${selectedImage}).png')`;
-  } else {
-    selectedImage = Math.floor(Math.random() * 7) + 1;
-    body.style.backgroundImage =
-      `url('images/night/night(${selectedImage}).png')`;
-  }
+  body.style.backgroundImage =
+    "url('images/night/night(2).png')";
 }
 
 setBackground();

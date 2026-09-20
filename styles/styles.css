@@ -159,8 +159,13 @@ body {
     .intro-text #header {
         display: none; /* hide mobile version */
     }
-
-
+    body .contact-card {
+        position: fixed;
+        top: 15px;
+        right: 285px;
+        z-index: 1000;
+        transform: translate3d(0, 0, 0);
+    }
 }
 h1, h4 { text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
 .intro-text { padding: 40px 20px; }
@@ -278,6 +283,29 @@ footer:hover #logo-footer {
 }
 
 /* ... keep all your existing Laptop .project and #container styles here ... */
+.controls {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width:250px;
+  height: 150px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+z-index: 900; 
+}
 #user-panel {
   position: fixed;
   top: 15px;
