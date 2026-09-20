@@ -1,17 +1,8 @@
 /* ==========================================================
-   BACKGROUND SYSTEM - Permanent moon night(2)
+   BACKGROUND SYSTEM
    ========================================================== */
 
-const PERMANENT_BACKGROUND = "images/night/night(2).png";
+const body = document.body;
 
-document.body.style.backgroundImage = `url("${PERMANENT_BACKGROUND}")`;
-
-window.addEventListener("load", () => {
-  const img = new Image();
-  img.src = PERMANENT_BACKGROUND;
-
-  if (!("caches" in window)) return;
-  caches.open("background-cache-v1")
-    .then(cache => cache.add(PERMANENT_BACKGROUND).catch(() => {}))
-    .catch(() => {});
-});
+// Fix background image to night(2).png
+body.style.backgroundImage = 'url("images/night/night(2).png")';
