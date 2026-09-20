@@ -116,9 +116,14 @@
         One login for all apps
       </div>
 
-      <div class="mini-text" style="margin-top: 20px;">
-        <a href="/home/" style="color: #ddd; text-decoration: underline;">Continue without sign up</a>
-      </div>
+     <div class="mini-text" style="margin-top: 20px;"> 
+    <a href="#" 
+       onclick="this.href = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '/home/' : '/'; return true;" 
+       style="color: #ddd; text-decoration: underline;">
+       Continue without sign up
+    </a> 
+</div>
+
 
     </div>
 
