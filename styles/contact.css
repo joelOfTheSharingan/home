@@ -1,33 +1,31 @@
+/* =========================================================
+   CONTACT CARD — left side desktop, thin bar mobile
+   ========================================================= */
+
 .contact-card {
-  position: relative;
+  position: fixed;
+  top: 15px;
+  left: 12px;
   width: 200px;
-  height: 150px;
-  border-radius: 30px;
+  height: 160px;
+  border-radius: 25px;  /* all 4 corners rounded */
   overflow: hidden;
-  z-index: 1;
-margin-right: 1000px;
-margin-top:20px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
-  background: rgba(18, 18, 24, 0.65);
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
+  z-index: 1000;
+  background: rgba(18, 18, 24, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: none;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.6),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
   transition:
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-
-  will-change: transform;
-
-  transform: translate3d(0, -20px, 0);
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, width;
 }
-
 
 /* =========================================================
    BACKGROUND
@@ -36,7 +34,6 @@ margin-top:20px;
 .background {
   position: absolute;
   inset: 0;
-
   background:
     radial-gradient(
       circle at 100% 107%,
@@ -44,10 +41,8 @@ margin-top:20px;
       rgba(255, 255, 255, 0.03) 40%,
       transparent 80%
     );
-
   pointer-events: none;
 }
-
 
 /* =========================================================
    LOGO
@@ -55,61 +50,47 @@ margin-top:20px;
 
 .logo {
   position: absolute;
-
   right: 50%;
   bottom: 50%;
-
   transform: translate3d(50%, 50%, 0);
-
-  transition:
-    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
-
   z-index: 2;
 }
-
 
 .logo span {
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(255, 255, 255, 0.15);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 0 6px rgba(255, 255, 255, 0.1);
 }
 
 .contact-card:hover .logo {
   display: none;
 }
 
-
 /* =========================================================
-   ICON
+   ICONS
    ========================================================= */
 
 .icon {
   display: inline-block;
-
   width: 20px;
   height: 20px;
 }
 
-
 .icon .svg {
-  fill: rgba(255, 255, 255, 0.85);
-
+  fill: rgba(255, 255, 255, 0.8);
   width: 100%;
   height: 100%;
-
   transition:
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    fill 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    fill 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, fill, filter;
 }
-
 
 /* =========================================================
    SOCIAL BOXES
@@ -117,83 +98,52 @@ margin-top:20px;
 
 .box {
   position: absolute;
-
   padding: 10px;
-
   text-align: right;
-
-  background: rgba(255, 255, 255, 0.12);
-
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   border-right: 1px solid rgba(255, 255, 255, 0.22);
-
   border-radius:
     10% 13% 42% 0% /
     10% 12% 75% 0%;
-
-  box-shadow:
-    -8px 8px 25px rgba(0, 0, 0, 0.4);
-
+  box-shadow: -6px 6px 20px rgba(0, 0, 0, 0.3);
   transform-origin: bottom left;
-
-  transition:
-    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
-
   cursor: pointer;
-
   overflow: hidden;
-
   z-index: 3;
 }
 
-
 .box::before {
   content: "";
-
   position: absolute;
-
   inset: 0;
-
   border-radius: inherit;
-
   opacity: 0;
-
-  transition:
-    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity;
-
   z-index: -1;
 }
 
-
 .box:hover .svg {
   fill: #ffffff;
-
-  transform:
-    scale(1.15)
-    translate3d(0, 0, 0);
+  transform: scale(1.1) translate3d(0, 0, 0);
 }
 
-
 /* =========================================================
-   GITHUB
-   EXACTLY THE CARD HEIGHT
+   GITHUB — purple/dark gradient
    ========================================================= */
 
 .box1 {
-  width: 85%;
-  height: 105px;
+  width: 75%;
+  height: 95px;
   bottom: 0;
   left: 0;
   transform: translate3d(-100%, 100%, 0);
 }
-
 
 .box1::before {
   background:
@@ -206,32 +156,28 @@ margin-top:20px;
     );
 }
 
-
 .box1:hover::before {
-  opacity: 0.95;
+  opacity: 0.9;
 }
-
 
 .box1:hover .icon .svg {
   filter:
-    drop-shadow(0 0 6px rgba(255, 255, 255, 0.9))
-    drop-shadow(0 0 10px rgba(121, 40, 202, 0.8));
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
+    drop-shadow(0 0 8px rgba(121, 40, 202, 0.7));
 }
 
-
 /* =========================================================
-   DISCORD
+   DISCORD — cyan/blue gradient
    ========================================================= */
 
 .box2 {
-  width: 65%;
-  height: 75px;
+  width: 55%;
+  height: 70px;
   bottom: 0;
   left: 0;
   transform: translate3d(-100%, 100%, 0);
-  transition-delay: 0.12s;
+  transition-delay: 0.1s;
 }
-
 
 .box2::before {
   background:
@@ -244,30 +190,27 @@ margin-top:20px;
     );
 }
 
-
 .box2:hover::before {
-  opacity: 0.95;
+  opacity: 0.9;
 }
-
 
 .box2:hover .icon .svg {
   filter:
-    drop-shadow(0 0 6px rgba(255, 255, 255, 0.95))
-    drop-shadow(0 0 12px rgba(0, 238, 255, 0.8));
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
+    drop-shadow(0 0 10px rgba(0, 238, 255, 0.7));
 }
 
-
 /* =========================================================
-   INSTAGRAM
+   INSTAGRAM — rainbow gradient
    ========================================================= */
 
 .box3 {
-  width: 45%;
+  width: 35%;
   height: 45px;
   bottom: 0;
   left: 0;
   transform: translate3d(-100%, 100%, 0);
-  transition-delay: 0.24s;
+  transition-delay: 0.2s;
 }
 
 .box3::before {
@@ -283,56 +226,35 @@ margin-top:20px;
     );
 }
 
-
 .box3:hover::before {
-  opacity: 0.95;
+  opacity: 0.9;
 }
-
 
 .box3:hover .icon .svg {
   filter:
-    drop-shadow(0 0 6px rgba(255, 255, 255, 0.95))
-    drop-shadow(0 0 12px rgba(255, 137, 204, 0.8));
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
+    drop-shadow(0 0 10px rgba(255, 137, 204, 0.7));
 }
 
-
 /* =========================================================
-   CARD HOVER
+   CARD HOVER — desktop lift
    ========================================================= */
 
 .contact-card:hover {
-  transform:
-    translate3d(0, -4px, 0)
-    scale(1.03);
-
-  border-color:
-    rgba(255, 255, 255, 0.25);
-
+  transform: translate3d(0, 0, 0) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.2);
   box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.7),
-    0 0 30px rgba(98, 194, 254, 0.08);
+    0 18px 45px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(98, 194, 254, 0.06);
 }
-
-
-/* =========================================================
-   OPEN SOCIAL BOXES
-   ========================================================= */
 
 .contact-card:hover .box {
-  transform:
-    translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
-
-
-/* =========================================================
-   MOVE LOGO
-   ========================================================= */
 
 .contact-card:hover .logo {
-  transform:
-    translate3d(55px, 55px, 0);
+  transform: translate3d(45px, 45px, 0);
 }
-
 
 /* =========================================================
    REDUCED MOTION
@@ -345,5 +267,201 @@ margin-top:20px;
   .box::before,
   .icon .svg {
     transition: none !important;
+  }
+}
+
+/* =========================================================
+   TABLET / SMALL DESKTOP (481px - 1024px)
+   Left side, narrower, boxes always visible
+   ========================================================= */
+
+@media (max-width: 1024px) and (min-width: 481px) {
+  .contact-card {
+    width: 180px;
+    height: 140px;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    border-radius: 0 20px 20px 0;
+  }
+
+  .box {
+    transform: translate3d(0, 0, 0) !important;
+    opacity: 0.85;
+  }
+
+  .box::before {
+    opacity: 0.65 !important;
+  }
+
+  .logo {
+    display: none;
+  }
+}
+
+/* =========================================================
+   MOBILE (max-width: 480px)
+   Thin horizontal bar at bottom, gradient SVGs
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .contact-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    transform: none;
+    width: 100%;
+    height: 52px;
+    border-radius: 14px 14px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+    background: rgba(10, 10, 14, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 -3px 25px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    overflow: visible;
+  }
+
+  .background {
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .box {
+    position: static !important;
+    transform: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    border: none !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3) !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 24px;
+    overflow: visible;
+  }
+
+  .box::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    opacity: 1 !important;
+    z-index: -1;
+    filter: blur(6px);
+  }
+
+  /* GitHub gradient glow */
+  .box1::before {
+    background:
+      radial-gradient(
+        circle at 30% 107%,
+        #7928ca 0%,
+        #6e5494 35%,
+        #333333 70%,
+        #181717 100%
+      );
+  }
+
+  /* Discord gradient glow */
+  .box2::before {
+    background:
+      radial-gradient(
+        circle at 30% 107%,
+        #00ffee 0%,
+        #62c2fe 35%,
+        #5865f2 75%,
+        #0070f3 100%
+      );
+  }
+
+  /* Instagram gradient glow */
+  .box3::before {
+    background:
+      radial-gradient(
+        circle at 30% 107%,
+        #fdf497 0%,
+        #ff89cc 25%,
+        #fd5949 45%,
+        #d6249f 65%,
+        #285aeb 85%,
+        #0070f3 100%
+      );
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .icon .svg {
+    fill: #ffffff;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
+    transition: transform 0.15s, filter 0.15s;
+  }
+
+  .box:hover .icon .svg {
+    transform: scale(1.15);
+    filter:
+      drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+  }
+
+  .box1:hover .icon .svg {
+    filter:
+      drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 6px rgba(121, 40, 202, 0.8));
+  }
+
+  .box2:hover .icon .svg {
+    filter:
+      drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 6px rgba(0, 238, 255, 0.8));
+  }
+
+  .box3:hover .icon .svg {
+    filter:
+      drop-shadow(0 0 1px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 6px rgba(255, 137, 204, 0.8));
+  }
+}
+
+/* =========================================================
+   DESKTOP HOVER — boxes slide out to the right
+   ========================================================= */
+
+@media (min-width: 1025px) {
+  .contact-card:hover {
+    transform: translate3d(0, 0, 0) scale(1.02);
+    width: 260px;  /* reduced hover stretch from 320px */
+    box-shadow:
+      0 18px 45px rgba(0, 0, 0, 0.6),
+      0 0 25px rgba(98, 194, 254, 0.08);
+  }
+
+  .contact-card:hover .box {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .contact-card:hover .box::before {
+    opacity: 0.9;
+  }
+
+  .contact-card:hover .logo {
+    display: none;
   }
 }

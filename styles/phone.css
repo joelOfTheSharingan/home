@@ -318,22 +318,24 @@
     background: rgba(40, 40, 40, 0.85);
   }
 
-  .mobile-reel-card img.project-icon {
-    width: 100%;
-    max-height: 150px;
-    object-fit: contain;
-    border-radius: 12px;
-    margin-bottom: 12px;
+  .mobile-reel-card .reel-card-name {
+    display: none !important;
   }
 
-  .mobile-reel-card .reel-card-name {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #ffffff;
-    text-align: center;
-    margin: 0 0 6px 0;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+  .mobile-reel-card img.project-icon {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 12px;
+    margin-bottom: 0;
+  }
+
+  .mobile-reel-card svg.project-icon {
+    width: 160px;
+    height: 160px;
+    filter: drop-shadow(0 0 18px rgba(255,255,255,0.35));
+    margin-bottom: 0;
+    flex-shrink: 0;
   }
 
 
